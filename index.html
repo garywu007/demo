@@ -1,0 +1,47 @@
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+
+<title> js 判断系统类型和手机型号(厂商)</title>  
+</head>  
+<body>  
+
+<!-- jQuery的js  -->
+<script src="jquery.min.js"></script>
+<script src="mobile-detect.min.js"></script>
+<script>  
+    //判断数组中是否包含某字符串  
+    Array.prototype.contains = function(needle) {  
+        for (i in this) {  
+            if (this[i].indexOf(needle) > 0)  
+                return i;  
+        }  
+        return -1;  
+    }  
+
+    var deviceType = navigator.userAgent;//获取userAgent信息  
+    document.write(deviceType);//打印到页面  
+    var md = new MobileDetect(deviceType);//初始化mobile-detect  
+    var os = md.os();//获取系统  
+   //手机型号(厂商)
+    var model = "";
+    //系统的版本号
+    var version = ""; 
+    if (os == "iOS") {//ios系统的处理  
+        version =  md.version("iPhone");
+        os = md.os();  
+        model = md.mobile();  
+    } else if (os == "AndroidOS") {//Android系统的处理  
+        os = md.os();  
+        version = md.version("Android");
+        var sss = deviceType.split(";");  
+        var i = sss.contains("Build/");  
+        if (i > -1) {  
+            model = sss[i].substring(0, sss[i].indexOf("Build/"));  
+        }  
+    }  
+	alert(os + "__" + version + "__" + model);
+
+</script>  
+</body>  
+</html>
