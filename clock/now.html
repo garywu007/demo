@@ -68,7 +68,7 @@
     function myTimer() {
         var d = new Date();
         var t1 = d.toLocaleDateString('zh-CN', { year: "numeric", month: "2-digit", day: "2-digit" });
-        var t2 = d.toLocaleTimeString();
+        var t2 = d.toLocaleTimeString('en-US');
         $(".showDate").html(t1.split("/").join("-"));
         $(".showTime").html(t2.split(":").join(" : "));
     }
