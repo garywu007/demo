@@ -63,6 +63,14 @@
 <script>
     $(document).ready(function(){
         setInterval(myTimer, 1000);
+        
+        $(".showDate").click(function(){
+            fullScreen();
+        });
+        
+        $(".showTime").click(function(){
+            fullScreen();
+        });
     });
 
     function myTimer() {
@@ -71,6 +79,19 @@
         var t2 = d.toLocaleTimeString('en-US');
         $(".showDate").html(t1.split("/").join("-"));
         $(".showTime").html(t2.split(":").join(" : "));
+    }
+    
+    function fullScreen() {
+    var element = document.documentElement;
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        }
     }
 </script>
 </html>
