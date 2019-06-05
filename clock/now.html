@@ -79,7 +79,7 @@
 </body>
 <script>
     $(document).ready(function(){
-        setInterval(myTimer, 1000);
+        setInterval(interval1K, 1000);
         
         $(".showDate").click(function(){
             fullScreen();
@@ -101,6 +101,11 @@
     function getBattery(){
         var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
         $(".batteryStatus").html(battery.level * 100 + "%");
+    }
+    
+    function interval1K(){
+        myTimer();
+        getBattery();
     }
     
     function fullScreen() {
