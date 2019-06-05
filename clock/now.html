@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>now date time</title>
@@ -46,10 +46,27 @@
             font-size: 35vh;
             line-height: 40vh;
         }
+        
+        .batteryDiv {
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            color: #343a40;
+            background-color: lightgrey;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        
+        .batteryStatus {
+            margin: 0px 3px;
+        }
     </style>
 </head>
 <body>
 
+    <div class="batteryDiv">
+        <span class="batteryStatus">100%</span>
+    </div>
     <div class="container">
         <span class="showDate"></span>
         <br />
@@ -79,6 +96,11 @@
         var t2 = d.toLocaleTimeString('en-US');
         $(".showDate").html(t1.split("/").join("-"));
         $(".showTime").html(t2.split(":").join(" : "));
+    }
+    
+    function getBattery(){
+        var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+        $(".batteryStatus").html(battery.level * 100 + "%");
     }
     
     function fullScreen() {
