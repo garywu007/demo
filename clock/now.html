@@ -99,8 +99,23 @@
     }
     
     function getBattery(){
-        var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-        $(".batteryStatus").html(battery.level * 100 + "%");
+        //var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
+        //$(".batteryStatus").html(battery.level * 100 + "%");
+        
+        navigator.getBattery().then(function(battery) {
+        // 是否正在充电，yes-充电
+        console.log("Battery charging? " + (battery.charging ? "yes" : "no"));
+        // 当前剩余电量
+        console.log("Battery level: " + battery.level * 100 + "%");
+ 
+        battery.addEventListener("chargingchange", function() {
+          console.log("Battery charging? " + (battery.charging ? "yes" : "no"));
+        });
+ 
+        battery.addEventListener("levelchange", function() {
+           console.log("Battery level: " + battery.level * 100 + "%");
+        });
+      });
     }
     
     function interval1K(){
