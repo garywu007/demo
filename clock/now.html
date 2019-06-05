@@ -51,7 +51,6 @@
             position: absolute;
             top: 2px;
             right: 5px;
-            color: #343a40;
             background-color: lightgrey;
             border-radius: 6px;
             font-weight: bold;
@@ -59,6 +58,7 @@
         
         .batteryStatus {
             margin: 0px 3px;
+            color: #343a40;
         }
     </style>
 </head>
@@ -99,22 +99,24 @@
     }
     
     function getBattery(){
-        //var battery = navigator.battery || navigator.webkitBattery || navigator.mozBattery;
-        //$(".batteryStatus").html(battery.level * 100 + "%");
-        
         navigator.getBattery().then(function(battery) {
-        // 是否正在充电，yes-充电
         console.log("Battery charging? " + (battery.charging ? "yes" : "no"));
-        // 当前剩余电量
-        console.log("Battery level: " + battery.level * 100 + "%");
- 
+            
+        $(".batteryStatus").html(battery.level * 100 + "%");
+            
+        if(battery.charging){
+            $(".batteryStatus").css("color", "green");
+        } else {
+            $(".batteryStatus").css("color", "#343a40");
+        }
+        /*
         battery.addEventListener("chargingchange", function() {
           console.log("Battery charging? " + (battery.charging ? "yes" : "no"));
         });
  
         battery.addEventListener("levelchange", function() {
            console.log("Battery level: " + battery.level * 100 + "%");
-        });
+        });*/
       });
     }
     
