@@ -44,7 +44,7 @@
 			border-radius: 10px;
 		}
 		
-		.scaleXON {
+		.greenBtn {
 			background-color: darkgreen;
 		}
 	</style>
@@ -56,8 +56,8 @@
 			<button id="pause">pause</button>
 			<button id="load">load / restart</button>
 			<button id="clear">clear</button>
-			<button id="scaleX1">scaleX ON</button>
-			<button id="scaleX0" class="hideVisible scaleXON">scaleX OFF</button>
+			<button id="scaleX1">scaleX OFF</button>
+			<button id="scaleX0" class="hideVisible greenBtn">scaleX ON</button>
 			<button id="fullScreen">fullScreen</button>
 		</div>
 		<br>
@@ -79,6 +79,7 @@
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.src = $("#Vurl").val();
 			Vplayer.load();
+			Vplayer.oncanplay = $("#play").addClass("greenBtn");
 		});
 		
 		$("#clear").click(function(){
@@ -86,6 +87,7 @@
 			$("#Vurl").val("");
 			Vplayer.src = "";
 			Vplayer.load();
+			$("#play").removeClass("greenBtn");
 		});
 		
 		$("#scaleX1").click(function(){
