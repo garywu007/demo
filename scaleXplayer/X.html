@@ -59,6 +59,7 @@
 			<button id="scaleX0" class="hideVisible">scaleX OFF</button>
 			<span id="scaleXStat1">OFF</span>
 			<span id="scaleXStat0" class="hideVisible">ON</span>
+			<button id="fullScreen">fullScreen</button>
 		</div>
 		<br>
 		<video id="Vplayer"></video>
@@ -102,6 +103,14 @@
 			$("#scaleX0").addClass("hideVisible");
 			$("#scaleXStat1").removeClass("hideVisible");
 			$("#scaleXStat0").addClass("hideVisible");
+		});
+		
+		$("#fullScreen").on('click',function(){
+			if (document.webkitFullscreenElement) { 
+				videoDom.webkitExitFullscreen(); 
+			} else { 
+				videoDom.webkitRequestFullscreen();
+			} 
 		});
 	</script>
 </html>
