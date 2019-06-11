@@ -1,0 +1,107 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+		<title>videos</title> 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	</head>
+	<style>
+		#Vplayer {
+			height: calc(100vh - 6em);
+			width: 100%;
+			background-color: darkgrey;
+		}
+		
+		#ctrlPanel {
+			text-align: center;
+		}
+		
+		#Vurl {
+			margin-bottom: 5px;
+			width: 50vw;
+		}
+		
+		.toScaleX {
+			transform: scaleX(-1);
+		}
+		
+		.hideVisible {
+			display: none;
+		}
+		
+		button {
+			width: 8em;
+		}
+		
+		#scaleXStat1 {
+			background-color: gray;
+			color: white;
+			padding: 2px 3px;
+			border-radius: 2px;
+		}
+		
+		#scaleXStat0 {
+			width: 8em;
+			background-color: darkgreen;
+			color: white;
+			padding: 2px 3px;
+			border-radius: 2px;
+		}
+	</style>
+	<body>
+		<div id="ctrlPanel">
+			<input id="Vurl" type="text" placeholder="video url..." value="https://github.com/garywu007/demo/releases/download/1.0/001.mp4"/>
+			<br>
+			<button id="play">play</button>
+			<button id="pause">pause</button>
+			<button id="load">load / restart</button>
+			<button id="clear">clear</button>
+			<button id="scaleX1">scaleX ON</button>
+			<button id="scaleX0" class="hideVisible">scaleX OFF</button>
+			<span id="scaleXStat1">OFF</span>
+			<span id="scaleXStat0" class="hideVisible">ON</span>
+		</div>
+		<br>
+		<video id="Vplayer"></video>
+	</body>
+	
+	<script>
+		$("#play").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.play();
+		});
+		
+		$("#pause").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.pause();
+		});
+		
+		$("#load").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.src = $("#Vurl").val();
+			Vplayer.load();
+		});
+		
+		$("#clear").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			$("#Vurl").val("");
+			Vplayer.src = "";
+			Vplayer.load();
+		});
+		
+		$("#scaleX1").click(function(){
+			$("#Vplayer").addClass("toScaleX");
+			$("#scaleX1").addClass("hideVisible");
+			$("#scaleX0").removeClass("hideVisible");
+			$("#scaleXStat1").addClass("hideVisible");
+			$("#scaleXStat0").removeClass("hideVisible");
+		});
+		
+		$("#scaleX0").click(function(){
+			$("#Vplayer").removeClass("toScaleX");
+			$("#scaleX1").removeClass("hideVisible");
+			$("#scaleX0").addClass("hideVisible");
+			$("#scaleXStat1").removeClass("hideVisible");
+			$("#scaleXStat0").addClass("hideVisible");
+		});
+	</script>
+</html>
