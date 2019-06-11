@@ -106,10 +106,11 @@
 		});
 		
 		$("#fullScreen").on('click',function(){
+			var Vplayer = document.getElementById("Vplayer");
 			if (document.webkitFullscreenElement) { 
-				videoDom.webkitExitFullscreen(); 
+				Vplayer.webkitExitFullscreen(); 
 			} else { 
-				videoDom.webkitRequestFullscreen();
+				Vplayer.webkitRequestFullscreen();
 			} 
 		});
 	</script>
