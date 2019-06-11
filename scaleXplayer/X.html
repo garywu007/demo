@@ -44,19 +44,8 @@
 			border-radius: 10px;
 		}
 		
-		#scaleXStat1 {
-			background-color: gray;
-			color: white;
-			padding: 2px 3px;
-			border-radius: 2px;
-		}
-		
-		#scaleXStat0 {
-			width: 8em;
+		#scaleXON {
 			background-color: darkgreen;
-			color: white;
-			padding: 2px 3px;
-			border-radius: 2px;
 		}
 	</style>
 	<body>
@@ -68,9 +57,7 @@
 			<button id="load">load / restart</button>
 			<button id="clear">clear</button>
 			<button id="scaleX1">scaleX ON</button>
-			<button id="scaleX0" class="hideVisible">scaleX OFF</button>
-			<span id="scaleXStat1">OFF</span>
-			<span id="scaleXStat0" class="hideVisible">ON</span>
+			<button id="scaleX0" class="hideVisible scaleXON">scaleX OFF</button>
 			<button id="fullScreen">fullScreen</button>
 		</div>
 		<br>
@@ -105,16 +92,12 @@
 			$("#Vplayer").addClass("toScaleX");
 			$("#scaleX1").addClass("hideVisible");
 			$("#scaleX0").removeClass("hideVisible");
-			$("#scaleXStat1").addClass("hideVisible");
-			$("#scaleXStat0").removeClass("hideVisible");
 		});
 		
 		$("#scaleX0").click(function(){
 			$("#Vplayer").removeClass("toScaleX");
 			$("#scaleX1").removeClass("hideVisible");
 			$("#scaleX0").addClass("hideVisible");
-			$("#scaleXStat1").removeClass("hideVisible");
-			$("#scaleXStat0").addClass("hideVisible");
 		});
 		
 		$("#fullScreen").on('click',function(){
