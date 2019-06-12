@@ -277,7 +277,7 @@
 			Vplayer.playbackRate = 1;
 		});
 		
-		$("#Vposition").mouseup(function () {
+		$("#Vposition").on('pointerup', function () {
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.currentTime = $(this).val();
 		});
