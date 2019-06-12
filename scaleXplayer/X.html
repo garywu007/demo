@@ -79,7 +79,7 @@
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.src = $("#Vurl").val();
 			Vplayer.load();
-			Vplayer.oncanplay = $("#play").addClass("greenBtn");
+			Vplayer.oncanplaythrough = $("#play").addClass("greenBtn");
 		});
 		
 		$("#clear").click(function(){
