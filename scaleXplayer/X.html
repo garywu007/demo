@@ -126,15 +126,20 @@
 		});
 		
 		$("#load").click(function(){
-			var Vplayer = document.getElementById("Vplayer");
-			Vplayer.src = $("#Vurl").val();
-			Vplayer.load();
-			$("#pause").removeClass("redBtn");
-			$("#play").removeClass("greenBtn");
-			$("#Vplayer").css("background-color","#333");
-			$("#Vduration").val("");
-			$("#VplayBackRate").val("");
-			clearInterval(videoTimer);
+			if('' != $("#Vurl").val()){
+				var Vplayer = document.getElementById("Vplayer");
+				Vplayer.src = $("#Vurl").val();
+				Vplayer.load();
+				$("#pause").removeClass("redBtn");
+				$("#play").removeClass("greenBtn");
+				$("#Vplayer").css("background-color","#333");
+				$("#Vduration").val("");
+				$("#VplayBackRate").val("");
+				clearInterval(videoTimer);
+			} else {
+				window.open("https://github.com/garywu007/demo/releases");
+			}
+			
 		});
 		
 		$("#clear").click(function(){
@@ -148,10 +153,6 @@
 			$("#Vduration").val("");
 			$("#VplayBackRate").val("");
 			clearInterval(videoTimer);
-		});
-		
-		$("#clear").dblclick(function(){
-			window.open("https://github.com/garywu007/demo/releases");
 		});
 		
 		$("#scaleX1").click(function(){
@@ -180,7 +181,7 @@
 			Vplayer.playbackRate += 0.25;
 		});
 		
-		$("#VplayBackRate").dblclick(function(){
+		$("#Vduration").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.playbackRate = 1;
 		});
