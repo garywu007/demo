@@ -98,7 +98,9 @@
 			<input id="VplayBackRate" readonly></input>
 		</div>
 		<br>
-		<video id="Vplayer"></video>
+		<video id="Vplayer">
+			<source id="VplayerSrc" type="video/mp4"/>
+		</video>
 	</body>
 	
 	<script>
@@ -128,7 +130,8 @@
 		$("#load").click(function(){
 			if('' != $("#Vurl").val()){
 				var Vplayer = document.getElementById("Vplayer");
-				Vplayer.src = $("#Vurl").val();
+				VplayerSrc.src = $("#Vurl").val();
+				//Vplayer.src = $("#Vurl").val();
 				Vplayer.load();
 				$("#pause").removeClass("redBtn");
 				$("#play").removeClass("greenBtn");
