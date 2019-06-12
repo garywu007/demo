@@ -22,11 +22,29 @@
 		
 		#Vurl {
 			margin-bottom: 5px;
-			width: 50vw;
+			width: 850px;
+			height: 30px;
 			background-color: dimgrey;
 			color: orange;
 			padding: 0px 10px;
 			border-radius: 10px;
+			border: 0px;
+		}
+		
+		#Vduration, #VplayBackRate {
+			margin-bottom: 5px;
+			width: 130px;
+			height: 25px;
+			background-color: dimgrey;
+			color: orange;
+			padding: 0px 10px;
+			border-radius: 10px;
+			border: 0px;
+			text-align: center;
+		}
+		
+		#VplayBackRate {
+			width: 50px;
 		}
 		
 		.toScaleX {
@@ -39,47 +57,84 @@
 		
 		button {
 			width: 8em;
+			height: 40px;
 			color: white;
-			background-color: black;
+			background-color: #222;
 			border-radius: 10px;
+			border: 0px;
+			border-left: 1px solid SlateGrey;
+			border-right: 1px solid SlateGrey;
 		}
 		
 		.greenBtn {
-			background-color: darkgreen;
+			border-left: 1px solid green;
+			border-right: 1px solid green;
+			color: green;
+		}
+		
+		.redBtn {
+			border-left: 1px solid pink;
+			border-right: 1px solid pink;
+			color: pink;
+		}
+		
+		#Vduration {
+			padding-left: 5px;
+			color: orange;
 		}
 	</style>
 	<body>
 		<div id="ctrlPanel">
-			<input id="Vurl" type="text" placeholder="video url..." value="https://github.com/garywu007/demo/releases/download/1.0/001.mp4"/>
+			<input id="Vurl" type="text" placeholder="video url..." value="https://github.com/garywu007/demo/releases/download/1.0/Mighty.Planes.S03.-.Ep01.CP-140.Aurora.HD.Watch.mp4"/>
 			<br>
-			<button id="play">play</button>
-			<button id="pause">pause</button>
-			<button id="load">load / restart</button>
-			<button id="clear">clear</button>
+			<button id="play">play ></button>
+			<button id="pause">pause ||</button>
+			<button id="load">load / restart +</button>
+			<button id="clear">clear X</button>
 			<button id="scaleX1">scaleX OFF</button>
 			<button id="scaleX0" class="hideVisible greenBtn">scaleX ON</button>
-			<button id="fullScreen">fullScreen</button>
+			<button id="fullScreen">fullScreen ^</button>
+			<input id="Vduration" readonly></input>
+			<input id="VplayBackRate" readonly></input>
 		</div>
 		<br>
 		<video id="Vplayer"></video>
 	</body>
 	
 	<script>
+		var videoTimer;
+		
 		$("#play").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.play();
+			$("#pause").removeClass("redBtn");
+			$("#play").addClass("greenBtn");
+			$("#Vplayer").css("background-color","black");
+			
+			videoTimer = setInterval(function(){
+				$("#Vduration").val(formatSecond(Vplayer.currentTime) + " / " + formatSecond(Vplayer.duration));
+				$("#VplayBackRate").val(parseFloat(Vplayer.playbackRate).toFixed(2));
+			}, 1000);
 		});
 		
 		$("#pause").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.pause();
+			$("#pause").addClass("redBtn");
+			$("#play").removeClass("greenBtn");
+			clearInterval(videoTimer);
 		});
 		
 		$("#load").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.src = $("#Vurl").val();
 			Vplayer.load();
-			Vplayer.oncanplaythrough = $("#play").addClass("greenBtn");
+			$("#pause").removeClass("redBtn");
+			$("#play").removeClass("greenBtn");
+			$("#Vplayer").css("background-color","#333");
+			$("#Vduration").val("");
+			$("#VplayBackRate").val("");
+			clearInterval(videoTimer);
 		});
 		
 		$("#clear").click(function(){
@@ -87,7 +142,16 @@
 			$("#Vurl").val("");
 			Vplayer.src = "";
 			Vplayer.load();
+			$("#pause").removeClass("redBtn");
 			$("#play").removeClass("greenBtn");
+			$("#Vplayer").css("background-color","black");
+			$("#Vduration").val("");
+			$("#VplayBackRate").val("");
+			clearInterval(videoTimer);
+		});
+		
+		$("#clear").dblclick(function(){
+			window.open("https://github.com/garywu007/demo/releases");
 		});
 		
 		$("#scaleX1").click(function(){
@@ -102,7 +166,7 @@
 			$("#scaleX0").addClass("hideVisible");
 		});
 		
-		$("#fullScreen").on('click',function(){
+		$("#fullScreen").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			if (document.webkitFullscreenElement) { 
 				Vplayer.webkitExitFullscreen(); 
@@ -110,5 +174,32 @@
 				Vplayer.webkitRequestFullscreen();
 			} 
 		});
+		
+		$("#VplayBackRate").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.playbackRate += 0.25;
+		});
+		
+		$("#VplayBackRate").dblclick(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.playbackRate = 1;
+		});
+		
+		function formatSecond(secs) {          
+			var hr = Math.floor(secs / 3600);
+			var min = Math.floor((secs - (hr * 3600)) / 60);
+			var sec = parseInt( secs - (hr * 3600) - (min * 60));
+			if (min < 10) {
+				min = '0' + min;
+			}
+			if (sec < 10) {
+				sec = '0' + sec;
+			}
+			if (hr) {
+				return hr + ':' + min + ':' + sec;
+			}
+			
+			return min + ':' + sec;
+        }
 	</script>
 </html>
