@@ -204,29 +204,11 @@
 		var videoTimer;
 		
 		$("#play").click(function(){
-			var Vplayer = document.getElementById("Vplayer");
-			Vplayer.play();
-			$("#pause").removeClass("redBtn");
-			$("#play").addClass("greenBtn");
-			$("#Vplayer").css("background-color","black");
-			$("#Vposition").removeClass("hideVisible");
-			
-			var Vposition = document.getElementById("Vposition");
-			Vposition.max = Vplayer.duration;
-			
-			videoTimer = setInterval(function(){
-				Vposition.value = Vplayer.currentTime;
-				$("#Vduration").val(formatSecond(Vplayer.currentTime) + " / " + formatSecond(Vplayer.duration));
-				$("#VplayBackRate").val(parseFloat(Vplayer.playbackRate).toFixed(2));
-			}, 1000);
+			doPlay();
 		});
 		
 		$("#pause").click(function(){
-			var Vplayer = document.getElementById("Vplayer");
-			Vplayer.pause();
-			$("#pause").addClass("redBtn");
-			$("#play").removeClass("greenBtn");
-			clearInterval(videoTimer);
+			doPause();
 		});
 		
 		$("#load").click(function(){
@@ -300,11 +282,37 @@
 		$("#Vplayer").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			if(Vplayer.paused){
-				Vplayer.play();
+				doPlay();
 			} else {
-				Vplayer.pause();
+				doPause();
 			}
 		});
+		
+		function doPlay(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.play();
+			$("#pause").removeClass("redBtn");
+			$("#play").addClass("greenBtn");
+			$("#Vplayer").css("background-color","black");
+			$("#Vposition").removeClass("hideVisible");
+			
+			var Vposition = document.getElementById("Vposition");
+			Vposition.max = Vplayer.duration;
+			
+			videoTimer = setInterval(function(){
+				Vposition.value = Vplayer.currentTime;
+				$("#Vduration").val(formatSecond(Vplayer.currentTime) + " / " + formatSecond(Vplayer.duration));
+				$("#VplayBackRate").val(parseFloat(Vplayer.playbackRate).toFixed(2));
+			}, 1000);
+		}
+		
+		function doPause(){
+			var Vplayer = document.getElementById("Vplayer");
+			Vplayer.pause();
+			$("#pause").addClass("redBtn");
+			$("#play").removeClass("greenBtn");
+			clearInterval(videoTimer);
+		}
 		
 		function formatSecond(secs) {          
 			var hr = Math.floor(secs / 3600);
