@@ -232,8 +232,9 @@
 		
 		$("#clear").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
-			$("#Vurl").val("");
-			Vplayer.src = "";
+			var VplayerSrc = document.getElementById("VplayerSrc");
+			VplayerSrc.src = $("#Vurl").val();
+			//Vplayer.src = $("#Vurl").val();
 			Vplayer.load();
 			$("#pause").removeClass("redBtn");
 			$("#play").removeClass("greenBtn");
