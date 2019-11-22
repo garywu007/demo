@@ -89,6 +89,34 @@
 			width: 100%;
 		}
 		
+		#gitHubVideoList {
+			width: auto;
+			max-width: 90vw;
+			height: 90vh;
+			background-color: #29536f;
+			border-radius: 1em;
+			position: absolute;
+			top: 5vh;
+			left: 5vw;
+			overflow-x: hidden;
+			overflow-y: auto;
+			display: none;
+		}
+		
+		#gitHubVideoList ul li {
+			width: 90%;
+			height: 2em;
+			line-height: 2em;
+			font-size: 1.1em;
+			color: #a0d9ff;
+			overflow: hidden;
+			white-space: nowrap;
+			background-color: #232323;
+			border-radius: 0.5em;
+			margin-bottom: 0.5em;
+			padding: 0 0.5em;
+		}
+		
 		input[type=range] {
 			height: 26px;
 			-webkit-appearance: none;
@@ -200,10 +228,18 @@
 		</video>
 		<br>
 		<input id="Vposition" class="hideVisible" type="range" min="0" value="0" step="any"></input>
+		<div id="gitHubVideoList">
+			<ul>
+			</ul>
+		</div>
 	</body>
 	
 	<script>
 		var videoTimer;
+		
+		$("#gitHubVideoList ul li").click(function(){
+			console.log($(this).attr("val"));
+		});
 		
 		$("#play").click(function(){
 			doPlay();
@@ -214,12 +250,10 @@
 		});
 		
 		$("#load").click(function(){
-			console.log("0");
 			if($("#Vurl").val().indexOf("youtube.com") > -1 || $("#Vurl").val().indexOf("youtu.be") > -1){
-				console.log("1");
 				parseUtube($("#Vurl").val());
 			} else if('' != $("#Vurl").val()){
-				console.log("2");
+				$("#gitHubVideoList").css('display', 'block');
 				var Vplayer = document.getElementById("Vplayer");
 				var VplayerSrc = document.getElementById("VplayerSrc");
 				VplayerSrc.src = $("#Vurl").val();
@@ -232,8 +266,7 @@
 				$("#VplayBackRate").val("");
 				clearInterval(videoTimer);
 			} else {
-				console.log("3");
-				window.open("https://github.com/garywu007/demo/releases");
+				getGithub();
 			}
 			
 		});
@@ -343,7 +376,7 @@
 			}
 			
 			return min + ':' + sec;
-        }
+		}
 		
 		function parseUtube(source) {
 			var formData = {};
@@ -387,6 +420,42 @@
 					$("#Vduration").val("");
 					$("#VplayBackRate").val("");
 					clearInterval(videoTimer);
+				}
+			});
+		}
+		
+		function getGithub() {
+			$.ajax({
+				type: 'get',
+				crossDomain: true,
+				dataType : "json",
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://cors-anywhere.herokuapp.com/https://github.com/garywu007/hugeData/releases/',
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				error: function(response){
+					
+					var parser = new DOMParser();
+					var htmlDoc = parser.parseFromString(response.responseText, 'text/html');
+					var as = htmlDoc.getElementsByTagName("a");
+					
+					var inner = "";
+					Array.prototype.forEach.call(as, function(aItem) {
+						// Do stuff here
+						if(aItem.rel === 'nofollow' && 
+							(aItem.href.indexOf("/releases/download/video/") > -1||
+							 aItem.href.indexOf("/releases/download/HD_Video/") > -1)){
+							//console.log(aItem.getElementsByTagName("span")[0].innerHTML);
+							
+							inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
+						}
+					});
+					
+					$("#gitHubVideoList ul").html(inner);
+					$("#gitHubVideoList").css('display', 'block');
+					
 				}
 			});
 		}
