@@ -449,7 +449,7 @@
 							 aItem.href.indexOf("/releases/download/HD_Video/") > -1)){
 							//console.log(aItem.getElementsByTagName("span")[0].innerHTML);
 							
-							inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
+							inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href.replace("https://garywu007.github.io","https://github.com") + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
 						}
 					});
 					
