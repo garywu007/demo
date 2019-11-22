@@ -117,6 +117,10 @@
 			padding: 0 0.5em;
 		}
 		
+		.hd {
+			background-color: white;
+			color: red;
+		}
 		input[type=range] {
 			height: 26px;
 			-webkit-appearance: none;
@@ -448,7 +452,7 @@
 							 aItem.href.indexOf("/releases/download/HD_Video/") > -1)){
 							//console.log(aItem.getElementsByTagName("span")[0].innerHTML);
 							
-							inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href.replace("https://garywu007.github.io","https://github.com") + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
+							inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href.replace("https://garywu007.github.io","https://github.com") + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (aItem.href.indexOf("/releases/download/HD_Video/") > -1 ? '<span class="hd"> HD </span>' : '') + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
 						}
 					});
 					
