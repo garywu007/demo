@@ -472,7 +472,7 @@
 					list.sort();
 					
 					Array.prototype.forEach.call(list, function(listItem1) {
-						inner += '<li onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[1].href.indexOf("/releases/download/HD_Video/") > -1 ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
+						inner += '<li onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[1].indexOf("/releases/download/HD_Video/") > -1 ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
 					});
 					
 					$("#gitHubVideoList ul").html(inner);
