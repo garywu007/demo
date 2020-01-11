@@ -284,6 +284,10 @@
 				getGithub();
 			}
 			
+			if(isIPAD){
+				$("#Vplayer").removeAttr("controls");
+			}
+			
 		});
 		
 		$("#clear").click(function(){
@@ -300,6 +304,10 @@
 			$("#VplayBackRate").val("");
 			$("#Vposition").addClass("hideVisible");
 			clearInterval(videoTimer);
+			
+			if(isIPAD){
+				$("#Vplayer").removeAttr("controls");
+			}
 		});
 		
 		$("#scaleX1").click(function(){
@@ -343,19 +351,14 @@
 			Vplayer.currentTime = $(this).val();
 		});
 		
-		alert("isIPAD? " + isIPAD + "[" + navigator.userAgent.toLowerCase() + "]");
-		if(isIPAD){
-			$("#Vplayer").attr("controls", "controls");
-		} else {
-			$("#Vplayer").click(function(){
-				var Vplayer = document.getElementById("Vplayer");
-				if(Vplayer.paused){
-					doPlay();
-				} else {
-					doPause();
-				}
-			});
-		}
+		$("#Vplayer").click(function(){
+			var Vplayer = document.getElementById("Vplayer");
+			if(Vplayer.paused){
+				doPlay();
+			} else {
+				doPause();
+			}
+		});
 		
 		function doPlay(){
 			var Vplayer = document.getElementById("Vplayer");
@@ -364,6 +367,10 @@
 			$("#play").addClass("greenBtn");
 			$("#Vplayer").css("background-color","black");
 			$("#Vposition").removeClass("hideVisible");
+			
+			if(isIPAD){
+				$("#Vplayer").attr("controls", "controls");
+			}
 			
 			var Vposition = document.getElementById("Vposition");
 			Vposition.max = Vplayer.duration;
