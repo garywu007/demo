@@ -218,10 +218,6 @@
 			background: #50555C;
 		}
 		
-		video::-webkit-media-controls-start-playback-button { //video视频不显示默认的中心的play icon
-			opacity: 0;
-		}
-		
 		/* 设置滚动条的样式 */
 		::-webkit-scrollbar {
 			width: 0;
@@ -242,7 +238,7 @@
 			<input id="VplayBackRate" readonly></input>
 		</div>
 		<br>
-		<video id="Vplayer" controls>
+		<video id="Vplayer">
 			<source id="VplayerSrc" type="video/mp4"/>
 		</video>
 		<br>
@@ -254,6 +250,7 @@
 	</body>
 	
 	<script>
+		var isIPAD = navigator.userAgent.toLowerCase().match(/ipad/i) == "ipad";
 		var videoTimer;
 		
 		$("#gitHubVideoList ul li").click(function(){
@@ -346,14 +343,18 @@
 			Vplayer.currentTime = $(this).val();
 		});
 		
-		/*$("#Vplayer").click(function(){
-			var Vplayer = document.getElementById("Vplayer");
-			if(Vplayer.paused){
-				doPlay();
-			} else {
-				doPause();
-			}
-		});*/
+		if(isIPAD){
+			$("#Vplayer").attr("controls", "controls");
+		} else {
+			$("#Vplayer").click(function(){
+				var Vplayer = document.getElementById("Vplayer");
+				if(Vplayer.paused){
+					doPlay();
+				} else {
+					doPause();
+				}
+			});
+		}
 		
 		function doPlay(){
 			var Vplayer = document.getElementById("Vplayer");
