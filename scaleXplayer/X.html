@@ -238,7 +238,7 @@
 			<input id="VplayBackRate" readonly></input>
 		</div>
 		<br>
-		<video id="Vplayer">
+		<video id="Vplayer" controls>
 			<source id="VplayerSrc" type="video/mp4"/>
 		</video>
 		<br>
@@ -342,14 +342,14 @@
 			Vplayer.currentTime = $(this).val();
 		});
 		
-		$("#Vplayer").click(function(){
+		/*$("#Vplayer").click(function(){
 			var Vplayer = document.getElementById("Vplayer");
 			if(Vplayer.paused){
 				doPlay();
 			} else {
 				doPause();
 			}
-		});
+		});*/
 		
 		function doPlay(){
 			var Vplayer = document.getElementById("Vplayer");
