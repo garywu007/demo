@@ -343,7 +343,7 @@
 			Vplayer.currentTime = $(this).val();
 		});
 		
-		alert("isIPAD? " + isIPAD);
+		alert("isIPAD? " + isIPAD + "[" + navigator.userAgent.toLowerCase() + "]");
 		if(isIPAD){
 			$("#Vplayer").attr("controls", "controls");
 		} else {
