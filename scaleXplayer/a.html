@@ -1,0 +1,266 @@
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+  		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="apple-touch-icon" href="video-icon.png">
+		<title>videoTUBE</title> 
+		<script src="jquery-3.1.1.min.js"></script>
+	</head>
+	<style>
+		body {
+			background-color: black;
+		}
+		#Vplayer {
+			height: calc(100vh - 10em);
+			width: 100%;
+			background-color: black;
+		}
+		
+		#ctrlPanel {
+			text-align: center;
+			background-color: #333;
+			padding-bottom: 5px;
+		}
+		
+		#Vurl {
+			margin-bottom: 5px;
+			width: 850px;
+			height: 30px;
+			background-color: dimgrey;
+			color: orange;
+			padding: 0px 10px;
+			border-radius: 10px;
+			border: 0px;
+		}
+		
+		#Vduration, #VplayBackRate {
+			margin-bottom: 5px;
+			width: 130px;
+			height: 25px;
+			background-color: dimgrey;
+			color: orange;
+			padding: 0px 10px;
+			border-radius: 10px;
+			border: 0px;
+			text-align: center;
+		}
+		
+		#VplayBackRate {
+			width: 50px;
+			cursor: pointer;
+		}
+		
+		.toScaleX {
+			transform: scaleX(-1);
+		}
+		
+		.hideVisible {
+			display: none;
+		}
+		
+		button {
+			width: 110px;
+			height: 40px;
+			color: white;
+			background-color: #222;
+			border-radius: 10px;
+			border: 0px;
+			border-left: 1px solid SlateGrey;
+			border-right: 1px solid SlateGrey;
+		}
+		
+		.greenBtn {
+			border-left: 1px solid green;
+			border-right: 1px solid green;
+			color: green;
+		}
+		
+		.redBtn {
+			border-left: 1px solid pink;
+			border-right: 1px solid pink;
+			color: pink;
+		}
+		
+		#Vduration {
+			padding-left: 5px;
+			color: orange;
+			cursor: pointer;
+		}
+		
+		#Vposition {
+			width: 100%;
+		}
+		
+		#gitHubVideoList {
+			width: auto;
+			max-width: 90vw;
+			height: 90vh;
+			background-color: #49264a;
+			border-radius: 1em;
+			position: absolute;
+			top: 5vh;
+			left: 5vw;
+			overflow-x: hidden;
+			overflow-y: auto;
+			display: none;
+		}
+		
+		#gitHubVideoList ul li {
+			width: 90%;
+			height: 2em;
+			line-height: 2em;
+			font-size: 1.1em;
+			color: #a0d9ff;
+			overflow: hidden;
+			white-space: nowrap;
+			background-color: #232323;
+			border-radius: 0.5em;
+			margin-bottom: 0.5em;
+			padding: 0 0.5em;
+		}
+		
+		.hd {
+			background-color: grey;
+			color: white;
+			border-radius: 0.2em;
+			padding: 0 0.2em;
+			font-weight: bold;
+		}
+		input[type=range] {
+			height: 26px;
+			-webkit-appearance: none;
+			margin: 10px 0;
+			width: 100%;
+			background-color: black;
+		}
+		input[type=range]:focus {
+			outline: none;
+		}
+		input[type=range]::-webkit-slider-runnable-track {
+			width: 100%;
+			height: 14px;
+			cursor: pointer;
+			animate: 0.2s;
+			box-shadow: 1px 1px 1px #50555C;
+			background: #50555C;
+			border-radius: 14px;
+			border: 0px solid #000000;
+		}
+		input[type=range]::-webkit-slider-thumb {
+			box-shadow: 0px 0px 0px #000000;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 40px;
+			border-radius: 12px;
+			background: #529DE1;
+			cursor: pointer;
+			-webkit-appearance: none;
+			margin-top: -3px;
+		}
+		input[type=range]:focus::-webkit-slider-runnable-track {
+			background: #50555C;
+		}
+		input[type=range]::-moz-range-track {
+			width: 100%;
+			height: 14px;
+			cursor: pointer;
+			animate: 0.2s;
+			box-shadow: 1px 1px 1px #50555C;
+			background: #50555C;
+			border-radius: 14px;
+			border: 0px solid #000000;
+		}
+		input[type=range]::-moz-range-thumb {
+			box-shadow: 0px 0px 0px #000000;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 40px;
+			border-radius: 12px;
+			background: #529DE1;
+			cursor: pointer;
+		}
+		input[type=range]::-ms-track {
+			width: 100%;
+			height: 14px;
+			cursor: pointer;
+			animate: 0.2s;
+			background: transparent;
+			border-color: transparent;
+			color: transparent;
+		}
+		input[type=range]::-ms-fill-lower {
+			background: #50555C;
+			border: 0px solid #000000;
+			border-radius: 28px;
+			box-shadow: 1px 1px 1px #50555C;
+		}
+		input[type=range]::-ms-fill-upper {
+			background: #50555C;
+			border: 0px solid #000000;
+			border-radius: 28px;
+			box-shadow: 1px 1px 1px #50555C;
+		}
+		input[type=range]::-ms-thumb {
+			margin-top: 1px;
+			box-shadow: 0px 0px 0px #000000;
+			border: 0px solid #000000;
+			height: 20px;
+			width: 40px;
+			border-radius: 12px;
+			background: #529DE1;
+			cursor: pointer;
+		}
+		input[type=range]:focus::-ms-fill-lower {
+			background: #50555C;
+		}
+		input[type=range]:focus::-ms-fill-upper {
+			background: #50555C;
+		}
+		
+		/* 设置滚动条的样式 */
+		::-webkit-scrollbar {
+			width: 0;
+		}
+	</style>
+	<body>
+		<div class="a">
+			<video id="video" controls preload="auto"></video>
+		</div>
+	</body>
+	
+	<script>
+		$(function() {
+            var video = document.querySelector('#video');
+            var mediaSource = new MediaSource();
+            video.src = URL.createObjectURL(mediaSource);
+            mediaSource.addEventListener('sourceopen', sourceOpen);
+
+            function sourceOpen(e) {
+                URL.revokeObjectURL(video.src);
+                // 设置 媒体的编码类型
+                var mime = 'video/webm; codecs="vorbis,vp8"';
+                var mediaSource = e.target;
+                var sourceBuffer = mediaSource.addSourceBuffer(mime);
+                var videoUrl = 'https://github.com/garywu007/hugeData/releases/download/HD_Video/Airbus.A380.-.Amazing.machine.mp4';
+                fetch(videoUrl).then(function(response) {
+                        console.log(response)
+                        return response.arrayBuffer();
+                    })
+                    .then(function(arrayBuffer) {
+                        sourceBuffer.addEventListener('updateend', function(e) {
+                            if (!sourceBuffer.updating && mediaSource.readyState === 'open') {
+                                mediaSource.endOfStream();
+                                // 在数据请求完成后，我们需要调用 endOfStream()。它会改变 MediaSource.readyState 为 ended 并且触发 sourceended 事件。
+                                video.play().then(function() {}).catch(function(err) {
+                                    console.log(err)
+                                });
+                            }
+                        });
+                        sourceBuffer.appendBuffer(arrayBuffer);
+                    });
+            }
+        })
+	</script>
+</html>
