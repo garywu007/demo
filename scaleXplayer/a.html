@@ -243,7 +243,7 @@
                 var mime = 'video/webm; codecs="vorbis,vp8"';
                 var mediaSource = e.target;
                 var sourceBuffer = mediaSource.addSourceBuffer(mime);
-                var videoUrl = 'https://github.com/garywu007/hugeData/releases/download/HD_Video/Airbus.A380.-.Amazing.machine.mp4';
+                var videoUrl = 'https://cors-anywhere.herokuapp.com/https://github.com/garywu007/hugeData/releases/download/HD_Video/Airbus.A380.-.Amazing.machine.mp4';
                 fetch(videoUrl).then(function(response) {
                         console.log(response)
                         return response.arrayBuffer();
