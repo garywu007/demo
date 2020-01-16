@@ -267,7 +267,7 @@
 		
 		$("#load").click(function(){
 			var VplayerPrev = document.getElementById("Vplayer");
-			console.log(VplayerPrev.currentTime);
+			var prevCurrentTime = VplayerPrev.currentTime;
 			
 			if($("#Vurl").val().indexOf("youtube.com") > -1 || $("#Vurl").val().indexOf("youtu.be") > -1){
 				parseUtube($("#Vurl").val());
@@ -282,6 +282,7 @@
 				$("#Vplayer").css("background-color","#333");
 				$("#Vduration").val("");
 				$("#VplayBackRate").val("");
+				Vplayer.currentTime = prevCurrentTime;
 				clearInterval(videoTimer);
 			} else {
 				getGithub();
@@ -306,6 +307,7 @@
 			$("#Vduration").val("");
 			$("#VplayBackRate").val("");
 			$("#Vposition").addClass("hideVisible");
+			Vplayer.currentTime = 0;
 			clearInterval(videoTimer);
 			
 			if(isIPAD){
