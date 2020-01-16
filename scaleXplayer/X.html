@@ -266,6 +266,9 @@
 		});
 		
 		$("#load").click(function(){
+			var VplayerPrev = document.getElementById("Vplayer");
+			console.log(VplayerPrev.currentTime);
+			
 			if($("#Vurl").val().indexOf("youtube.com") > -1 || $("#Vurl").val().indexOf("youtu.be") > -1){
 				parseUtube($("#Vurl").val());
 			} else if('' != $("#Vurl").val()){
