@@ -430,24 +430,31 @@
 					var parser = new DOMParser();
 					var htmlDoc = parser.parseFromString(jsonObj.result, 'text/html');
 					var centerTexts = htmlDoc.getElementsByClassName("txt-center");
-
+					
+					
+					var youtubeSrc = "";
 					Array.prototype.forEach.call(centerTexts, function(centerText) {
 						// Do stuff here
 						if(centerText.getElementsByTagName("a")[0].download != ''){
 							//console.log(centerText.getElementsByTagName("a")[0].href);
-							$("#Vurl").val(centerText.getElementsByTagName("a")[0].href);
+							youtubeSrc = centerText.getElementsByTagName("a")[0].href;
 						}
 					});
-
-					var Vplayer = document.getElementById("Vplayer");
-					var VplayerSrc = document.getElementById("VplayerSrc");
-					VplayerSrc.src = $("#Vurl").val();
-					Vplayer.load();
-					$("#pause").removeClass("redBtn");
-					$("#play").removeClass("greenBtn");
-					$("#Vplayer").css("background-color","#333");
-					$("#Vduration").val("");
-					$("#VplayBackRate").val("");
+					
+					if(youtubeSrc != ""){
+						var Vplayer = document.getElementById("Vplayer");
+						var VplayerSrc = document.getElementById("VplayerSrc");
+						VplayerSrc.src = youtubeSrc;
+						Vplayer.load();
+						$("#pause").removeClass("redBtn");
+						$("#play").removeClass("greenBtn");
+						$("#Vplayer").css("background-color","#333");
+						$("#Vduration").val("");
+						$("#VplayBackRate").val("");
+					} else {
+						$("#Vurl").val("video cannot be parsed >>" + $("#Vurl").val());
+					}
+					
 					clearInterval(videoTimer);
 				}
 			});
