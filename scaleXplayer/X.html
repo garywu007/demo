@@ -370,6 +370,7 @@
 			Vplayer.play();
 			if(prevCurrentTime > 0){
 				Vplayer.currentTime = prevCurrentTime;
+				prevCurrentTime = 0.0;
 			}
 			$("#pause").removeClass("redBtn");
 			$("#play").addClass("greenBtn");
