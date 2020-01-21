@@ -368,7 +368,9 @@
 		function doPlay(){
 			var Vplayer = document.getElementById("Vplayer");
 			Vplayer.play();
-			Vplayer.currentTime = prevCurrentTime;
+			if(prevCurrentTime > 0){
+				Vplayer.currentTime = prevCurrentTime;
+			}
 			$("#pause").removeClass("redBtn");
 			$("#play").addClass("greenBtn");
 			$("#Vplayer").css("background-color","black");
