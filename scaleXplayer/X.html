@@ -478,7 +478,8 @@
 				jsonpCallback: 'handleResponse',
 				url: 'https://cors-anywhere.herokuapp.com/https://github.com/garywu007/hugeData/releases/',
 				headers: {
-					'Access-Control-Allow-Origin': '*'
+					'Access-Control-Allow-Origin': '*',
+					'Accept':"*/*" //text/html, application/xhtml+xml, 
 				},
 				error: function(response){
 					
