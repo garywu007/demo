@@ -6,6 +6,7 @@
 		<link rel="apple-touch-icon" href="video-icon.png">
 		<title>videoTUBE</title> 
 		<script src="jquery-3.1.1.min.js"></script>
+		<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
 	</head>
 	<style>
 		body {
@@ -273,17 +274,31 @@
 			if($("#Vurl").val().indexOf("youtube.com") > -1 || $("#Vurl").val().indexOf("youtu.be") > -1){
 				parseUtube($("#Vurl").val());
 			} else if('' != $("#Vurl").val()){
-				var Vplayer = document.getElementById("Vplayer");
-				var VplayerSrc = document.getElementById("VplayerSrc");
-				VplayerSrc.src = $("#Vurl").val();
-				//Vplayer.src = $("#Vurl").val();
-				Vplayer.load();
-				$("#pause").removeClass("redBtn");
-				$("#play").removeClass("greenBtn");
-				$("#Vplayer").css("background-color","#333");
-				$("#Vduration").val("");
-				$("#VplayBackRate").val("");
-				clearInterval(videoTimer);
+				if($("#Vurl").val().indexOf("flv") > -1){
+					if (flvjs.isSupported()) {//检查flvjs能否正常使用
+						alert("flvjs.isSupported() == true!!!");
+						var videoElement = document.getElementById('Vplayer');//使用id选择器找到第二步设置的dom元素
+						var flvPlayer = flvjs.createPlayer({//创建一个新的flv播放器对象
+							type: 'flv',//类型flv
+							url: $("#Vurl").val()//flv文件地址
+						});
+						flvPlayer.attachMediaElement(videoElement);//将flv视频装载进video元素内
+						flvPlayer.load();//载入视频
+						flvPlayer.play();//播放视频，如果不想要自动播放，去掉本行
+					}
+				} else {
+					var Vplayer = document.getElementById("Vplayer");
+					var VplayerSrc = document.getElementById("VplayerSrc");
+					VplayerSrc.src = $("#Vurl").val();
+					//Vplayer.src = $("#Vurl").val();
+					Vplayer.load();
+					$("#pause").removeClass("redBtn");
+					$("#play").removeClass("greenBtn");
+					$("#Vplayer").css("background-color","#333");
+					$("#Vduration").val("");
+					$("#VplayBackRate").val("");
+					clearInterval(videoTimer);
+				}
 			} else {
 				getGithub();
 			}
