@@ -274,7 +274,7 @@
 			if($("#Vurl").val().indexOf("youtube.com") > -1 || $("#Vurl").val().indexOf("youtu.be") > -1){
 				parseUtube($("#Vurl").val());
 			} else if('' != $("#Vurl").val()){
-				if($("#Vurl").val().indexOf("flv") > -1){
+				if($("#Vurl").val().indexOf(".flv") > -1){
 					if (flvjs.isSupported()) {//检查flvjs能否正常使用
 						alert("flvjs.isSupported() == true!!!");
 						var videoElement = document.getElementById('Vplayer');//使用id选择器找到第二步设置的dom元素
