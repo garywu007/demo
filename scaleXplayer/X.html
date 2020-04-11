@@ -276,7 +276,7 @@
 			} else if('' != $("#Vurl").val()){
 				if($("#Vurl").val().indexOf(".flv") > -1){
 					if (flvjs.isSupported()) {//检查flvjs能否正常使用
-						alert("flvjs.isSupported() == true!!!");
+						console.log("flvjs.isSupported() == true!!!");
 						var videoElement = document.getElementById('Vplayer');//使用id选择器找到第二步设置的dom元素
 						var flvPlayer = flvjs.createPlayer({//创建一个新的flv播放器对象
 							type: 'flv',//类型flv
@@ -347,9 +347,26 @@
 			if (document.webkitFullscreenElement) { 
 				Vplayer.webkitExitFullscreen(); 
 			} else { 
-				Vplayer.webkitRequestFullscreen();
-				Vplayer.webkitEnterFullscreen();
-				Vplayer.enterFullscreen();
+				//Vplayer.webkitRequestFullscreen();
+				//Vplayer.webkitEnterFullscreen();
+				//Vplayer.enterFullscreen();
+				
+				//W3C 
+				if (Vplayer.requestFullscreen) { 
+				Vplayer.requestFullscreen(); 
+				}
+				//FireFox 
+				else if (Vplayer.mozRequestFullScreen) { 
+				Vplayer.mozRequestFullScreen(); 
+				}
+				//Chrome等 
+				else if (Vplayer.webkitRequestFullScreen) { 
+				Vplayer.webkitRequestFullScreen(); 
+				}
+				//IE11
+				else if (Vplayer.msRequestFullscreen) {
+				Vplayer.msRequestFullscreen();
+				}
 			} 
 		});
 		
