@@ -452,13 +452,14 @@
 			var formData = {};
 			formData.url = source;
 			formData.ajax = '1';
+			formData.q_auto = '0';
 			$.ajax({
 				type: 'post',
 				crossDomain: true,
 				dataType : "json",
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://cors-anywhere.herokuapp.com/https://mate03.y2mate.com/analyze/ajax',
+				url: 'https://cors-anywhere.herokuapp.com/https://www.y2mate.com/mates/en60/analyze/ajax',
 				data: formData,
 				headers: {
 					'Access-Control-Allow-Origin': '*'
@@ -468,35 +469,60 @@
 					var jsonStr = JSON.stringify(result);
 					var jsonObj = JSON.parse(jsonStr);
 
-					var parser = new DOMParser();
-					var htmlDoc = parser.parseFromString(jsonObj.result, 'text/html');
-					var centerTexts = htmlDoc.getElementsByClassName("txt-center");
-					
+					var htmlResult = jsonObj.result;
+					var h01 = htmlResult.substring(htmlResult.indexOf("k__id"), htmlResult.length);
+					var h02 = h01.substring(h01.indexOf("\"") + 1, h01.length);
+					var kid = h02.substring(0, h02.indexOf("\""));
 					
 					var youtubeSrc = "";
-					Array.prototype.forEach.call(centerTexts, function(centerText) {
-						// Do stuff here
-						if(centerText.getElementsByTagName("a")[0].download != ''){
-							//console.log(centerText.getElementsByTagName("a")[0].href);
-							youtubeSrc = centerText.getElementsByTagName("a")[0].href;
+					
+					var formData1 = {};
+					formData1.type = "youtube";
+					formData1._id = kid;
+					formData1.v_id = source.substring(source.indexOf("v=") + 2, source.indexOf("&") > -1 ? source.indexOf("&") : source.length);
+					formData1.ajax = "1";
+					formData1.token = "";
+					formData1.ftype = "mp4";
+					formData1.fquality = "720";
+						
+					$.ajax({
+						type: 'post',
+						crossDomain: true,
+						dataType : "json",
+						jsonp : 'callback',
+						jsonpCallback: 'handleResponse',
+						url: 'https://cors-anywhere.herokuapp.com/https://www.y2mate.com/mates/en60/convert',
+						data: formData1,
+						headers: {
+							'Access-Control-Allow-Origin': '*'
+						},
+						success: function(result1){
+							var jsonStr1 = JSON.stringify(result1);
+							var jsonObj1 = JSON.parse(jsonStr1);
+
+							var videoResultRaw = jsonObj1.result;
+							var v01 = videoResultRaw.substring(videoResultRaw.indexOf("href=") + 6, videoResultRaw.length);
+							youtubeSrc = v01.substring(0, v01.indexOf("\""));
+							
+							if(youtubeSrc != ""){
+								var Vplayer = document.getElementById("Vplayer");
+								var VplayerSrc = document.getElementById("VplayerSrc");
+								VplayerSrc.src = youtubeSrc;
+								Vplayer.load();
+								$("#pause").removeClass("redBtn");
+								$("#play").removeClass("greenBtn");
+								$("#Vplayer").css("background-color","#333");
+								$("#Vduration").val("");
+								$("#VplayBackRate").val("");
+							} else {
+								$("#Vurl").val("video cannot be parsed >>" + $("#Vurl").val());
+							}
+							
+							clearInterval(videoTimer);
 						}
 					});
 					
-					if(youtubeSrc != ""){
-						var Vplayer = document.getElementById("Vplayer");
-						var VplayerSrc = document.getElementById("VplayerSrc");
-						VplayerSrc.src = youtubeSrc;
-						Vplayer.load();
-						$("#pause").removeClass("redBtn");
-						$("#play").removeClass("greenBtn");
-						$("#Vplayer").css("background-color","#333");
-						$("#Vduration").val("");
-						$("#VplayBackRate").val("");
-					} else {
-						$("#Vurl").val("video cannot be parsed >>" + $("#Vurl").val());
-					}
 					
-					clearInterval(videoTimer);
 				}
 			});
 		}
