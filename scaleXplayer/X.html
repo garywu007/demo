@@ -450,14 +450,14 @@
 		
 		function parseUtube(source) {
 			var formData = {};
-			formData.video = source;
+			formData.url = source;
 			
 			$.ajax({
 				type: 'get',
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://cors-anywhere.herokuapp.com/https://bitdownloader.com/download',
+				url: 'https://cors-anywhere.herokuapp.com/https://qdownloader.io/download',
 				data: formData,
 				headers: {
 					'Access-Control-Allow-Origin': '*'
@@ -469,18 +469,15 @@
 
 					var parser = new DOMParser();
 					var htmlDoc = parser.parseFromString(result, 'text/html');
-					var centerText = htmlDoc.getElementById("mainDlBtn");
+					var centerTexts = htmlDoc.getElementsByClassName("downloadsTable")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
 					
-					var youtubeSrc = centerText.href;
+					var youtubeSrc = '';
 					
-					/*
 					Array.prototype.forEach.call(centerTexts, function(centerText) {
-						// Do stuff here
-						if(centerText.getElementsByTagName("a")[0].download != ''){
-							//console.log(centerText.getElementsByTagName("a")[0].href);
+						if("" != centerText.getElementsByTagName("a")[0].download && youtubeSrc == '') {
 							youtubeSrc = centerText.getElementsByTagName("a")[0].href;
 						}
-					});*/
+					});
 					
 					if(youtubeSrc != ""){
 						var Vplayer = document.getElementById("Vplayer");
