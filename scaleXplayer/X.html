@@ -544,6 +544,9 @@
 					$("#gitHubVideoList ul").html(inner);
 					$("#gitHubVideoList").css('display', 'block');*/
 					
+				},
+				error: function(response){
+					console.log("hi");	
 				}
 			});
 		}
