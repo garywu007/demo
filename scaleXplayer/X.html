@@ -512,44 +512,28 @@
 					'Accept':"*/*" //text/html, application/xhtml+xml, 
 				},
 				success: function(response){
-					console.log(response);
-					
 					var jsonStr = JSON.stringify(response);
 					var jsonObj = JSON.parse(jsonStr);
 					
-					for(var i in jsonObj) {
-					   console.log("name", jsonObj[i]["name"]);
-					}
-					/*
-					var parser = new DOMParser();
-					var htmlDoc = parser.parseFromString(response.responseText, 'text/html');
-					var as = htmlDoc.getElementsByTagName("a");
-					
-					var inner = "";
 					var list = [];
 					var listItem = [];
-					Array.prototype.forEach.call(as, function(aItem) {
-						// Do stuff here
-						if(aItem.rel === 'nofollow' && 
-							(aItem.href.indexOf("/releases/download/video/") > -1||
-							 aItem.href.indexOf("/releases/download/HD_Video/") > -1)){
-							
-							//inner += '<li onclick=\'$(\"#Vurl\").val(\"' + aItem.href.replace("https://garywu007.github.io","https://github.com") + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (aItem.href.indexOf("/releases/download/HD_Video/") > -1 ? '<span class="hd">HD</span> ' : '') + aItem.getElementsByTagName("span")[0].innerHTML + '</li>';
-							listItem = [];
-							listItem.push(aItem.getElementsByTagName("span")[0].innerHTML);
-							listItem.push(aItem.href.replace("https://garywu007.github.io","https://github.com"));
-							list.push(listItem);
-						}
-					});
+					
+					for(var i in jsonObj) {
+						listItem = [];
+						listItem.push(jsonObj[i]["name"]);
+						listItem.push(jsonObj[i]["url"]);
+						listItem.push(jsonObj[i]["hd"]);
+						list.push(listItem);
+					}
 					
 					list.sort();
 					
 					Array.prototype.forEach.call(list, function(listItem1) {
-						inner += '<li onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[1].indexOf("/releases/download/HD_Video/") > -1 ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
+						inner += '<li onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[2] == 1) ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
 					});
 					
 					$("#gitHubVideoList ul").html(inner);
-					$("#gitHubVideoList").css('display', 'block');*/
+					$("#gitHubVideoList").css('display', 'block');
 					
 				},
 				error: function(response){
