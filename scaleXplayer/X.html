@@ -513,6 +513,13 @@
 				},
 				success: function(response){
 					console.log(response);
+					
+					var jsonStr = JSON.stringify(response);
+					var jsonObj = JSON.parse(jsonStr);
+					
+					for(var video in jsonObj) {
+					   console.log("name", video["name"]);
+					}
 					/*
 					var parser = new DOMParser();
 					var htmlDoc = parser.parseFromString(response.responseText, 'text/html');
@@ -546,7 +553,7 @@
 					
 				},
 				error: function(response){
-					console.log("hi");	
+					console.log("error");	
 				}
 			});
 		}
