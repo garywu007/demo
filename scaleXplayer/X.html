@@ -517,8 +517,8 @@
 					var jsonStr = JSON.stringify(response);
 					var jsonObj = JSON.parse(jsonStr);
 					
-					for(var video in jsonObj) {
-					   console.log("name", video["name"]);
+					for(var i in jsonObj) {
+					   console.log("name", jsonObj[i]["name"]);
 					}
 					/*
 					var parser = new DOMParser();
