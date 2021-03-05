@@ -506,13 +506,14 @@
 				dataType : "json",
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://py-toolbox.herokuapp.com/https://github.com/garywu007/hugeData/releases/',
+				url: 'https://api.github.com/repos/garywu007/hugeData/releases',
 				headers: {
 					'Access-Control-Allow-Origin': '*',
 					'Accept':"*/*" //text/html, application/xhtml+xml, 
 				},
-				error: function(response){
-					
+				success: function(response){
+					console.log(response);
+					/*
 					var parser = new DOMParser();
 					var htmlDoc = parser.parseFromString(response.responseText, 'text/html');
 					var as = htmlDoc.getElementsByTagName("a");
@@ -541,7 +542,7 @@
 					});
 					
 					$("#gitHubVideoList ul").html(inner);
-					$("#gitHubVideoList").css('display', 'block');
+					$("#gitHubVideoList").css('display', 'block');*/
 					
 				}
 			});
