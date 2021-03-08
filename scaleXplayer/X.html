@@ -450,16 +450,15 @@
 		}
 		
 		function parseUtube(source) {
-			var formData = {};
-			formData.url = source;
+			//var formData = {};
+			//formData.url = source;
 			
 			$.ajax({
 				type: 'get',
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://cors-anywhere.herokuapp.com/https://qdownloader.io/download',
-				data: formData,
+				url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURI(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
