@@ -458,7 +458,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURI(source),
+				url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
