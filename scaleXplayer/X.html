@@ -532,8 +532,8 @@
 					var youtubeSrc = '';
 					
 					Array.prototype.forEach.call(centerTexts, function(centerText) {
-						if("" != centerText.getElementsByTagName("a")[0].download && youtubeSrc == '') {
-							youtubeSrc = centerText.getElementsByTagName("a")[0].download;
+						if("" != centerText.getElementsByClassName("popbtn")[0].download && youtubeSrc == '') {
+							youtubeSrc = centerText.getElementsByClassName("popbtn")[0].download;
 						}
 					});
 					
