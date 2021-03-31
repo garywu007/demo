@@ -6,7 +6,7 @@
 		<link rel="apple-touch-icon" href="video-icon.png">
 		<link rel="shortcut icon" type="image/x-icon" href="video-icon.ico" rel="external nofollow" /> 
 		<title>videoTUBE</title> 
-		<script src="jquery-3.1.1.min.js"></script>
+		<script src="https://garywu007.github.io/demo/scaleXplayer/jquery-3.1.1.min.js"></script>
 		<script src="https://cdn.bootcss.com/flv.js/1.5.0/flv.min.js"></script>
 	</head>
 	<style>
@@ -73,15 +73,25 @@
 		}
 		
 		.greenBtn {
-			border-left: 1px solid green;
-			border-right: 1px solid green;
-			color: green;
+			border-left: 1px solid lightgreen;
+			border-right: 1px solid lightgreen;
+			color: lightgreen;
 		}
 		
 		.redBtn {
 			border-left: 1px solid pink;
 			border-right: 1px solid pink;
 			color: pink;
+		}
+		
+		.videoTypeSelect {
+			width:100px;
+			height: 25px;
+		}
+		
+		.videoTypeSelect:nth-of-type(1){
+			margin-top: 6px;
+			margin-left: 40px;
 		}
 		
 		#Vduration {
@@ -246,6 +256,11 @@
 		<br>
 		<input id="Vposition" class="hideVisible" type="range" min="0" value="0" step="any"></input>
 		<div id="gitHubVideoList">
+			<button class="videoTypeSelect" id="showHD">HD</button>
+			<button class="videoTypeSelect" id="showNormal">normal</button>
+			<button class="videoTypeSelect" id="showUW">unWatched</button>
+			<button class="videoTypeSelect" id="showDL">download</button>
+			<button class="videoTypeSelect" id="closeList">close</button>
 			<ul>
 			</ul>
 		</div>
@@ -255,6 +270,44 @@
 		var isIPAD = navigator.userAgent.toLowerCase().match(/ipad/i) == "ipad";
 		var videoTimer;
 		var prevCurrentTime = 0.0;
+		
+		$("#showHD").click(function(){
+			if($("#showHD").hasClass("greenBtn")){
+				$("#showHD").removeClass("greenBtn");
+				$(".HDVideo").css('display', 'block');
+				$(".nonHDVideo").css('display', 'block');
+			} else {
+				$("#showHD").addClass("greenBtn");
+				$("#showNormal").removeClass("greenBtn");
+				$(".HDVideo").css('display', 'block');
+				$(".nonHDVideo").css('display', 'none');
+			}
+		});
+		
+		$("#showNormal").click(function(){
+			if($("#showNormal").hasClass("greenBtn")){
+				$("#showNormal").removeClass("greenBtn");
+				$(".HDVideo").css('display', 'block');
+				$(".nonHDVideo").css('display', 'block');
+			} else {
+				$("#showNormal").addClass("greenBtn");
+				$("#showHD").removeClass("greenBtn");
+				$(".HDVideo").css('display', 'none');
+				$(".nonHDVideo").css('display', 'block');
+			}
+		});
+		
+		$("#showUW").click(function(){
+			window.open("https://www.youtube.com/playlist?list=PLgQL6-0tZOJN2K4ynq9I4XcSs1O4lj65k");
+		});
+		
+		$("#showDL").click(function(){
+			window.open("https://qdownloader.io/youtube-video-downloader");
+		});
+		
+		$("#closeList").click(function(){
+			$("#gitHubVideoList").css('display', 'none');
+		});
 		
 		$("#gitHubVideoList ul li").click(function(){
 			console.log($(this).attr("val"));
@@ -269,6 +322,9 @@
 		});
 		
 		$("#load").click(function(){
+			$("#showHD").removeClass("greenBtn");
+			$("#showNormal").removeClass("greenBtn");
+			
 			var VplayerPrev = document.getElementById("Vplayer");
 			prevCurrentTime = VplayerPrev.currentTime;
 			
@@ -529,7 +585,7 @@
 					list.sort();
 					
 					Array.prototype.forEach.call(list, function(listItem1) {
-						inner += '<li onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[2] == 1 ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
+						inner += '<li class=\"' + (listItem1[2] == 1 ? 'HDVideo' : 'nonHDVideo') + '\" onclick=\'$(\"#Vurl\").val(\"' + listItem1[1] + '\"); $(\"#gitHubVideoList\").css(\"display\", \"none\")\'>' + (listItem1[2] == 1 ? '<span class="hd">HD</span> ' : '') + listItem1[0] + '</li>';
 					});
 					
 					$("#gitHubVideoList ul").html(inner);
