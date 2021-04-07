@@ -252,6 +252,7 @@
 		<br>
 		<video id="Vplayer">
 			<source id="VplayerSrc" type="video/mp4"/>
+			<source id="VplayerSrcM3U8" type="application/x-mpegURL">
 		</video>
 		<br>
 		<input id="Vposition" class="hideVisible" type="range" min="0" value="0" step="any"></input>
@@ -345,6 +346,17 @@
 						flvPlayer.load();//载入视频
 						flvPlayer.play();//播放视频，如果不想要自动播放，去掉本行
 					}
+				} else if($("#Vurl").val().indexOf(".m3u8") > -1){
+					var Vplayer = document.getElementById("Vplayer");
+					var VplayerSrcM3U8 = document.getElementById("VplayerSrcM3U8");
+					VplayerSrcM3U8.src = $("#Vurl").val();
+					Vplayer.load();
+					$("#pause").removeClass("redBtn");
+					$("#play").removeClass("greenBtn");
+					$("#Vplayer").css("background-color","#333");
+					$("#Vduration").val("");
+					$("#VplayBackRate").val("");
+					clearInterval(videoTimer);
 				} else {
 					var Vplayer = document.getElementById("Vplayer");
 					var VplayerSrc = document.getElementById("VplayerSrc");
