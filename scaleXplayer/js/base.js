@@ -18,7 +18,7 @@
             this.isAnimation = true;
             this.lineWidth = opts.borderWidth || 3;
             this.strokeStyle = opts.lineColor || 'red';
-            this.audio = new Audio(opts.audio || './js/tone.mp3');
+            //this.audio = new Audio(opts.audio || './js/tone.mp3');
             this.video = document.createElement('video');
             this.file = document.querySelector(opts.uploadId);
             this.cvsele = document.querySelector(opts.sweepId);
@@ -61,7 +61,7 @@
                         this.draw(loc.bottomRightCorner, loc.bottomLeftCorner);
                         this.draw(loc.bottomLeftCorner, loc.topLeftCorner);
                         if (this.result != obj.data) {
-                            this.audio.play();
+                            //this.audio.play();
                             this.cance();
                             this.seuccess(obj);
                         }
