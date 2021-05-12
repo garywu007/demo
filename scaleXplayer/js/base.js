@@ -51,6 +51,7 @@
                 this.cvsele.height = videoHeight;
                 this.canvas.drawImage(this.video, 0, 0, videoWidth, videoHeight);
                 try {
+                    alert("0");
                     const img = this.canvas.getImageData(0, 0, videoWidth, videoHeight);
                     alert("1");
                     document.querySelector('#imgurl').src = img;
