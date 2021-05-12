@@ -66,10 +66,10 @@
                             this.seuccess(obj);
                         }
                     } else {
-                        this.error("识别失败，请检查二维码是否正确！");
+                        this.error("识别失败，请检查二维码是否正确！1");
                     }
                 } catch (err) {
-                    this.error("识别失败，请检查二维码是否正确！", err);
+                    this.error("识别失败，请检查二维码是否正确！2", err);
                 };
             };
             if (this.isAnimation) {
@@ -138,7 +138,7 @@
                         this.audio.play();
                         this.seuccess(resolve);
                     } catch (err) {
-                        this.error("识别失败，请检查二维码是否正确！", err);
+                        this.error("识别失败，请检查二维码是否正确！3", err);
                     } finally {
                         console.info("读取到的文件：", res);
                     }
