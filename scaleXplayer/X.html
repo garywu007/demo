@@ -640,20 +640,20 @@
 		}
 		
 		const QrCode = new QrCodeRecognition({
-            sweepId: '#canvas', // 扫一扫
-            uploadId: '#file',  // 从相册选择
-            error: function (err) {
-                // 识别错误反馈
-                result.value = err;
-            },
-            seuccess: function (res) {
-                // 识别成功反馈
-                result.value = res.data;
-            }
-        });
+			sweepId: '#canvas', // 扫一扫
+			uploadId: '#file',  // 从相册选择
+			error: function (err) {
+			// 识别错误反馈
+			alert(err);
+			},
+			seuccess: function (res) {
+			// 识别成功反馈
+			alert(res.data);
+			}
+		});
 
-        function sweep() {
-            result.value = '';
+		function sweep() {
+			//result.value = '';
             QrCode.sweep();
         }
 	</script>
