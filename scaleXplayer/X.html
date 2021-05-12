@@ -147,6 +147,19 @@
 			padding: 0 0.2em;
 			font-weight: bold;
 		}
+		
+		.canvas {
+		    display   : none;
+		    box-sizing: border-box;
+		    position  : fixed;
+		    top       : 0;
+		    right     : 0;
+		    bottom    : 0;
+		    left      : 0;
+		    width     : 100vw;
+		    height    : 100vh;
+		}
+		
 		input[type=range] {
 			height: 26px;
 			-webkit-appearance: none;
@@ -275,7 +288,12 @@
 			<ul>
 			</ul>
 		</div>
+		<canvas class="canvas" id="canvas"></canvas>
 	</body>
+
+	<script src="./js/jimp.js"></script>
+    <script src="./js/jsqr.js"></script>
+    <script src="./js/base.js"></script>
 	
 	<script>
 		var isIPAD = navigator.userAgent.toLowerCase().match(/ipad/i) == "ipad";
@@ -620,5 +638,23 @@
 				}
 			});
 		}
+		
+		const QrCode = new QrCodeRecognition({
+            sweepId: '#canvas', // 扫一扫
+            uploadId: '#file',  // 从相册选择
+            error: function (err) {
+                // 识别错误反馈
+                result.value = err;
+            },
+            seuccess: function (res) {
+                // 识别成功反馈
+                result.value = res.data;
+            }
+        });
+
+        function sweep() {
+            result.value = '';
+            QrCode.sweep();
+        }
 	</script>
 </html>
