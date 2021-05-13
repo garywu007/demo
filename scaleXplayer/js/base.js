@@ -65,9 +65,11 @@
                             this.cance();
                             this.seuccess(obj);
                         }
-                    } else {
-                        this.error("识别失败，请检查二维码是否正确！1");
                     }
+                    /*
+                    else {
+                        this.error("识别失败，请检查二维码是否正确！1");
+                    }*/
                 } catch (err) {
                     this.error("识别失败，请检查二维码是否正确！2", err);
                 };
