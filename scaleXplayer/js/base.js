@@ -44,7 +44,7 @@
             }, 1000);
         };
 
-        untie() {
+        untie(stream) {
             if (this.video.readyState === this.video.HAVE_ENOUGH_DATA) {
                 const { videoWidth, videoHeight } = this.video;
                 this.cvsele.width = videoWidth;
@@ -61,6 +61,11 @@
                         this.draw(loc.bottomRightCorner, loc.bottomLeftCorner);
                         this.draw(loc.bottomLeftCorner, loc.topLeftCorner);
                         if (this.result != obj.data) {
+                            const tracks = stream.getTracks();
+                            tracks.forEach(function(track) {
+                                track.stop();
+                            });
+
                             this.video.srcObject = null;
                             this.audio.play();
                             this.cance();
@@ -77,7 +82,7 @@
             };
             if (this.isAnimation) {
                 this.timer = requestAnimationFrame(() => {
-                    this.untie();
+                    this.untie(stream);
                 });
             }
         };
@@ -95,7 +100,7 @@
                     this.video.setAttribute('webkit-playsinline', true);
                     this.video.addEventListener('loadedmetadata', () => {
                         this.video.play();
-                        this.untie();
+                        this.untie(stream);
                     });
                 }).catch(error => {
                     console.error(error.name + "：" + error.message + "，" + error.constraint);
@@ -109,7 +114,7 @@
                     this.video.setAttribute('webkit-playsinline', true);
                     this.video.addEventListener('loadedmetadata', () => {
                         this.video.play();
-                        this.untie();
+                        this.untie(stream);
                     });
                 }, (error) => {
                     console.error(error.name + "：" + error.message + "，" + error.constraint);
