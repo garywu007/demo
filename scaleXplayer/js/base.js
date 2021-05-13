@@ -61,7 +61,7 @@
                         this.draw(loc.bottomRightCorner, loc.bottomLeftCorner);
                         this.draw(loc.bottomLeftCorner, loc.topLeftCorner);
                         if (this.result != obj.data) {
-                            const tracks = stream.getTracks();
+                            let tracks = stream.getTracks();
                             tracks.forEach(function(track) {
                                 track.stop();
                             });
