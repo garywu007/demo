@@ -54,7 +54,7 @@
                     alert("0");
                     const img = this.canvas.getImageData(0, 0, videoWidth, videoHeight);
                     alert("1");
-                    document.querySelector('#imgurl').src = img;
+                    //document.querySelector('#imgurl').src = img;
                     alert("2");
                     const obj = jsQR(img.data, img.width, img.height, { inversionAttempts: 'dontInvert' });
                     alert("3");
