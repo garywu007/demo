@@ -563,6 +563,7 @@
 					//var jsonStr = JSON.stringify(result);
 					//var jsonObj = JSON.parse(jsonStr);
 
+					/* --qdownloader--
 					var parser = new DOMParser();
 					var htmlDoc = parser.parseFromString(result, 'text/html');
 					var centerTexts = htmlDoc.getElementsByClassName("downloadsTable")[0].getElementsByTagName("tbody")[0].getElementsByTagName("tr");
@@ -574,7 +575,9 @@
 							youtubeSrc = centerText.getElementsByTagName("a")[0].href;
 						}
 					});
+					*/
 					
+					var youtubeSrc = result;
 					if(youtubeSrc != ""){
 						var Vplayer = document.getElementById("Vplayer");
 						var VplayerSrc = document.getElementById("VplayerSrc");
