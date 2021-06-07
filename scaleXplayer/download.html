@@ -39,6 +39,7 @@
   }
   .channels {
     width: calc(100vw - 6em);
+    padding-top: 3.5em;
   }
   .channels div .section-headers {
     background-color: DarkOrange;
@@ -67,16 +68,12 @@
     background-color: DimGrey;
     height: 100vh;
   }
-
-  .btn-row {
-      margin-top: 0.2em;
-  }
   
   .container {
     width: calc(100vw - 6.1em);
     max-width: calc(100vw - 6.1em);
     overflow-x: auto;
-    height: 100vh;
+    height: calc(100vh - 3.5em);
   }
 
   .videoItem {
@@ -101,9 +98,11 @@
 
   .nav-div {
     width: 5.8em;
-    height: 100vh;
+    height: calc(100vh - 3.5em);
     overflow: scroll;
     color: white;
+    position: relative;
+    top: 3.5em;
   }
 
   .active {
@@ -115,6 +114,15 @@
 
 <div class="container-fluid">
   <div class="row">
+    <nav class="navbar fixed-top navbar-dark">
+      <div class="input-group input-group-sm">
+        <input type="text" id="fileSearchInput" class="form-control" placeholder="file name..." aria-label="file name" aria-describedby="goSearch">
+        <div class="input-group-append">
+          <button class="btn btn-dark" type="button" id="button-goSearch" onclick="searchFile()">Search</button>
+        </div>
+      </div>
+    </nav>
+
     <div class="nav-div">
         <ul class="list-group nav-ul">
         </ul>
@@ -131,9 +139,6 @@
 		</div>
 		
 	</div>
-	<!--<nav class="navbar fixed-top navbar-dark bg-dark">
-		
-	</nav>-->
 	
 </body>
 <script>
@@ -241,6 +246,27 @@ function showSelected(e, keyword) {
             }
         });
     }
+    
+    $(".container").html(inner);
+}
+
+function searchFile() {
+    var keyword = $("#fileSearchInput").val();
+    $(".nav-link").removeClass("active");
+
+    var inner = "";
+    Array.prototype.forEach.call(videoList, function(listItem1) {
+        if(listItem1[0].split(".").join("").toLowerCase().startsWith(keyword.split(".").join("").toLowerCase()) ||
+           listItem1[0].split(".").join("").toLowerCase().startsWith(keyword.split(" ").join("").toLowerCase())){
+            inner += '<div class="row btn-row">' + 
+                    '<div class="btn-group mr-2" role="group" aria-label="First group">' +
+                    '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
+                    '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
+                    '</button>' +
+                    '<button type="button" class="btn btn-danger">DEL</button>' +
+                    '</div></div>';
+        }
+    });
     
     $(".container").html(inner);
 }
