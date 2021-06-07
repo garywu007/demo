@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<head>
+  <title>video list</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="apple-touch-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwYGyCDB09PrpVvHdusTOATkOJ1Ie25MA1hvbgsacARtqv_-Yt">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<style>
+  body {
+    position: relative;
+  }
+  ul.nav-pills {
+    top: 20px;
+    position: fixed;
+  }
+  .navList {
+    width: 3em;
+  }
+  .navList ul .nav-item .nav-link {
+    color: white;
+  }
+  .navList ul .nav-item .active {
+    border-radius: 0px;
+    background-color: DarkOrange;
+    color: white;
+  }
+  .nav-item {
+    max-width: 5.9em;
+    overflow: hidden;
+    overflow-wrap: break-word;
+  }
+  .row {
+    padding: 0em 0em;
+    background-color: DimGrey;
+  }
+  .channels {
+    margin: 0em 0em 0em 6em;
+    width: 100%;
+    padding-bottom: 75px;
+  }
+  .channels div .section-headers {
+    background-color: DarkOrange;
+    color: white;
+    height: 15px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .channelCard {
+    padding: 2px;
+  }
+  .card .imgDiv {
+    width: 100%;
+    text-align: center;
+    overflow-y: hidden;
+  }
+  .card .imgDiv img {
+    width: 100%;
+  }
+  .card-footer {
+    padding: 0px;
+    text-align: center;
+  }
+
+  .container-fluid {
+    background-color: DimGrey;
+    height: 100vh;
+  }
+
+  .btn-row {
+      margin-top: 0.2em;
+  }
+  
+  .container {
+    width: calc(100vw - 6em);
+    max-width: calc(100vw - 6em);
+    overflow-x: auto;
+    height: calc(100vh - 1em);
+  }
+
+  .videoItem {
+    width: calc(100vw - 9.5em);
+    overflow: hidden;
+    text-align: left;
+  }
+
+  a:hover {
+      color: white;
+      text-decoration: none;
+  }
+
+  a {
+      color: white;
+      text-decoration: none;
+  }
+
+  .HDVideo {
+    background: linear-gradient(to right, PaleGreen, PaleGreen 0.2em, #6C757D 0.5em);
+  }
+</style>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
+
+<div class="container-fluid">
+  <div class="row">
+    <nav class="navList" id="myScrollspy">
+      <ul class="nav nav-pills flex-column nav-ul">
+      </ul>
+    </nav>
+    <div class="channels">
+		<div id="section1" class="section">    
+			<div class="section1-header section-headers">C5</div>
+			<div class="container">
+				<div class="row btn-row">
+					<div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-secondary videoItem">Loading ...</button>
+                      </div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	<nav class="navbar fixed-top navbar-dark bg-dark">
+		
+	</nav>
+	
+</body>
+<script>
+getGithub();
+initShortcut();
+var videoList = {};
+function getGithub() {
+    $.ajax({
+        type: 'post',
+        crossDomain: true,
+        dataType : "json",
+        jsonp : 'callback',
+        jsonpCallback: 'handleResponse',
+        url: 'https://py-toolbox.herokuapp.com/hubData',
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Accept':"*/*"
+        },
+        success: function(response){
+            var jsonStr = JSON.stringify(response);
+            var jsonObj = JSON.parse(jsonStr);
+            
+            inner = "";
+            var list = [];
+            var listItem = [];
+            
+            for(var i in jsonObj) {
+                listItem = [];
+                listItem.push(jsonObj[i]["name"]);
+                listItem.push(jsonObj[i]["url"]);
+                listItem.push(jsonObj[i]["hd"]);
+                list.push(listItem);
+            }
+            
+            list.sort();
+            videoList = list;
+            
+            Array.prototype.forEach.call(list, function(listItem1) {
+                inner += '<div class="row btn-row">' + 
+					     '<div class="btn-group mr-2" role="group" aria-label="First group">' +
+                         '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
+                         '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
+                         '</button>' +
+                         '<button type="button" class="btn btn-danger">DEL</button>' +
+                         '</div></div>';
+            });
+            
+            $(".container").html(inner);
+            
+        },
+        error: function(response){
+            console.log("error");	
+        }
+    });
+}
+
+function initShortcut() {
+    var inner = "";
+    var short = [
+                'ALL',
+                'How.It.s.Made.Dream.Cars',
+                'How.It.s.Made.Supercar',
+                'Combat.Approved',
+                'The.House.The.50s.Built',
+                'Modern.Marvels',
+                'Secrets.Of.War',
+                'Huge.Moves',
+                '20th.Century.Battlefields',
+                'The.Hotel'
+                ];
+    
+    Array.prototype.forEach.call(short, function(shortItem) {
+        inner += '<li class="nav-item">' +
+                 '<a class="nav-link' + (shortItem == 'ALL' ? ' active' : '') + '" onclick="showSelected(this, \'' + shortItem + '\')">' + shortItem + '</a>' + 
+                 '</li>';
+    });
+
+    $(".nav-ul").html(inner);
+}
+
+function showSelected(e, keyword) {
+    $(".nav-link").removeClass("active");
+    e.classList.add("active");
+
+    var inner = "";
+    if('ALL' == keyword) {
+        Array.prototype.forEach.call(videoList, function(listItem1) {
+            inner += '<div class="row btn-row">' + 
+                        '<div class="btn-group mr-2" role="group" aria-label="First group">' +
+                        '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
+                        '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
+                        '</button>' +
+                        '<button type="button" class="btn btn-danger">DEL</button>' +
+                        '</div></div>';
+        });
+    } else {
+        Array.prototype.forEach.call(videoList, function(listItem1) {
+            if(listItem1[0].split(".").join("").startsWith(keyword.split(".").join(""))){
+                inner += '<div class="row btn-row">' + 
+                        '<div class="btn-group mr-2" role="group" aria-label="First group">' +
+                        '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
+                        '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
+                        '</button>' +
+                        '<button type="button" class="btn btn-danger">DEL</button>' +
+                        '</div></div>';
+            }
+        });
+    }
+    
+    $(".container").html(inner);
+}
+</script>
+</html>
