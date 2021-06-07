@@ -38,9 +38,7 @@
     background-color: DimGrey;
   }
   .channels {
-    margin: 0em 0em 0em 6em;
-    width: 100%;
-    padding-bottom: 75px;
+    width: calc(100vw - 6em);
   }
   .channels div .section-headers {
     background-color: DarkOrange;
@@ -75,10 +73,10 @@
   }
   
   .container {
-    width: calc(100vw - 6em);
-    max-width: calc(100vw - 6em);
+    width: calc(100vw - 6.1em);
+    max-width: calc(100vw - 6.1em);
     overflow-x: auto;
-    height: calc(100vh - 1em);
+    height: 100vh;
   }
 
   .videoItem {
@@ -100,37 +98,46 @@
   .HDVideo {
     background: linear-gradient(to right, PaleGreen, PaleGreen 0.2em, #6C757D 0.5em);
   }
+
+  .nav-div {
+    width: 5.8em;
+    height: 100vh;
+    overflow: scroll;
+    color: white;
+  }
+
+  .active {
+    background: linear-gradient(to left, gold, gold 0.2em, DarkOrange 0.5em);;
+  }
 </style>
 </head>
 <body data-spy="scroll" data-target="#myScrollspy" data-offset="1">
 
 <div class="container-fluid">
   <div class="row">
-    <nav class="navList" id="myScrollspy">
-      <ul class="nav nav-pills flex-column nav-ul">
-      </ul>
-    </nav>
+    <div class="nav-div">
+        <ul class="list-group nav-ul">
+        </ul>
+    </div>
     <div class="channels">
 		<div id="section1" class="section">    
-			<div class="section1-header section-headers">C5</div>
 			<div class="container">
 				<div class="row btn-row">
 					<div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-secondary videoItem">Loading ...</button>
-                      </div>
+            <button type="button" class="btn btn-secondary videoItem">Loading ...</button>
+          </div>
 				</div>
 			</div>
 		</div>
 		
 	</div>
-	<nav class="navbar fixed-top navbar-dark bg-dark">
+	<!--<nav class="navbar fixed-top navbar-dark bg-dark">
 		
-	</nav>
+	</nav>-->
 	
 </body>
 <script>
 getGithub();
-initShortcut();
 var videoList = {};
 function getGithub() {
     $.ajax({
@@ -174,7 +181,7 @@ function getGithub() {
             });
             
             $(".container").html(inner);
-            
+            initShortcut();
         },
         error: function(response){
             console.log("error");	
