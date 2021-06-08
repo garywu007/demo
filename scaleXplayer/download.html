@@ -181,12 +181,34 @@ function getGithub() {
                          '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
                          '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
                          '</button>' +
-                         '<button type="button" class="btn btn-danger">DEL</button>' +
+                         '<button type="button" class="btn btn-danger" onclick="delInRelease(\'' + listItem1[1] + '\')">DEL</button>' +
                          '</div></div>';
             });
             
             $(".container").html(inner);
             initShortcut();
+        },
+        error: function(response){
+            console.log("error");	
+        }
+    });
+}
+
+function delInRelease(url) {
+    $.ajax({
+        type: 'get',
+        crossDomain: true,
+        jsonp : 'callback',
+        jsonpCallback: 'handleResponse',
+        url: 'https://py-toolbox.herokuapp.com/delInRelease/' + encodeURIComponent(url),
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Accept':"*/*"
+        },
+        success: function(response){
+            if(1 == response) {
+              alert("OK");
+            }
         },
         error: function(response){
             console.log("error");	
@@ -230,7 +252,7 @@ function showSelected(e, keyword) {
                         '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
                         '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
                         '</button>' +
-                        '<button type="button" class="btn btn-danger">DEL</button>' +
+                        '<button type="button" class="btn btn-danger" onclick="delInRelease(\'' + listItem1[1] + '\')">DEL</button>' +
                         '</div></div>';
         });
     } else {
@@ -241,7 +263,7 @@ function showSelected(e, keyword) {
                         '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
                         '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
                         '</button>' +
-                        '<button type="button" class="btn btn-danger">DEL</button>' +
+                        '<button type="button" class="btn btn-danger" onclick="delInRelease(\'' + listItem1[1] + '\')">DEL</button>' +
                         '</div></div>';
             }
         });
@@ -263,7 +285,7 @@ function searchFile() {
                     '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
                     '<a href="' + listItem1[1] + '" download>' + listItem1[0] + '</a>' + 
                     '</button>' +
-                    '<button type="button" class="btn btn-danger">DEL</button>' +
+                    '<button type="button" class="btn btn-danger" onclick="delInRelease(\'' + listItem1[1] + '\')">DEL</button>' +
                     '</div></div>';
         }
     });
