@@ -224,12 +224,13 @@ function initShortcut() {
                 'How.It.s.Made.Supercar',
                 'Combat.Approved',
 	    	'Cosmic.Vistas',
-                'The.House.The.50s.Built',
+	    	'Giant.Hubs',
+                'Huge.Moves',
                 'Modern.Marvels',
                 'Secrets.Of.War',
-                'Huge.Moves',
-                '20th.Century.Battlefields',
-                'The.Hotel'
+                'The.Hotel',
+                'The.House.The.50s.Built',
+                '20th.Century.Battlefields'
                 ];
     
     Array.prototype.forEach.call(short, function(shortItem) {
@@ -258,7 +259,7 @@ function showSelected(e, keyword) {
         });
     } else {
         Array.prototype.forEach.call(videoList, function(listItem1) {
-            if(listItem1[0].split(".").join("").startsWith(keyword.split(".").join(""))){
+            if(listItem1[0].split(".").join("").toLowerCase().startsWith(keyword.split(".").join("").toLowerCase())){
                 inner += '<div class="row btn-row">' + 
                         '<div class="btn-group mr-2" role="group" aria-label="First group">' +
                         '<button type="button" class="btn btn-secondary videoItem' + (listItem1[2] == 1 ? ' HDVideo' : '') + '">' + 
