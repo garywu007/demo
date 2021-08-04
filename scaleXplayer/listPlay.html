@@ -61,7 +61,7 @@
 		#list {
 			width:100%;
 			height: calc(100vh - 100px);
-			overflow-y: scroll;
+			overflow-y: auto;
 		}
 		
 		#listBtnGroup {
@@ -91,7 +91,7 @@
 			width: 80px;
 			height: 80px;
 			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
-			background-image: linear-gradient(to bottom, #eb94d0, #2079b0);
+			background-image: linear-gradient(to bottom, #4a005d, #57348e);
 			border-radius: 40px;
 			text-align:center;
 		}
@@ -99,9 +99,10 @@
 		.btnCommon img {
 			width: 60px;
 			padding-top: 10px;
+			opacity: 0.5;
 		}
 		
-		#pauseBtn {
+		#pauseBtn, #tickBtn {
 			display: none;
 		}
 		
@@ -117,7 +118,7 @@
 			background-image: linear-gradient(to bottom, #555, #333);
 			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 			border-radius: 1rem;
-			color: gold;
+			color: #b19a21;
 			text-align: center;
             font-family: UnidreamLED;
 		}
@@ -142,7 +143,7 @@
 			background-image: linear-gradient(to bottom, #555, #333);
 			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
 			border-radius: 1rem;
-			color: gold;
+			color: #b19a21;
 			text-align: center;
             font-family: UnidreamLED;
 			font-size: 2rem;
@@ -190,60 +191,6 @@
 					<div class="videoInfo">
 						【VIDEO title 2】
 					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
 					
 				</div>
 				<div id="listBtnGroup">
@@ -253,8 +200,11 @@
 					<div id="importBtn" class="btnCommon">
 						<img src="./icon/import.svg"/>
 					</div>
-					<div id="removeBtn" class="btnCommon" onclick="location.reload()">
+					<div id="removeBtn" class="btnCommon">
 						<img src="./icon/remove.svg"/>
+					</div>
+					<div id="tickBtn" class="btnCommon">
+						<img src="./icon/tick.svg"/>
 					</div>
 				</div>
 			</div>
