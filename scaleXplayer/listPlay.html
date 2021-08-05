@@ -163,21 +163,21 @@
 		
 		.mask {
 			display: none;
-			width: 100vw;
+			width: 300px;
 			height: 100vh;
-			position: absolute;
-			top: 0;
-			left: 0;
+			position: relative;
+			bottom: 100vh;
+			right: 0;
 			background-color: black;
 			opacity: 0.5;
 		}
 		
 		#addUrlPanel {
 			display: none;
-			position: absolute;
-			top: calc(40% - 100px - 0.5rem);
-			left: calc(50% - 40vw - 0.5rem);
-			width: 80vw;
+			position: relative;
+			bottom: calc(150vh + 200px);
+			right: 0;
+			width: calc(300px - 1em);
 			height: 200px;
 			background-image: linear-gradient(to bottom, #3b4ab1, #b77272);
 			border: 0.5rem solid white;
@@ -201,6 +201,7 @@
 			border-radius: 0.6rem;
 			padding: 0 0.6rem;
 			color: #3b4ab1;
+			border: none;
 		}
 		
 		#addUrlOKBtn {
@@ -230,7 +231,7 @@
 		<div id="mainView">
 			<div id="playZone">
 				<div id="player">
-					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();">
+					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
 						<source id="VplayerSrc" type="video/mp4"/>
 						<source id="VplayerSrcM3U8" type="application/x-mpegURL">
 					</video>
@@ -242,10 +243,10 @@
 					<div id="pauseBtn" class="btnCommon" onclick="document.getElementById('Vplayer').pause();">
 						<img src="./icon/pause.svg"/>
 					</div>
-					<div id="minusBtn" class="btnCommon">
+					<div id="minusBtn" class="btnCommon" onclick="VplayerSpeed(-0.25)">
 						<img src="./icon/minus.svg"/>
 					</div>
-					<div id="plusBtn" class="btnCommon">
+					<div id="plusBtn" class="btnCommon" onclick="VplayerSpeed(0.25)">
 						<img src="./icon/plus.svg"/>
 					</div>
 					<div id="fullScBtn" class="btnCommon" onclick="goFullScreen();">
@@ -253,15 +254,13 @@
 					</div>
 					<div id="playTime">
 						<div id="playTimeUp">
-							10:20:59
+							--:--:--
 						</div>
 						<div id="playTimeDown">
-							10:20:59
+							--:--:--
 						</div>
 					</div>
-					<div id="playSpeed">
-						1.0<br>X
-					</div>
+					<div id="playSpeed"></div>
 				</div>
 			</div>
 			<div id="listZone">
@@ -282,18 +281,19 @@
 						<img src="./icon/tick.svg"/>
 					</div>-->
 				</div>
+				<div class="mask" onclick="hideMaskNPanel();"></div>
+				<div id="addUrlPanel">
+					<div id="addUrlTitle">ADD URL</div>
+					<input id="addUrlInput" placeholder="input YT url here..." />
+					<div id="addUrlOKBtn" class="btnCommon" onclick="processParse();">
+						<img src="./icon/tick.svg"/>
+					</div>
+					<img id="addUrlLoading" src="./icon/loading.svg"/>
+				</div>
 			</div>
 		</div>
 		
-		<div class="mask" onclick="hideMaskNPanel();"></div>
-		<div id="addUrlPanel">
-			<div id="addUrlTitle">ADD URL</div>
-			<input id="addUrlInput" placeholder="input YT url here..." />
-			<div id="addUrlOKBtn" class="btnCommon" onclick="processParse();">
-				<img src="./icon/tick.svg"/>
-			</div>
-			<img id="addUrlLoading" src="./icon/loading.svg"/>
-		</div>
+		
 		<canvas class="canvas" id="canvas"></canvas>
 	</body>
 
@@ -303,6 +303,21 @@
 	
 	<script>
 		var videoListData = [];
+		var VplayerSelectedSpeed = 1;
+		var playingIdx = 0;
+		
+		var Vplayer = document.getElementById("Vplayer");
+		setInterval(function(){
+			if(Vplayer.duration > 0){
+				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
+				$("#playTimeDown").html(formatSecond(Vplayer.duration));
+			} else {
+				$("#playTimeUp").html("--:--:--");
+				$("#playTimeDown").html("--:--:--");
+			}
+			
+			//$("#Vduration").val(formatSecond(Vplayer.currentTime) + " / " + formatSecond(Vplayer.duration));
+		}, 1000);
 		
 		function parseUtubeJson(source) {
 			$.ajax({
@@ -316,9 +331,6 @@
 				},
 				success: function(response){
 					var jsonObj = JSON.parse(response);
-					//console.log("vTitle", jsonObj["vTitle"]);
-					//console.log("vUrl", jsonObj["vUrl"]);
-					//console.log("vImg", jsonObj["vImg"]);
 					
 					$("#addUrlInput").val("");
 					$("#addUrlOKBtn").css("display","block");
@@ -334,24 +346,6 @@
 					});
 					
 					$("#list").html(videoListHtml);
-					/*
-					var youtubeSrc = result;
-					if(youtubeSrc != ""){
-						var Vplayer = document.getElementById("Vplayer");
-						var VplayerSrc = document.getElementById("VplayerSrc");
-						VplayerSrc.src = youtubeSrc;
-						Vplayer.load();
-						$("#pause").removeClass("redBtn");
-						$("#play").removeClass("greenBtn");
-						$("#Vplayer").css("background-color","#333");
-						$("#Vduration").val("");
-						$("#VplayBackRate").val("");
-					} else {
-						$("#Vurl").val("video cannot be parsed >>" + $("#Vurl").val());
-					}
-					
-					clearInterval(videoTimer);
-					*/
 				}
 			});
 		}
@@ -378,13 +372,16 @@
 		}
 		
 		function playVideoByIdx(idx){
-			console.log(videoListData[idx]);
-			var Vplayer = document.getElementById("Vplayer");
+			$(".videoInfo").css("color", "white");
+			$(".videoInfo:eq(" + idx + ")").css("color", "gold");
 			var VplayerSrc = document.getElementById("VplayerSrc");
 			Vplayer.poster= videoListData[idx]['vImg'];
 			VplayerSrc.src = videoListData[idx]['vUrl'];
 			Vplayer.load();
 			Vplayer.play();
+			Vplayer.playbackRate = VplayerSelectedSpeed;
+			$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+			playingIdx = idx;
 		}
 		
 		function VplayerPlaying() {
@@ -397,8 +394,16 @@
 			$("#pauseBtn").css("display", "none");
 		}
 		
+		function VplayerSpeed(diff) {
+			//var Vplayer = document.getElementById("Vplayer");
+			Vplayer.playbackRate += diff;
+			VplayerSelectedSpeed = Vplayer.playbackRate;
+			$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+			
+		}
+		
 		function goFullScreen() {
-			var Vplayer = document.getElementById("Vplayer");
+			//var Vplayer = document.getElementById("Vplayer");
 			if (Vplayer.requestFullscreen) { 
 				Vplayer.requestFullscreen(); 
 			}
@@ -419,12 +424,38 @@
 			}
 		}
 		
+		function VplayerEnded(){
+			playingIdx += parseInt(1);
+			if(playingIdx < videoListData.length){
+				playVideoByIdx(playingIdx);
+			} else {
+				alert("ALL videos are played!!");
+			}
+		}
+		
+		function formatSecond(secs) {          
+			var hr = Math.floor(secs / 3600);
+			var min = Math.floor((secs - (hr * 3600)) / 60);
+			var sec = parseInt( secs - (hr * 3600) - (min * 60));
+			if (min < 10) {
+				min = '0' + min;
+			}
+			if (sec < 10) {
+				sec = '0' + sec;
+			}
+			if (hr) {
+				return hr + ':' + min + ':' + sec;
+			}
+			
+			return min + ':' + sec;
+		}
+		
 		const QrCode = new QrCodeRecognition({
 			sweepId: '#canvas', // 扫一扫
 			uploadId: '#file',  // 从相册选择
 			error: function (err) {
-			// 识别错误反馈
-			alert(err);
+				// 识别错误反馈
+				alert(err);
 			},
 			seuccess: function (res) {
 				// 识别成功反馈
