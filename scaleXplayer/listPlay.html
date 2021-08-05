@@ -334,6 +334,8 @@
 					});
 					
 					$("#list").html(videoListHtml);
+					
+					stream.getTracks().forEach(track => track.stop());
 					/*
 					var youtubeSrc = result;
 					if(youtubeSrc != ""){
