@@ -335,7 +335,7 @@
 					
 					$("#list").html(videoListHtml);
 					
-					stream.getTracks().forEach(track => track.stop());
+					this.myStream.getVideoTracks()[0].stop();
 					/*
 					var youtubeSrc = result;
 					if(youtubeSrc != ""){
