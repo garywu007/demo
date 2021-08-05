@@ -342,7 +342,14 @@
 
 					var videoListHtml = '';
 					videoListData.forEach((item, idx) => {
-						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="background: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');">' + item['vTitle'] + '</div>';
+						var style1 = 'background: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+						var style2 = 'background: -webkit-gradient(linear, left top, left bottom, rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+						var style3 = 'background: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+						
+						 /* Chrome,Safari4+ */
+						 /* Chrome10+,Safari5.1+ */
+
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + style3 + '">' + item['vTitle'] + '</div>';
 					});
 					
 					$("#list").html(videoListHtml);
