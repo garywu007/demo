@@ -7,7 +7,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="video-icon.ico" rel="external nofollow" /> 
 		<title>Play in List</title> 
 		<script src="jquery-3.1.1.min.js"></script>
-		<script src="flv.min.js"></script>
+		<!--<script src="flv.min.js"></script>-->
 	</head>
 	<style>
 		@font-face {
@@ -75,7 +75,7 @@
 			height: 3.7rem;
 			margin: 5px;
 			border-radius: 5px;
-			background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA');
+			//background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8) ), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA');
 			color: white;
 			overflow: hidden;
 			word-break: break-word;
@@ -148,17 +148,86 @@
             font-family: UnidreamLED;
 			font-size: 2rem;
 		}
+		
+		.mask {
+			display: none;
+			width: 100vw;
+			height: 100vh;
+			position: absolute;
+			top: 0;
+			left: 0;
+			background-color: black;
+			opacity: 0.5;
+		}
+		
+		#addUrlPanel {
+			display: none;
+			position: absolute;
+			top: calc(40% - 100px - 0.5rem);
+			left: calc(50% - 40vw - 0.5rem);
+			width: 80vw;
+			height: 200px;
+			background-image: linear-gradient(to bottom, #3b4ab1, #b77272);
+			border: 0.5rem solid white;
+			border-radius: 3rem;
+			text-align: center;
+		}
+		
+		#addUrlTitle {
+			width: 100%;
+			color: white;
+			text-align: center;
+            font-family: UnidreamLED;
+			font-size: 3rem;
+		}
+		
+		#addUrlInput {
+			width: 90%;
+			height: 2.5rem;
+			line-height: 2.5rem;
+			font-size: 1.5rem;
+			border-radius: 0.6rem;
+			padding: 0 0.6rem;
+			color: #3b4ab1;
+		}
+		
+		#addUrlOKBtn {
+			float: unset;
+			position: relative;
+			left: calc(50% - 40px);
+			margin-top: 1em;
+		}
+		
+		#addUrlLoading {
+			display: none;
+			width: 80px;
+			height: 80px;
+			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+			position: relative;
+			left: calc(50% - 40px);
+			margin-top: 1em;
+			
+		}
+		
+		#Vplayer {
+			width: 100%;
+			height: 100%;
+		}
 	</style>
 	<body>
 		<div id="mainView">
 			<div id="playZone">
 				<div id="player">
+					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();">
+						<source id="VplayerSrc" type="video/mp4"/>
+						<source id="VplayerSrcM3U8" type="application/x-mpegURL">
+					</video>
 				</div>
 				<div id="controller">
-					<div id="playBtn" class="btnCommon">
+					<div id="playBtn" class="btnCommon" onclick="document.getElementById('Vplayer').play();">
 						<img src="./icon/play.svg"/>
 					</div>
-					<div id="pauseBtn" class="btnCommon">
+					<div id="pauseBtn" class="btnCommon" onclick="document.getElementById('Vplayer').pause();">
 						<img src="./icon/pause.svg"/>
 					</div>
 					<div id="minusBtn" class="btnCommon">
@@ -167,7 +236,7 @@
 					<div id="plusBtn" class="btnCommon">
 						<img src="./icon/plus.svg"/>
 					</div>
-					<div id="fullScBtn" class="btnCommon">
+					<div id="fullScBtn" class="btnCommon" onclick="goFullScreen();">
 						<img src="./icon/fullScreen.svg"/>
 					</div>
 					<div id="playTime">
@@ -179,35 +248,39 @@
 						</div>
 					</div>
 					<div id="playSpeed">
-						2.25<br>X
+						1.0<br>X
 					</div>
 				</div>
 			</div>
 			<div id="listZone">
 				<div id="list">
-					<div class="videoInfo">
-						【VIDEO title 1】
-					</div>
-					<div class="videoInfo">
-						【VIDEO title 2】
-					</div>
-					
 				</div>
 				<div id="listBtnGroup">
-					<div id="QRBtn" class="btnCommon">
+					<div id="QRBtn" class="btnCommon" onclick="sweep();">
 						<img src="./icon/qrCode.svg"/>
 					</div>
-					<div id="importBtn" class="btnCommon">
+					<div id="importBtn" class="btnCommon" onclick="addUrlPanelShow();">
 						<img src="./icon/import.svg"/>
 					</div>
-					<div id="removeBtn" class="btnCommon">
+					<div id="removeBtn" class="btnCommon" onclick="location.reload();">
 						<img src="./icon/remove.svg"/>
 					</div>
+					<!--
 					<div id="tickBtn" class="btnCommon">
 						<img src="./icon/tick.svg"/>
-					</div>
+					</div>-->
 				</div>
 			</div>
+		</div>
+		
+		<div class="mask" onclick="hideMaskNPanel();"></div>
+		<div id="addUrlPanel">
+			<div id="addUrlTitle">ADD URL</div>
+			<input id="addUrlInput" placeholder="input YT url here..." />
+			<div id="addUrlOKBtn" class="btnCommon" onclick="processParse();">
+				<img src="./icon/tick.svg"/>
+			</div>
+			<img id="addUrlLoading" src="./icon/loading.svg"/>
 		</div>
 		
 	</body>
@@ -217,7 +290,122 @@
     <script src="./js/base.js"></script>
 	
 	<script>
+		var videoListData = [];
 		
+		function parseUtubeJson(source) {
+			$.ajax({
+				type: 'get',
+				crossDomain: true,
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://py-toolbox.herokuapp.com/parseTubeInfo/' + encodeURIComponent(source),
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: function(response){
+					var jsonObj = JSON.parse(response);
+					//console.log("vTitle", jsonObj["vTitle"]);
+					//console.log("vUrl", jsonObj["vUrl"]);
+					//console.log("vImg", jsonObj["vImg"]);
+					
+					$("#addUrlInput").val("");
+					$("#addUrlOKBtn").css("display","block");
+					$("#addUrlLoading").css("display","none");
+					$(".mask").css("display","none");
+					$("#addUrlPanel").css("display","none");
+					
+					videoListData.push(jsonObj);
+
+					var videoListHtml = '';
+					videoListData.forEach((item, idx) => {
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="background: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');">' + item['vTitle'] + '</div>';
+					});
+					
+					$("#list").html(videoListHtml);
+					/*
+					var youtubeSrc = result;
+					if(youtubeSrc != ""){
+						var Vplayer = document.getElementById("Vplayer");
+						var VplayerSrc = document.getElementById("VplayerSrc");
+						VplayerSrc.src = youtubeSrc;
+						Vplayer.load();
+						$("#pause").removeClass("redBtn");
+						$("#play").removeClass("greenBtn");
+						$("#Vplayer").css("background-color","#333");
+						$("#Vduration").val("");
+						$("#VplayBackRate").val("");
+					} else {
+						$("#Vurl").val("video cannot be parsed >>" + $("#Vurl").val());
+					}
+					
+					clearInterval(videoTimer);
+					*/
+				}
+			});
+		}
+		
+		function addUrlPanelShow() {
+			$(".mask").css("display","block");
+			$("#addUrlPanel").css("display","block");
+		}
+		
+		function processParse() {
+			ytUrl = $("#addUrlInput").val();
+			if("" != ytUrl && (ytUrl.indexOf("youtube.com") > -1 || ytUrl.indexOf("youtu.be") > -1)) {
+				$("#addUrlOKBtn").css("display","none");
+				$("#addUrlLoading").css("display","block");
+				parseUtubeJson(ytUrl);
+			} else {
+				alert("Please input valid url...\n# Youtube");
+			}
+		}
+		
+		function hideMaskNPanel() {
+			$(".mask").css("display","none");
+			$("#addUrlPanel").css("display","none");
+		}
+		
+		function playVideoByIdx(idx){
+			console.log(videoListData[idx]);
+			var Vplayer = document.getElementById("Vplayer");
+			var VplayerSrc = document.getElementById("VplayerSrc");
+			Vplayer.poster= videoListData[idx]['vImg'];
+			VplayerSrc.src = videoListData[idx]['vUrl'];
+			Vplayer.load();
+			Vplayer.play();
+		}
+		
+		function VplayerPlaying() {
+			$("#playBtn").css("display", "none");
+			$("#pauseBtn").css("display", "block");
+		}
+		
+		function VplayerPausing() {
+			$("#playBtn").css("display", "block");
+			$("#pauseBtn").css("display", "none");
+		}
+		
+		function goFullScreen() {
+			var Vplayer = document.getElementById("Vplayer");
+			if (Vplayer.requestFullscreen) { 
+				Vplayer.requestFullscreen(); 
+			}
+			//FireFox 
+			else if (Vplayer.mozRequestFullScreen) { 
+				Vplayer.mozRequestFullScreen(); 
+			}
+			//Chrome等 
+			else if (Vplayer.webkitRequestFullScreen) { 
+				Vplayer.webkitRequestFullScreen(); 
+			}
+			else if (Vplayer.webkitEnterFullscreen) { 
+				Vplayer.webkitEnterFullscreen(); 
+			}
+			//IE11
+			else if (Vplayer.msRequestFullscreen) {
+				Vplayer.msRequestFullscreen();
+			}
+		}
 		
 		const QrCode = new QrCodeRecognition({
 			sweepId: '#canvas', // 扫一扫
@@ -227,9 +415,15 @@
 			alert(err);
 			},
 			seuccess: function (res) {
-			// 识别成功反馈
-			$("#Vurl").val(res.data);
-			//alert(res.data);
+				// 识别成功反馈
+				ytUrl = res.data;
+				if("" != ytUrl && (ytUrl.indexOf("youtube.com") > -1 || ytUrl.indexOf("youtu.be") > -1)) {
+					$("#addUrlOKBtn").css("display","none");
+					$("#addUrlLoading").css("display","block");
+					parseUtubeJson(ytUrl);
+				} else {
+					alert("Please input valid url...\n# Youtube");
+				}
 			}
 		});
 
