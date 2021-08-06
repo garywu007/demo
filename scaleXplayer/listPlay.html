@@ -288,10 +288,10 @@
 					</div>
 					<div id="playTime">
 						<div id="playTimeUp">
-							--:--:--
+							\>.</
 						</div>
 						<div id="playTimeDown">
-							--:--:--
+							= =|||
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -342,29 +342,6 @@
     <script src="./js/base.js"></script>
 	
 	<script>
-		var sheetUser = getQueryVariable("sheet");
-		var videoListData = [];
-		var VplayerSelectedSpeed = 1;
-		var playingIdx = 0;
-		
-		var Vplayer = document.getElementById("Vplayer");
-		
-		if(sheetUser){
-			$("#cloudLoadBtn").css("display", "block");
-		}
-		
-		setInterval(function(){
-			if(Vplayer.duration > 0){
-				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
-				$("#playTimeDown").html(formatSecond(Vplayer.duration));
-			} else {
-				$("#playTimeUp").html("--:--:--");
-				$("#playTimeDown").html("--:--:--");
-			}
-			
-			//$("#Vduration").val(formatSecond(Vplayer.currentTime) + " / " + formatSecond(Vplayer.duration));
-		}, 1000);
-		
 		function parseUtubeJson(source) {
 			$.ajax({
 				type: 'get',
@@ -573,5 +550,26 @@
 			}
 			return(false);
 		}
+		
+		var sheetUser = getQueryVariable("sheet");
+		var videoListData = [];
+		var VplayerSelectedSpeed = 1;
+		var playingIdx = 0;
+		
+		var Vplayer = document.getElementById("Vplayer");
+		
+		if(sheetUser){
+			$("#cloudLoadBtn").css("display", "block");
+		}
+		
+		setInterval(function(){
+			if(Vplayer.duration > 0){
+				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
+				$("#playTimeDown").html(formatSecond(Vplayer.duration));
+			} else {
+				$("#playTimeUp").html("--:--:--");
+				$("#playTimeDown").html("--:--:--");
+			}
+		}, 1000);
 	</script>
 </html>
