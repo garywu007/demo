@@ -115,7 +115,17 @@
 			text-align:center;
 		}
 		
-		.btnCommon img {
+		.btnCommonRight {
+			float: right;
+			width: 80px;
+			height: 80px;
+			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+			background-image: linear-gradient(to bottom, #4a005d, #57348e);
+			border-radius: 40px;
+			text-align:center;
+		}
+		
+		.btnCommon img, .btnCommonRight img {
 			width: 60px;
 			padding-top: 10px;
 			opacity: 0.5;
@@ -247,6 +257,10 @@
 			width: 100%;
 			height: 100%;
 		}
+		
+		#cloudLoadBtn {
+			display: none;
+		}
 	</style>
 	<body>
 		<div id="mainView">
@@ -286,7 +300,12 @@
 			</div>
 			<div id="listZone">
 				<div id="list">
-					<div class="videoInfo" >this is a sample~~</div>
+					<div id="cloudLoadBtn" class="btnCommonRight" onclick="loadVideoListCloud();">
+						<img src="./icon/cloudLoad.svg"/>
+					</div>
+					<div id="restoreBtn" class="btnCommonRight" onclick="loadVideoListCache();">
+						<img src="./icon/restore.svg"/>
+					</div>
 				</div>
 				<div id="listBtnGroup">
 					<div id="QRBtn" class="btnCommon" onclick="sweep();">
@@ -295,7 +314,7 @@
 					<div id="importBtn" class="btnCommon" onclick="addUrlPanelShow();">
 						<img src="./icon/import.svg"/>
 					</div>
-					<div id="removeBtn" class="btnCommon" onclick="location.reload();">
+					<div id="removeBtn" class="btnCommon" onclick="localStorage.removeItem('videoListCache');location.reload();">
 						<img src="./icon/remove.svg"/>
 					</div>
 					<!--
@@ -330,6 +349,11 @@
 		var playingIdx = 0;
 		
 		var Vplayer = document.getElementById("Vplayer");
+		
+		if(sheetUser){
+			$("#cloudLoadBtn").css("display", "block");
+		}
+		
 		setInterval(function(){
 			if(Vplayer.duration > 0){
 				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
@@ -362,6 +386,7 @@
 					$("#addUrlPanel").css("display","none");
 					
 					videoListData.push(jsonObj);
+					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
 					var videoListHtml = '';
 					videoListData.forEach((item, idx) => {
@@ -477,6 +502,43 @@
 			}
 			
 			return min + ':' + sec;
+		}
+		
+		function loadVideoListCache() {
+			videoListData = JSON.parse(localStorage.getItem('videoListCache'));
+			if(videoListData != null) {
+				var videoListHtml = '';
+				videoListData.forEach((item, idx) => {
+					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+					var style2 = 'background-image: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+
+
+					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
+				});
+				
+				$("#list").html(videoListHtml);
+			} else {
+				alert("no video stored...");
+			}
+		}
+		
+		function loadVideoListCloud() {
+			$.ajax({
+				type: 'get',
+				crossDomain: true,
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://py-toolbox.herokuapp.com/you720/toBeDown/' + sheetUser,
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: function(response){
+					var ytUrls = response.split("-&&&-");
+					ytUrls.forEach((item) => {
+						parseUtubeJson(item)
+					});
+				}
+			});
 		}
 		
 		const QrCode = new QrCodeRecognition({
