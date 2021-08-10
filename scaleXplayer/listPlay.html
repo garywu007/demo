@@ -382,6 +382,7 @@
 					$(".mask").css("display","none");
 					$("#addUrlPanel").css("display","none");
 					
+					jsonObj['srcUrl'] = source;
 					videoListData.push(jsonObj);
 					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
@@ -423,16 +424,41 @@
 		}
 		
 		function playVideoByIdx(idx){
-			$(".videoInfo").css("color", "white");
-			$(".videoInfo:eq(" + idx + ")").css("color", "gold");
-			var VplayerSrc = document.getElementById("VplayerSrc");
-			Vplayer.poster= videoListData[idx]['vImg'];
-			VplayerSrc.src = videoListData[idx]['vUrl'];
-			Vplayer.load();
-			Vplayer.play();
-			Vplayer.playbackRate = VplayerSelectedSpeed;
-			$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
-			playingIdx = idx;
+			if(playingIdx == idx){
+				$.ajax({
+					type: 'get',
+					crossDomain: true,
+					jsonp : 'callback',
+					jsonpCallback: 'handleResponse',
+					url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+					headers: {
+						'Access-Control-Allow-Origin': '*'
+					},
+					success: function(response){
+						videoListData[idx]['vUrl'] = response;
+						
+						var VplayerSrc = document.getElementById("VplayerSrc");
+						Vplayer.poster= videoListData[idx]['vImg'];
+						VplayerSrc.src = videoListData[idx]['vUrl'];
+						Vplayer.load();
+						Vplayer.play();
+						Vplayer.playbackRate = VplayerSelectedSpeed;
+						$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+						playingIdx = idx;
+					}
+				});
+			} else {
+				$(".videoInfo").css("color", "white");
+				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
+				var VplayerSrc = document.getElementById("VplayerSrc");
+				Vplayer.poster= videoListData[idx]['vImg'];
+				VplayerSrc.src = videoListData[idx]['vUrl'];
+				Vplayer.load();
+				Vplayer.play();
+				Vplayer.playbackRate = VplayerSelectedSpeed;
+				$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+				playingIdx = idx;
+			}
 		}
 		
 		function VplayerPlaying() {
