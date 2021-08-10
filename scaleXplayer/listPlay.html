@@ -351,6 +351,7 @@
 		var videoListData = [];
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
+		var enableDelete = false;
 		
 		var Vplayer = document.getElementById("Vplayer");
 		
@@ -429,40 +430,56 @@
 		}
 		
 		function playVideoByIdx(idx){
-			if(playingIdx == idx){
-				$.ajax({
-					type: 'get',
-					crossDomain: true,
-					jsonp : 'callback',
-					jsonpCallback: 'handleResponse',
-					url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
-					headers: {
-						'Access-Control-Allow-Origin': '*'
-					},
-					success: function(response){
-						videoListData[idx]['vUrl'] = response;
-						
-						var VplayerSrc = document.getElementById("VplayerSrc");
-						Vplayer.poster= videoListData[idx]['vImg'];
-						VplayerSrc.src = videoListData[idx]['vUrl'];
-						Vplayer.load();
-						Vplayer.play();
-						Vplayer.playbackRate = VplayerSelectedSpeed;
-						$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
-						playingIdx = idx;
-					}
+			if(enableDelete){
+				videoListData.splice(idx,1);
+				var videoListHtml = '';
+				videoListData.forEach((item, idx) => {
+					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+					var style2 = 'background-image: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+
+					 /* Chrome,Safari4+ */
+					 /* Chrome10+,Safari5.1+ */
+
+					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
 				});
+
+				$("#list").html(videoListHtml);
 			} else {
-				$(".videoInfo").css("color", "white");
-				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
-				var VplayerSrc = document.getElementById("VplayerSrc");
-				Vplayer.poster= videoListData[idx]['vImg'];
-				VplayerSrc.src = videoListData[idx]['vUrl'];
-				Vplayer.load();
-				Vplayer.play();
-				Vplayer.playbackRate = VplayerSelectedSpeed;
-				$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
-				playingIdx = idx;
+				if(playingIdx == idx){
+					$.ajax({
+						type: 'get',
+						crossDomain: true,
+						jsonp : 'callback',
+						jsonpCallback: 'handleResponse',
+						url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+						headers: {
+							'Access-Control-Allow-Origin': '*'
+						},
+						success: function(response){
+							videoListData[idx]['vUrl'] = response;
+
+							var VplayerSrc = document.getElementById("VplayerSrc");
+							Vplayer.poster= videoListData[idx]['vImg'];
+							VplayerSrc.src = videoListData[idx]['vUrl'];
+							Vplayer.load();
+							Vplayer.play();
+							Vplayer.playbackRate = VplayerSelectedSpeed;
+							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+							playingIdx = idx;
+						}
+					});
+				} else {
+					$(".videoInfo").css("color", "white");
+					$(".videoInfo:eq(" + idx + ")").css("color", "gold");
+					var VplayerSrc = document.getElementById("VplayerSrc");
+					Vplayer.poster= videoListData[idx]['vImg'];
+					VplayerSrc.src = videoListData[idx]['vUrl'];
+					Vplayer.load();
+					Vplayer.play();
+					Vplayer.playbackRate = VplayerSelectedSpeed;
+					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+					playingIdx = idx;
+				}
 			}
 		}
 		
@@ -573,12 +590,14 @@
 			$("#removeBtn").css("display", "none");
 			$("#tickBtn").css("display", "block");
 			$("#list").addClass("redBg");
+			enableDelete = true;
 		}
 		
 		function disableDelete(){
 			$("#removeBtn").css("display", "block");
 			$("#tickBtn").css("display", "none");
 			$("#list").removeClass("redBg");
+			enableDelete = false;
 		}
 		
 		const QrCode = new QrCodeRecognition({
