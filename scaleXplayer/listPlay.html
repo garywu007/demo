@@ -351,7 +351,7 @@
 		var videoListData = [];
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
-		var enableDelete = false;
+		var deleteFlag = false;
 		
 		var Vplayer = document.getElementById("Vplayer");
 		
@@ -430,7 +430,7 @@
 		}
 		
 		function playVideoByIdx(idx){
-			if(enableDelete){
+			if(deleteFlag){
 				videoListData.splice(idx,1);
 				localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 				
@@ -592,14 +592,14 @@
 			$("#removeBtn").css("display", "none");
 			$("#tickBtn").css("display", "block");
 			$("#list").addClass("redBg");
-			enableDelete = true;
+			deleteFlag = true;
 		}
 		
 		function disableDelete(){
 			$("#removeBtn").css("display", "block");
 			$("#tickBtn").css("display", "none");
 			$("#list").removeClass("redBg");
-			enableDelete = false;
+			deleteFlag = false;
 		}
 		
 		const QrCode = new QrCodeRecognition({
