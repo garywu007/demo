@@ -553,7 +553,7 @@
 		
 		function loadVideoListCache() {
 			videoListData = JSON.parse(localStorage.getItem('videoListCache'));
-			if(videoListData != null) {
+			if(videoListData != null && videoListData.length > 0) {
 				var videoListHtml = '';
 				videoListData.forEach((item, idx) => {
 					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
