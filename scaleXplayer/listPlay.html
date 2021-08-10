@@ -432,6 +432,8 @@
 		function playVideoByIdx(idx){
 			if(enableDelete){
 				videoListData.splice(idx,1);
+				localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+				
 				var videoListHtml = '';
 				videoListData.forEach((item, idx) => {
 					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
