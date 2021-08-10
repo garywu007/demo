@@ -87,7 +87,6 @@
 			height: 3.7rem;
 			margin: 5px;
 			border-radius: 5px;
-			//background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8) ), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA');
 			background: #ffad26; /* Old browsers */
 			background: -moz-linear-gradient(top,  rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* FF3.6+ */
 			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0, 0, 0, 0.5)), color-stop(100%,rgba(0, 0, 0, 0.8))), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* Chrome,Safari4+ */
@@ -260,6 +259,13 @@
 		#cloudLoadBtn {
 			display: none;
 		}
+		
+		.redBg {
+			background: -webkit-linear-gradient(top,  rgba(192, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+			background: -o-linear-gradient(top,  rgba(192, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+			background: -ms-linear-gradient(top,  rgba(192, 0, 0, 0.5), rgba(0, 0, 0, 0.8));
+			background: linear-gradient( rgba(192, 0, 0, 0.5), rgba(0, 0, 0, 0.8) );
+		}
 	</style>
 	<body>
 		<div id="mainView">
@@ -313,13 +319,12 @@
 					<div id="importBtn" class="btnCommon" onclick="addUrlPanelShow();">
 						<img src="./icon/import.svg"/>
 					</div>
-					<div id="removeBtn" class="btnCommon" onclick="localStorage.removeItem('videoListCache');location.reload();">
+					<div id="removeBtn" class="btnCommon" onclick="enableDelete();">
 						<img src="./icon/remove.svg"/>
 					</div>
-					<!--
-					<div id="tickBtn" class="btnCommon">
+					<div id="tickBtn" class="btnCommon" onclick="disableDelete();">
 						<img src="./icon/tick.svg"/>
-					</div>-->
+					</div>
 				</div>
 				<div class="mask" onclick="hideMaskNPanel();"></div>
 				<div id="addUrlPanel">
@@ -562,6 +567,18 @@
 					});
 				}
 			});
+		}
+		
+		function enableDelete(){
+			$(".removeBtn").css("display", "none");
+			$(".tickBtn").css("display", "block");
+			$("#list").addClass("redBg");
+		}
+		
+		function disableDelete(){
+			$(".removeBtn").css("display", "block");
+			$(".tickBtn").css("display", "none");
+			$("#list").removeClass("redBg");
 		}
 		
 		const QrCode = new QrCodeRecognition({
