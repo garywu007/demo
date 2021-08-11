@@ -447,6 +447,8 @@
 
 				$("#list").html(videoListHtml);
 			} else {
+				$(".videoInfo").css("color", "white");
+				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
 				if(playingIdx == idx){
 					$.ajax({
 						type: 'get',
@@ -459,6 +461,7 @@
 						},
 						success: function(response){
 							videoListData[idx]['vUrl'] = response;
+							localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
 							var VplayerSrc = document.getElementById("VplayerSrc");
 							Vplayer.poster= videoListData[idx]['vImg'];
@@ -471,8 +474,6 @@
 						}
 					});
 				} else {
-					$(".videoInfo").css("color", "white");
-					$(".videoInfo:eq(" + idx + ")").css("color", "gold");
 					var VplayerSrc = document.getElementById("VplayerSrc");
 					Vplayer.poster= videoListData[idx]['vImg'];
 					VplayerSrc.src = videoListData[idx]['vUrl'];
