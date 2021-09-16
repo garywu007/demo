@@ -531,7 +531,15 @@
 			if(playingIdx < videoListData.length){
 				playVideoByIdx(playingIdx);
 			} else {
-				alert("ALL videos are played!!");
+				var func = 0;
+				if(Vplayer.webkitExitFullscreen){
+					Vplayer.webkitExitFullscreen();
+					func = 1;
+				} else if (Vplayer.webkitExitFullScreen){
+					Vplayer.webkitExitFullScreen();
+					func = 2;
+				}
+				alert("ALL videos are played!! " + func);
 			}
 		}
 		
