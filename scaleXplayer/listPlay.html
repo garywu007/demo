@@ -527,16 +527,18 @@
 		}
 		
 		function VplayerEnded(){
+			if(Vplayer.webkitExitFullscreen){
+				Vplayer.webkitExitFullscreen();
+			}
+				
 			playingIdx += parseInt(1);
 			if(playingIdx < videoListData.length){
 				playVideoByIdx(playingIdx);
-			} else {
-				if(Vplayer.webkitExitFullscreen){
-					Vplayer.webkitExitFullscreen();
+				if (Vplayer.webkitEnterFullscreen) { 
+					Vplayer.webkitEnterFullscreen(); 
 				}
-				
-				alertTimeout = setTimeout(function(){ alert("ALL videos are played!! ") }, 1000);
-				clearTimeout(alertTimeout);
+			} else {
+				//alert("ALL videos are played!! ");
 			}
 		}
 		
