@@ -539,7 +539,9 @@
 					Vplayer.webkitExitFullScreen();
 					func = 2;
 				}
-				alert("ALL videos are played!! " + func);
+				
+				alertTimeout = setTimeout(function(){ alert("ALL videos are played!! " + func) }, 1000);
+				clearTimeout(alertTimeout);
 			}
 		}
 		
