@@ -531,9 +531,9 @@
 				Vplayer.webkitExitFullscreen();
 			}
 				
-			playingIdx += parseInt(1);
-			if(playingIdx < videoListData.length){
-				playVideoByIdx(playingIdx);
+			var newIdx = playingIdx + parseInt(1);
+			if(newIdx < videoListData.length){
+				playVideoByIdx(newIdx);
 				/*if (Vplayer.webkitEnterFullscreen) { 
 					Vplayer.webkitEnterFullscreen(); 
 				}*/
