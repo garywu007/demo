@@ -352,7 +352,6 @@
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
 		var deleteFlag = false;
-		var fullScreenFlag = 0;
 		
 		var Vplayer = document.getElementById("Vplayer");
 		
@@ -370,13 +369,14 @@
 			}
 		}, 1000);
 		
+		/*
 		document.addEventListener("webkitfullscreenchange", function(){
 			if(document.webkitIsFullScreen){
 				fullScreenFlag = 1;
 			} else {
 				fullScreenFlag -= 1;
 			}
-		}, false);
+		}, false);*/
 		
 		function parseUtubeJson(source) {
 			$.ajax({
@@ -480,10 +480,6 @@
 							Vplayer.playbackRate = VplayerSelectedSpeed;
 							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 							playingIdx = idx;
-							console.log(fullScreenFlag, "playVideoByIdx2", idx);
-							if(fullScreenFlag > 0){
-								goFullScreen();
-							}
 						}
 					});
 				} else {
@@ -495,10 +491,6 @@
 					Vplayer.playbackRate = VplayerSelectedSpeed;
 					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 					playingIdx = idx;
-					console.log(fullScreenFlag, "playVideoByIdx1", idx);
-					if(fullScreenFlag > 0){
-						goFullScreen();
-					}
 				}
 			}
 		}
@@ -544,14 +536,10 @@
 		}
 		
 		function VplayerEnded(){
-			if(fullScreenFlag > 0){
-				fullScreenFlag += 1;
-			}
 			if(Vplayer.webkitExitFullscreen){
 				Vplayer.webkitExitFullscreen();
 			}
 				
-			//var addPlayingIdx += parseInt(1);
 			if((playingIdx - -1) < videoListData.length){
 				playVideoByIdx(playingIdx - -1);
 			} else {
