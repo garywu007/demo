@@ -370,12 +370,8 @@
 			}
 		}, 1000);
 		
-		document.addEventListener("fullscreenchange", function(){
-			if (!document.fullscreenElement){
-				console.log("close");
-			} else {
-				console.log("other");
-			}
+		document.addEventListener("webkitfullscreenchange", function(){
+			console.log(document.webkitIsFullScreen);
 		}, false);
 		
 		function parseUtubeJson(source) {
