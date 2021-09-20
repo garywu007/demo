@@ -544,7 +544,9 @@
 		}
 		
 		function VplayerEnded(){
-			fullScreenFlag += 1;
+			if(fullScreenFlag > 0){
+				fullScreenFlag += 1;
+			}
 			if(Vplayer.webkitExitFullscreen){
 				Vplayer.webkitExitFullscreen();
 			}
