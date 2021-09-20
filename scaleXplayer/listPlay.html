@@ -551,9 +551,9 @@
 				Vplayer.webkitExitFullscreen();
 			}
 				
-			playingIdx += parseInt(1);
-			if(playingIdx < videoListData.length){
-				playVideoByIdx(playingIdx);
+			var addPlayingIdx += parseInt(1);
+			if((playingIdx - -1) < videoListData.length){
+				playVideoByIdx(playingIdx - -1);
 			} else {
 				//alert("ALL videos are played!! ");
 			}
