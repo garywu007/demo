@@ -540,8 +540,8 @@
 				Vplayer.webkitExitFullscreen();
 			}
 				
-			if((playingIdx - -1) < videoListData.length){
-				playVideoByIdx(playingIdx - -1);
+			if((playingIdx + parseInt(1)) < videoListData.length){
+				playVideoByIdx(playingIdx + parseInt(1));
 			} else {
 				//alert("ALL videos are played!! ");
 			}
