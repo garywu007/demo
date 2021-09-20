@@ -369,15 +369,6 @@
 			}
 		}, 1000);
 		
-		/*
-		document.addEventListener("webkitfullscreenchange", function(){
-			if(document.webkitIsFullScreen){
-				fullScreenFlag = 1;
-			} else {
-				fullScreenFlag -= 1;
-			}
-		}, false);*/
-		
 		function parseUtubeJson(source) {
 			$.ajax({
 				type: 'get',
@@ -540,8 +531,12 @@
 				Vplayer.webkitExitFullscreen();
 			}
 				
-			if((playingIdx + parseInt(1)) < videoListData.length){
-				playVideoByIdx(playingIdx + parseInt(1));
+			playingIdx += parseInt(1);
+			if(playingIdx < videoListData.length){
+				playVideoByIdx(playingIdx);
+				/*if (Vplayer.webkitEnterFullscreen) { 
+					Vplayer.webkitEnterFullscreen(); 
+				}*/
 			} else {
 				//alert("ALL videos are played!! ");
 			}
