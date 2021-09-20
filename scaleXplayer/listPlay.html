@@ -491,6 +491,7 @@
 					Vplayer.playbackRate = VplayerSelectedSpeed;
 					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 					playingIdx = idx;
+					console.log(fullScreenFlag, "playVideoByIdx");
 					if(fullScreenFlag > 0){
 						goFullScreen();
 					}
