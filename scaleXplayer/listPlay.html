@@ -352,6 +352,7 @@
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
 		var deleteFlag = false;
+		var fullScreenFlag = 0;
 		
 		var Vplayer = document.getElementById("Vplayer");
 		
@@ -368,6 +369,14 @@
 				$("#playTimeDown").html("--:--:--");
 			}
 		}, 1000);
+		
+		document.addEventListener("fullscreenchange", function(){
+			if (!document.fullscreenElement){
+				console.log("close");
+			} else {
+				console.log("other");
+			}
+		}, false);
 		
 		function parseUtubeJson(source) {
 			$.ajax({
@@ -524,6 +533,8 @@
 			else if (Vplayer.msRequestFullscreen) {
 				Vplayer.msRequestFullscreen();
 			}
+			
+			fullScreenFlag = 1;
 		}
 		
 		function VplayerEnded(){
