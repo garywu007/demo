@@ -480,6 +480,9 @@
 							Vplayer.playbackRate = VplayerSelectedSpeed;
 							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 							playingIdx = idx;
+							if(fullScreenFlag > 0){
+								goFullScreen();
+							}
 						}
 					});
 				} else {
