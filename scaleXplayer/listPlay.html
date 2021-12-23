@@ -404,6 +404,9 @@
 					});
 					
 					$("#list").html(videoListHtml);
+					
+					var listDiv = document.getElementById("list");
+					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
 		}
