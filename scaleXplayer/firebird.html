@@ -1,0 +1,206 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />  
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+  		<meta name="apple-mobile-web-app-capable" content="yes">
+		<link rel="apple-touch-icon" href="video-icon.png">
+		<link rel="shortcut icon" type="image/x-icon" href="video-icon.ico" rel="external nofollow" />
+		<title>凤凰点播</title> 
+		<script src="https://garywu007.github.io/demo/scaleXplayer/jquery-3.1.1.min.js"></script>
+	</head>
+	<style>
+		
+		body {
+			background-color: black;
+			margin: 0;
+		}
+		
+		#listZone {
+			float:left;
+			width:100vw;
+			height:100vh;
+			background-image: linear-gradient(to top, #333, #111 100px);
+		}
+		
+		#list {
+			width:100%;
+			height: calc(100vh - 100px);
+			overflow-y: auto;
+		}
+		
+		#listBtnGroup {
+			width: fit-content;
+			height: 100px;
+			text-align: center;
+			margin: 0 auto;
+		}
+		
+		.videoInfo {
+			height: auto;
+			margin: 5px 5px 15px 5px;
+			border-radius: 5px;
+			background-image: linear-gradient(to bottom, #4a005d, #57348e);
+			color: white;
+			overflow: hidden;
+			word-break: break-word;
+			padding: 0.5rem;
+			line-height: 1.4rem;
+            position: relative;
+		}
+
+        .videoInfo .title {
+            margin-right: 4rem;
+        }
+
+        .videoInfo .pubDate {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0 0.5rem;
+            border-top-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+            background-color: black;
+            color: lawngreen;
+            font-weight: bold;
+            font-size: 1.2rem;
+
+        }
+
+        .videoInfo .duration {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: 0 0.5rem;
+            border-top-left-radius: 5px;
+            border-bottom-right-radius: 5px;
+            background-color: black;
+            color: cyan;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+		
+		.btnCommon {
+			float: left;
+			width: 80px;
+			height: 80px;
+			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+			background-image: linear-gradient(to bottom, #4a005d, #57348e);
+			border-radius: 40px;
+			text-align:center;
+		}
+		
+		.btnCommonRight {
+			float: right;
+			width: 80px;
+			height: 80px;
+			margin: 0.5rem 0.5rem 0.5rem 0.5rem;
+			background-image: linear-gradient(to bottom, #4a005d, #57348e);
+			border-radius: 40px;
+			text-align:center;
+		}
+		
+		.btnCommon img, .btnCommonRight img {
+			width: 60px;
+			padding-top: 10px;
+			opacity: 0.5;
+		}
+		
+		#pauseBtn{
+			display: none;
+		}
+	</style>
+	<body>
+        <div id="listZone">
+            <div id="list"></div>
+            <div id="listBtnGroup">
+                <audio id="audioPlayer" style="display: none;" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
+                    <source id="audioSrc" src="" type="audio/mp3"/>
+                </audio>
+                <div id="playBtn" class="btnCommon" onclick="document.getElementById('audioPlayer').play();">
+                    <img src="./icon/play.svg"/>
+                </div>
+                <div id="pauseBtn" class="btnCommon" onclick="document.getElementById('audioPlayer').pause();">
+                    <img src="./icon/pause.svg"/>
+                </div>
+            </div>
+        </div>
+	</body>
+	
+	<script>
+		var videoListData = [];
+		var VplayerSelectedSpeed = 1;
+		var playingIdx = -1;
+		var ver = 1;
+        var Vplayer = document.getElementById("Vplayer");
+        
+        init();
+        function init() {
+            $.ajax({
+				type: 'get',
+				crossDomain: true,
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://py-toolbox.herokuapp.com/getPhoenix',
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: function(response){
+					var jsonObj = JSON.parse(response.split("\'").join("\""));
+
+                    var videoListHtml = '';
+                    jQuery.each(jsonObj, function(idx, item) {
+                        videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');"><div class="title">' + item.title + '</div><div class="pubDate">' + item.pubDate + '</div><div class="duration">' + item.duration + '</div></div>';
+                        videoListData.push(item.srcUrl);
+                    });
+
+                    $("#list").html(videoListHtml);
+				}
+			});
+        }
+		
+		function playVideoByIdx(idx){
+			
+            $(".videoInfo").css("color", "white");
+            $(".videoInfo:eq(" + idx + ")").css("color", "gold");
+            
+            $.ajax({
+                type: 'get',
+                crossDomain: true,
+                jsonp : 'callback',
+                jsonpCallback: 'handleResponse',
+                url: 'https://py-toolbox.herokuapp.com/parseTubeAudio/' + encodeURIComponent(videoListData[idx]),
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                success: function(response){
+                    var Vplayer = document.getElementById("audioPlayer");
+                    var VplayerSrc = document.getElementById("audioSrc");
+                    VplayerSrc.src = response;
+                    Vplayer.load();
+                    Vplayer.play();
+                    Vplayer.playbackRate = 1.5;
+
+                    playingIdx = idx;
+                }
+            });
+        }
+        
+        function VplayerPlaying() {
+			$("#playBtn").css("display", "none");
+			$("#pauseBtn").css("display", "block");
+		}
+		
+		function VplayerPausing() {
+			$("#playBtn").css("display", "block");
+			$("#pauseBtn").css("display", "none");
+		}
+		
+		function VplayerEnded(){
+				
+			var newIdx = playingIdx + parseInt(1);
+			if(newIdx < videoListData.length){
+				playVideoByIdx(newIdx);
+			}
+		}
+	</script>
+</html>
