@@ -114,7 +114,9 @@
             <div id="list"></div>
             <div id="listBtnGroup">
                 <audio id="audioPlayer" style="display: none;" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
-                    <source id="audioSrc" src="" type="audio/mp3"/>
+                    <source id="audioSrc1" src="" type="audio/mp3"/>
+                    <source id="audioSrc2" src="" type="audio/ogg"/>
+                    <source id="audioSrc3" src="" type="audio/mpeg"/>
                 </audio>
                 <div id="playBtn" class="btnCommon" onclick="document.getElementById('audioPlayer').play();">
                     <img src="./icon/play.svg"/>
@@ -174,8 +176,12 @@
                 },
                 success: function(response){
                     var Vplayer = document.getElementById("audioPlayer");
-                    var VplayerSrc = document.getElementById("audioSrc");
-                    VplayerSrc.src = response;
+                    var VplayerSrc1 = document.getElementById("audioSrc1");
+                    var VplayerSrc2 = document.getElementById("audioSrc2");
+                    var VplayerSrc3 = document.getElementById("audioSrc3");
+                    VplayerSrc1.src = response;
+                    VplayerSrc2.src = response;
+                    VplayerSrc3.src = response;
                     Vplayer.load();
                     Vplayer.play();
                     Vplayer.playbackRate = 1.5;
