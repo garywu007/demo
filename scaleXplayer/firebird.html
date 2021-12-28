@@ -147,7 +147,7 @@
 					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
-					var jsonObj = JSON.parse(response.split("\'").join("\""));
+					var jsonObj = JSON.parse(response.split("\"").join("#").split("\'").join("\""));
 
                     var videoListHtml = '';
                     jQuery.each(jsonObj, function(idx, item) {
