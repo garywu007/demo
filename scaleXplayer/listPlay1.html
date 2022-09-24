@@ -384,10 +384,15 @@
 					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 					
 					var videoListHtml = '';
-					videoListData.forEach((item, idx) => {
+					for(var idx = 0; idx < videoListData.length; idx++) {
 						alert(idx + "-- " + item['vTitle'];
-						//videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + item['vTitle'] + '</div>';
 					});
+					
+					$("#list").html(videoListHtml);
+					
+					var listDiv = document.getElementById("list");
+					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
 		}
