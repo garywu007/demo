@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-03
+							= =-03X
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -341,7 +341,6 @@
 
 	<script>
 		alert("HI!!");
-		var sheetUser = getQueryVariable("sheet");
 		var videoListData = [];
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
@@ -350,6 +349,7 @@
 		var Vplayer = document.getElementById("Vplayer");
 		
 		setInterval(function(){
+			alert("setInterval");
 			if(Vplayer.duration > 0){
 				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
 				$("#playTimeDown").html(formatSecond(Vplayer.duration));
@@ -357,6 +357,24 @@
 				$("#playTimeUp").html("--:--:--");
 				$("#playTimeDown").html("--:--:--");
 			}
-		}, 1000);
+		}, 10000);
+		
+		function formatSecond(secs) {
+			alert("formatSecond");
+			var hr = Math.floor(secs / 3600);
+			var min = Math.floor((secs - (hr * 3600)) / 60);
+			var sec = parseInt( secs - (hr * 3600) - (min * 60));
+			if (min < 10) {
+				min = '0' + min;
+			}
+			if (sec < 10) {
+				sec = '0' + sec;
+			}
+			if (hr) {
+				return hr + ':' + min + ':' + sec;
+			}
+			
+			return min + ':' + sec;
+		}
 	</script>
 </html>
