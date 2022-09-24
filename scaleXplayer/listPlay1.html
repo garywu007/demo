@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-05
+							= =-06
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -358,9 +358,63 @@
 			}
 		}, 1000);
 		
+		function parseUtubeJson(source) {
+			alert(encodeURIComponent(source));
+			$.ajax({
+				type: 'get',
+				crossDomain: true,
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://py-toolbox.herokuapp.com/parseTubeInfo/' + encodeURIComponent(source),
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: function(response){
+					var jsonObj = JSON.parse(response);
+					
+					$("#addUrlInput").val("");
+					$("#addUrlOKBtn").css("display","block");
+					$("#addUrlLoading").css("display","none");
+					$(".mask").css("display","none");
+					$("#addUrlPanel").css("display","none");
+					
+					jsonObj['srcUrl'] = source;
+					videoListData.push(jsonObj);
+					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+
+					var videoListHtml = '';
+					videoListData.forEach((item, idx) => {
+						var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+						var style2 = 'background-image: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+						
+						 /* Chrome,Safari4+ */
+						 /* Chrome10+,Safari5.1+ */
+
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
+					});
+					
+					$("#list").html(videoListHtml);
+					
+					var listDiv = document.getElementById("list");
+					listDiv.scrollTop = listDiv.scrollHeight;
+				}
+			});
+		}
+		
 		function addUrlPanelShow() {
 			$(".mask").css("display","block");
 			$("#addUrlPanel").css("display","block");
+		}
+		
+		function processParse() {
+			ytUrl = $("#addUrlInput").val();
+			if("" != ytUrl && (ytUrl.indexOf("youtube.com") > -1 || ytUrl.indexOf("youtu.be") > -1)) {
+				$("#addUrlOKBtn").css("display","none");
+				$("#addUrlLoading").css("display","block");
+				parseUtubeJson(ytUrl);
+			} else {
+				alert("Please input valid url...\n# Youtube");
+			}
 		}
 		
 		function hideMaskNPanel() {
