@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-06x
+							= =-06Y
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -358,7 +358,6 @@
 			}
 		}, 1000);
 		
-		/*
 		function parseUtubeJson(source) {
 			alert(encodeURIComponent(source));
 			$.ajax({
@@ -400,7 +399,7 @@
 					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
-		}*/
+		}
 		
 		function addUrlPanelShow() {
 			$(".mask").css("display","block");
@@ -408,7 +407,7 @@
 		}
 		
 		function processParse() {
-			ytUrl = $("#addUrlInput").val();
+			var ytUrl = $("#addUrlInput").val();
 			if("" != ytUrl && (ytUrl.indexOf("youtube.com") > -1 || ytUrl.indexOf("youtu.be") > -1)) {
 				$("#addUrlOKBtn").css("display","none");
 				$("#addUrlLoading").css("display","block");
