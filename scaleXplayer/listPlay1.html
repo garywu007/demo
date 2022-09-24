@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-06
+							= =-06x
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -358,6 +358,7 @@
 			}
 		}, 1000);
 		
+		/*
 		function parseUtubeJson(source) {
 			alert(encodeURIComponent(source));
 			$.ajax({
@@ -399,7 +400,7 @@
 					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
-		}
+		}*/
 		
 		function addUrlPanelShow() {
 			$(".mask").css("display","block");
@@ -437,6 +438,20 @@
 			}
 			
 			return min + ':' + sec;
+		}
+		
+		function enableDelete(){
+			$("#removeBtn").css("display", "none");
+			$("#tickBtn").css("display", "block");
+			$("#list").addClass("redBg");
+			deleteFlag = true;
+		}
+		
+		function disableDelete(){
+			$("#removeBtn").css("display", "block");
+			$("#tickBtn").css("display", "none");
+			$("#list").removeClass("redBg");
+			deleteFlag = false;
 		}
 	</script>
 </html>
