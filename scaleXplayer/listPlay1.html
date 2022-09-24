@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-06Z
+							= =-07
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -358,6 +358,44 @@
 			}
 		}, 1000);
 		
+		function parseUtubeJson(source) {
+			alert(encodeURIComponent(source));
+			$.ajax({
+				type: 'get',
+				crossDomain: true,
+				jsonp : 'callback',
+				jsonpCallback: 'handleResponse',
+				url: 'https://py-toolbox.herokuapp.com/parseTubeInfo/' + encodeURIComponent(source),
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				success: function(response){
+					var jsonObj = JSON.parse(response);
+					
+					$("#addUrlInput").val("");
+					$("#addUrlOKBtn").css("display","block");
+					$("#addUrlLoading").css("display","none");
+					$(".mask").css("display","none");
+					$("#addUrlPanel").css("display","none");
+					
+					jsonObj['srcUrl'] = source;
+					videoListData.push(jsonObj);
+					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+
+					var videoListHtml = '';
+					videoListData.forEach((item, idx) => {
+						
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');"' + '>' + item['vTitle'] + '</div>';
+					});
+					
+					$("#list").html(videoListHtml);
+					
+					var listDiv = document.getElementById("list");
+					listDiv.scrollTop = listDiv.scrollHeight;
+				}
+			});
+		}
+		
 		function addUrlPanelShow() {
 			$(".mask").css("display","block");
 			$("#addUrlPanel").css("display","block");
@@ -368,7 +406,7 @@
 			if("" != ytUrl && (ytUrl.indexOf("youtube.com") > -1 || ytUrl.indexOf("youtu.be") > -1)) {
 				$("#addUrlOKBtn").css("display","none");
 				$("#addUrlLoading").css("display","block");
-				//parseUtubeJson(ytUrl);
+				parseUtubeJson(ytUrl);
 			} else {
 				alert("Please input valid url...\n# Youtube");
 			}
