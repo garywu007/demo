@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-07c
+							= =-07E
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -359,7 +359,6 @@
 		}, 1000);
 		
 		function parseUtubeJson(source) {
-			alert(encodeURIComponent(source));
 			$.ajax({
 				type: 'get',
 				crossDomain: true,
@@ -370,7 +369,6 @@
 					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
-					alert("resp:\n" + response);
 					var jsonObj = JSON.parse(response);
 					
 					$("#addUrlInput").val("");
