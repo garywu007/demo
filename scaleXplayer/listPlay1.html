@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-02
+							= =-03
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -349,6 +349,14 @@
 		var ver = 1;
 		var Vplayer = document.getElementById("Vplayer");
 		
-
+		setInterval(function(){
+			if(Vplayer.duration > 0){
+				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
+				$("#playTimeDown").html(formatSecond(Vplayer.duration));
+			} else {
+				$("#playTimeUp").html("--:--:--");
+				$("#playTimeDown").html("--:--:--");
+			}
+		}, 1000);
 	</script>
 </html>
