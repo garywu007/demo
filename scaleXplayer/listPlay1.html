@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-07
+							= =-07b
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -370,6 +370,7 @@
 					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
+					alert("resp:\n" + response);
 					var jsonObj = JSON.parse(response);
 					
 					$("#addUrlInput").val("");
@@ -381,17 +382,6 @@
 					jsonObj['srcUrl'] = source;
 					videoListData.push(jsonObj);
 					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
-
-					var videoListHtml = '';
-					videoListData.forEach((item, idx) => {
-						
-						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');"' + '>' + item['vTitle'] + '</div>';
-					});
-					
-					$("#list").html(videoListHtml);
-					
-					var listDiv = document.getElementById("list");
-					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
 		}
