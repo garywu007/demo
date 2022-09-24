@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-07b
+							= =-07c
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -382,6 +382,12 @@
 					jsonObj['srcUrl'] = source;
 					videoListData.push(jsonObj);
 					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+					
+					var videoListHtml = '';
+					videoListData.forEach((item, idx) => {
+						alert(idx + "-- " + item['vTitle'];
+						//videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
+					});
 				}
 			});
 		}
