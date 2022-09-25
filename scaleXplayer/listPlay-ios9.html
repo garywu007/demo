@@ -88,7 +88,7 @@
 			margin: 5px;
 			border-radius: 5px;
 			background: black; /* Old browsers */
-			border: 1px solid gold;
+			border: 1px solid gray;
 			color: white;
 			overflow: hidden;
 			word-break: break-word;
@@ -335,7 +335,6 @@
 	</body>
 
 	<script>
-		alert("HI!!");
 		var videoListData = [];
 		var VplayerSelectedSpeed = 1;
 		var playingIdx = -1;
@@ -453,7 +452,6 @@
 					});
 				} else {
 					var videoItemData = videoListData[idx];
-					alert("realUrl:\n" + videoItemData['vUrl']);
 					var VplayerSrc = document.getElementById("VplayerSrc");
 					Vplayer.poster= videoItemData['vImg'];
 					VplayerSrc.src = videoItemData['vUrl'];
