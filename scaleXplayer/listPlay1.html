@@ -87,13 +87,7 @@
 			height: 3.7rem;
 			margin: 5px;
 			border-radius: 5px;
-			background: #ffad26; /* Old browsers */
-			background: -moz-linear-gradient(top,  rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* FF3.6+ */
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0, 0, 0, 0.5)), color-stop(100%,rgba(0, 0, 0, 0.8))), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* Chrome,Safari4+ */
-			background: -webkit-linear-gradient(top,  rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* Chrome10+,Safari5.1+ */
-			background: -o-linear-gradient(top,  rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* Opera 11.10+ */
-			background: -ms-linear-gradient(top,  rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA'); /* IE10+ */
-			background: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8) ), url('https://i.ytimg.com/vi/4TIbutZN4_8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCYjFF5dd_tWMdpRMkMU9PfnPdwqA');
+			background: #674ea7; /* Old browsers */
 			color: white;
 			overflow: hidden;
 			word-break: break-word;
@@ -135,8 +129,8 @@
 		}
 		
 		#fullScBtn img {
-			width: 45px;
 			padding-top: 18px;
+			width: 45px;
 		}
 		
 		#playTime {
@@ -297,7 +291,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-07M
+							= =-08
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -384,14 +378,13 @@
 					var videoListHtml = '';
 					for(var idx = 0; idx < videoListData.length; idx++) {
 						var jsonObjLoop = videoListData[idx];
-						alert(idx + ">\n" + jsonObjLoop['vTitle']);
 						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + jsonObjLoop['vTitle'] + '</div>';
 					}
 					
 					$("#list").html(videoListHtml);
 					
-					//var listDiv = document.getElementById("list");
-					//listDiv.scrollTop = listDiv.scrollHeight;
+					var listDiv = document.getElementById("list");
+					listDiv.scrollTop = listDiv.scrollHeight;
 				}
 			});
 		}
@@ -415,6 +408,119 @@
 		function hideMaskNPanel() {
 			$(".mask").css("display","none");
 			$("#addUrlPanel").css("display","none");
+		}
+		
+		function playVideoByIdx(idx){
+			if(deleteFlag){
+				videoListData.splice(idx,1);
+				localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+				
+				var videoListHtml = '';
+				videoListData.forEach((item, idx) => {
+					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+					var style2 = 'background-image: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
+
+					 /* Chrome,Safari4+ */
+					 /* Chrome10+,Safari5.1+ */
+
+					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
+				});
+
+				$("#list").html(videoListHtml);
+			} else {
+				$(".videoInfo").css("color", "white");
+				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
+				if(playingIdx == idx){
+					$.ajax({
+						type: 'get',
+						crossDomain: true,
+						jsonp : 'callback',
+						jsonpCallback: 'handleResponse',
+						url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+						headers: {
+							'Access-Control-Allow-Origin': '*'
+						},
+						success: function(response){
+							videoListData[idx]['vUrl'] = response;
+							localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+
+							var VplayerSrc = document.getElementById("VplayerSrc");
+							Vplayer.poster= videoListData[idx]['vImg'];
+							VplayerSrc.src = videoListData[idx]['vUrl'];
+							Vplayer.load();
+							Vplayer.play();
+							Vplayer.playbackRate = VplayerSelectedSpeed;
+							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+							playingIdx = idx;
+						}
+					});
+				} else {
+					var VplayerSrc = document.getElementById("VplayerSrc");
+					Vplayer.poster= videoListData[idx]['vImg'];
+					VplayerSrc.src = videoListData[idx]['vUrl'];
+					Vplayer.load();
+					Vplayer.play();
+					Vplayer.playbackRate = VplayerSelectedSpeed;
+					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+					playingIdx = idx;
+				}
+			}
+		}
+		
+		function VplayerPlaying() {
+			$("#playBtn").css("display", "none");
+			$("#pauseBtn").css("display", "block");
+		}
+		
+		function VplayerPausing() {
+			$("#playBtn").css("display", "block");
+			$("#pauseBtn").css("display", "none");
+		}
+		
+		function VplayerSpeed(diff) {
+			//var Vplayer = document.getElementById("Vplayer");
+			Vplayer.playbackRate += diff;
+			VplayerSelectedSpeed = Vplayer.playbackRate;
+			$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+			
+		}
+		
+		function goFullScreen() {
+			//var Vplayer = document.getElementById("Vplayer");
+			if (Vplayer.requestFullscreen) { 
+				Vplayer.requestFullscreen(); 
+			}
+			//FireFox 
+			else if (Vplayer.mozRequestFullScreen) { 
+				Vplayer.mozRequestFullScreen(); 
+			}
+			//Chrome等 
+			else if (Vplayer.webkitRequestFullScreen) { 
+				Vplayer.webkitRequestFullScreen(); 
+			}
+			else if (Vplayer.webkitEnterFullscreen) { 
+				Vplayer.webkitEnterFullscreen(); 
+			}
+			//IE11
+			else if (Vplayer.msRequestFullscreen) {
+				Vplayer.msRequestFullscreen();
+			}
+		}
+		
+		function VplayerEnded(){
+			/*if(Vplayer.webkitExitFullscreen){
+				Vplayer.webkitExitFullscreen();
+			}*/
+				
+			var newIdx = playingIdx + parseInt(1);
+			if(newIdx < videoListData.length){
+				playVideoByIdx(newIdx);
+				/*if (Vplayer.webkitEnterFullscreen) { 
+					Vplayer.webkitEnterFullscreen(); 
+				}*/
+			} else {
+				//alert("ALL videos are played!! ");
+			}
 		}
 		
 		function formatSecond(secs) {
