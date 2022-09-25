@@ -87,7 +87,8 @@
 			height: 3.7rem;
 			margin: 5px;
 			border-radius: 5px;
-			background: #674ea7; /* Old browsers */
+			background: black; /* Old browsers */
+			border: 1px solid gold;
 			color: white;
 			overflow: hidden;
 			word-break: break-word;
@@ -291,7 +292,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-08B
+							= =-09
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -525,6 +526,21 @@
 			}
 			
 			return min + ':' + sec;
+		}
+		
+		function loadVideoListCache() {
+			videoListData = JSON.parse(localStorage.getItem('videoListCache'));
+			if(videoListData != null && videoListData.length > 0) {
+				var videoListHtml = '';
+				for(var idx = 0; idx < videoListData.length; idx++) {
+					var jsonObjLoop = videoListData[idx];
+					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + jsonObjLoop['vTitle'] + '</div>';
+				}
+				
+				$("#list").html(videoListHtml);
+			} else {
+				alert("no video stored...");
+			}
 		}
 		
 		function enableDelete(){
