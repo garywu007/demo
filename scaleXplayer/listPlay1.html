@@ -292,7 +292,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-09b
+							= =-09c
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -452,6 +452,7 @@
 						}
 					});
 				} else {
+					var videoItemData = videoListData[idx];
 					alert("realUrl:\n" + videoItemData['vUrl']);
 					var VplayerSrc = document.getElementById("VplayerSrc");
 					Vplayer.poster= videoItemData['vImg'];
