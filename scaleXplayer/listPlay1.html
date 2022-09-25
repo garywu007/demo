@@ -291,7 +291,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-08
+							= =-08B
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -416,37 +416,33 @@
 				localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 				
 				var videoListHtml = '';
-				videoListData.forEach((item, idx) => {
-					var style1 = 'background-image: linear-gradient( rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
-					var style2 = 'background-image: -webkit-linear-gradient(top,  rgba(39, 39, 39, 0.5), rgba(12, 12, 12, 0.7) ), url(\'' + item['vImg'] + '\');';
-
-					 /* Chrome,Safari4+ */
-					 /* Chrome10+,Safari5.1+ */
-
-					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" style="' + style1 + style2 + '">' + item['vTitle'] + '</div>';
-				});
+				for(var idx = 0; idx < videoListData.length; idx++) {
+					var jsonObjLoop = videoListData[idx];
+					videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + jsonObjLoop['vTitle'] + '</div>';
+				}
 
 				$("#list").html(videoListHtml);
 			} else {
 				$(".videoInfo").css("color", "white");
 				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
 				if(playingIdx == idx){
+					var videoItemData = videoListData[idx];
 					$.ajax({
 						type: 'get',
 						crossDomain: true,
 						jsonp : 'callback',
 						jsonpCallback: 'handleResponse',
-						url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+						url: 'https://py-toolbox.herokuapp.com/parseTube/' + encodeURIComponent(videoItemData['srcUrl']),
 						headers: {
 							'Access-Control-Allow-Origin': '*'
 						},
 						success: function(response){
-							videoListData[idx]['vUrl'] = response;
+							videoItemData['vUrl'] = response;
 							localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
 							var VplayerSrc = document.getElementById("VplayerSrc");
-							Vplayer.poster= videoListData[idx]['vImg'];
-							VplayerSrc.src = videoListData[idx]['vUrl'];
+							Vplayer.poster= videoItemData['vImg'];
+							VplayerSrc.src = videoItemData['vUrl'];
 							Vplayer.load();
 							Vplayer.play();
 							Vplayer.playbackRate = VplayerSelectedSpeed;
@@ -456,8 +452,8 @@
 					});
 				} else {
 					var VplayerSrc = document.getElementById("VplayerSrc");
-					Vplayer.poster= videoListData[idx]['vImg'];
-					VplayerSrc.src = videoListData[idx]['vUrl'];
+					Vplayer.poster= videoItemData['vImg'];
+					VplayerSrc.src = videoItemData['vUrl'];
 					Vplayer.load();
 					Vplayer.play();
 					Vplayer.playbackRate = VplayerSelectedSpeed;
@@ -508,18 +504,9 @@
 		}
 		
 		function VplayerEnded(){
-			/*if(Vplayer.webkitExitFullscreen){
-				Vplayer.webkitExitFullscreen();
-			}*/
-				
 			var newIdx = playingIdx + parseInt(1);
 			if(newIdx < videoListData.length){
 				playVideoByIdx(newIdx);
-				/*if (Vplayer.webkitEnterFullscreen) { 
-					Vplayer.webkitEnterFullscreen(); 
-				}*/
-			} else {
-				//alert("ALL videos are played!! ");
 			}
 		}
 		
