@@ -297,7 +297,7 @@
 							\*.*/
 						</div>
 						<div id="playTimeDown">
-							= =-07L
+							= =-07M
 						</div>
 					</div>
 					<div id="playSpeed"></div>
@@ -385,10 +385,10 @@
 					for(var idx = 0; idx < videoListData.length; idx++) {
 						var jsonObjLoop = videoListData[idx];
 						alert(idx + ">\n" + jsonObjLoop['vTitle']);
-					//	videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + item['vTitle'] + '</div>';
+						videoListHtml += '<div class="videoInfo" onclick="playVideoByIdx(' + idx + ');" >' + jsonObjLoop['vTitle'] + '</div>';
 					}
 					
-					//$("#list").html(videoListHtml);
+					$("#list").html(videoListHtml);
 					
 					//var listDiv = document.getElementById("list");
 					//listDiv.scrollTop = listDiv.scrollHeight;
