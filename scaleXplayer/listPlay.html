@@ -355,6 +355,15 @@
 		var ver = 1;
 		var Vplayer = document.getElementById("Vplayer");
 		
+		var sources = Vplayer.querySelectorAll('source');
+		if (sources.length !== 0) {
+			var lastSource = sources[sources.length-1];
+
+			lastSource.addEventListener('error', function() {
+				alert('uh oh');
+			});
+		}
+		
 		if(sheetUser){
 			$("#cloudLoadBtn").css("display", "block");
 		}
@@ -467,18 +476,13 @@
 							localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
 							var VplayerSrc = document.getElementById("VplayerSrc");
-							try {
-								Vplayer.poster= videoListData[idx]['vImg'];
-								VplayerSrc.src = videoListData[idx]['vUrl'];
-								Vplayer.load();
-								Vplayer.play();
-								Vplayer.playbackRate = VplayerSelectedSpeed;
-								$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
-								playingIdx = idx;
-							} catch(error) {
-								console.log("===---===");
-								console.log(error);
-							}
+							Vplayer.poster= videoListData[idx]['vImg'];
+							VplayerSrc.src = videoListData[idx]['vUrl'];
+							Vplayer.load();
+							Vplayer.play();
+							Vplayer.playbackRate = VplayerSelectedSpeed;
+							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+							playingIdx = idx;
 						}
 					});
 				} else {
