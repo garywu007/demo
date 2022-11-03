@@ -271,7 +271,7 @@
 		<div id="mainView">
 			<div id="playZone">
 				<div id="player">
-					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
+					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()" onerror="errorReload()">
 						<source id="VplayerSrc" type="video/mp4"/>
 						<source id="VplayerSrcM3U8" type="application/x-mpegURL">
 					</video>
@@ -597,6 +597,10 @@
 					});
 				}
 			});
+		}
+		
+		function errorReload(){
+			playVideoByIdx(playingIdx);
 		}
 		
 		function enableDelete(){
