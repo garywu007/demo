@@ -271,7 +271,7 @@
 		<div id="mainView">
 			<div id="playZone">
 				<div id="player">
-					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()" onerror="errorReload()">
+					<video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
 						<source id="VplayerSrc" type="video/mp4"/>
 						<source id="VplayerSrcM3U8" type="application/x-mpegURL">
 					</video>
@@ -467,13 +467,18 @@
 							localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
 							var VplayerSrc = document.getElementById("VplayerSrc");
-							Vplayer.poster= videoListData[idx]['vImg'];
-							VplayerSrc.src = videoListData[idx]['vUrl'];
-							Vplayer.load();
-							Vplayer.play();
-							Vplayer.playbackRate = VplayerSelectedSpeed;
-							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
-							playingIdx = idx;
+							try {
+								Vplayer.poster= videoListData[idx]['vImg'];
+								VplayerSrc.src = videoListData[idx]['vUrl'];
+								Vplayer.load();
+								Vplayer.play();
+								Vplayer.playbackRate = VplayerSelectedSpeed;
+								$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
+								playingIdx = idx;
+							} catch(error) {
+								console.log("===---===");
+								console.log(error);
+							}
 						}
 					});
 				} else {
