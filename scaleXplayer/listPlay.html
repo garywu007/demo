@@ -354,6 +354,7 @@
 		var deleteFlag = false;
 		var ver = 1;
 		var Vplayer = document.getElementById("Vplayer");
+		var playerError = false;
 		
 		var sources = Vplayer.querySelectorAll('source');
 		if (sources.length !== 0) {
@@ -483,6 +484,7 @@
 							Vplayer.playbackRate = VplayerSelectedSpeed;
 							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 							playingIdx = idx;
+							playerError = false;
 						}
 					});
 				} else {
@@ -494,6 +496,7 @@
 					Vplayer.playbackRate = VplayerSelectedSpeed;
 					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 					playingIdx = idx;
+					playerError = false;
 				}
 			}
 		}
@@ -609,7 +612,10 @@
 		}
 		
 		function errorReload(){
-			playVideoByIdx(playingIdx);
+			if(playerError == false) {
+				playerError = true;		
+				playVideoByIdx(playingIdx);
+			}
 		}
 		
 		function enableDelete(){
