@@ -347,6 +347,7 @@
     <script src="https://garywu007.github.io/demo/scaleXplayer/js/base.js"></script>
 	
 	<script>
+		var serverDomain = "toolbox-garywu007.koyeb.app"; //"tgbotpy.onrender.com"
 		var sheetUser = getQueryVariable("sheet");
 		var videoListData = [];
 		var VplayerSelectedSpeed = 1;
@@ -385,7 +386,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://tgbotpy.onrender.com/parseTubeInfo/' + encodeURIComponent(source),
+				url: 'https://' + serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
@@ -468,7 +469,7 @@
 						crossDomain: true,
 						jsonp : 'callback',
 						jsonpCallback: 'handleResponse',
-						url: 'https://tgbotpy.onrender.com/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+						url: 'https://' + serverDomain + '/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
 						headers: {
 							'Access-Control-Allow-Origin': '*'
 						},
@@ -598,7 +599,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://tgbotpy.onrender.com/you720/toBeDown/' + sheetUser,
+				url: 'https://' + serverDomain + '/you720/toBeDown/' + sheetUser,
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
