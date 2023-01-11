@@ -7,6 +7,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="video-icon.ico" rel="external nofollow" /> 
 		<title>videoTUBE</title> 
 		<script src="jquery-3.1.1.min.js"></script>
+		<script src="serverDomain.js"></script>
 		<script src="flv.min.js"></script>
 	</head>
 	<style>
@@ -554,7 +555,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://tgbotpy.onrender.com/parseTube/' + encodeURIComponent(source),
+				url: 'https://' + serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
