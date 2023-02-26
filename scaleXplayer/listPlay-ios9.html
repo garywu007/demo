@@ -289,7 +289,7 @@
 						<img src="./icon/fullScreen.svg"/>
 					</div>
 					<div id="playTime">
-						<div id="playTimeUp">
+						<div id="playTimeUp" onclick="setStartTime();">
 							\*.*/
 						</div>
 						<div id="playTimeDown">
@@ -342,6 +342,7 @@
 		var deleteFlag = false;
 		var ver = 1;
 		var Vplayer = document.getElementById("Vplayer");
+		var startTime = 0;
 		
 		setInterval(function(){
 			if(Vplayer.duration > 0){
@@ -447,6 +448,9 @@
 							Vplayer.load();
 							Vplayer.play();
 							Vplayer.playbackRate = VplayerSelectedSpeed;
+							if(startTime > 0) {
+								Vplayer.currentTime = startTime;
+							}
 							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 							playingIdx = idx;
 						}
@@ -459,6 +463,9 @@
 					Vplayer.load();
 					Vplayer.play();
 					Vplayer.playbackRate = VplayerSelectedSpeed;
+					if(startTime > 0) {
+						Vplayer.currentTime = startTime;
+					}
 					$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 					playingIdx = idx;
 				}
@@ -509,6 +516,16 @@
 			var newIdx = playingIdx + parseInt(1);
 			if(newIdx < videoListData.length){
 				playVideoByIdx(newIdx);
+			}
+		}
+		
+		function setStartTime(){
+			if(startTime == 0 && Vplayer.currentTime > 0) {
+				startTime = Vplayer.currentTime;
+				$("#playTimeUp").css("border-bottom", "2px solid mediumspringgreen");
+			} else {
+				startTime = 0;
+				$("#playTimeUp").css("border-bottom", "2px solid gray");
 			}
 		}
 		
