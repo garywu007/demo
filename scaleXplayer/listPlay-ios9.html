@@ -359,7 +359,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://' + serverDomain + '/parseTubeInfo/' + encodeURIComponent(source)
+				url: 'https://' + serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
@@ -390,7 +390,6 @@
 			});
 		}
 		
-		/*
 		function addUrlPanelShow() {
 			$(".mask").css("display","block");
 			$("#addUrlPanel").css("display","block");
@@ -558,6 +557,5 @@
 			$("#list").removeClass("redBg");
 			deleteFlag = false;
 		}
-		*/
 	</script>
 </html>
