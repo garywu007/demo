@@ -570,7 +570,7 @@
 		}
 		
 		function setStartTime(){
-			if(startTime == 0) {
+			if(startTime == 0 && Vplayer.currentTime > 0) {
 				startTime = Vplayer.currentTime;
 				$("#playTimeUp").css("border-bottom", "2px solid mediumspringgreen");
 			} else {
