@@ -344,6 +344,7 @@
 		var Vplayer = document.getElementById("Vplayer");
 		var startTime = 0;
 		
+		// initial tasks
 		setInterval(function(){
 			if(Vplayer.duration > 0){
 				$("#playTimeUp").html(formatSecond(Vplayer.currentTime));
@@ -353,6 +354,7 @@
 				$("#playTimeDown").html("--:--:--");
 			}
 		}, 1000);
+		loadVideoListCache();
 		
 		function parseUtubeJson(source) {
 			$.ajax({
