@@ -434,6 +434,11 @@
 					
 					var listDiv = document.getElementById("list");
 					listDiv.scrollTop = listDiv.scrollHeight;
+				},
+				error: function(xhr, ajaxOptions, thrownError){
+					$("#addUrlOKBtn").css("display","block");
+					$("#addUrlLoading").css("display","none");
+					alert(xhr.status, thrownError) 
 				}
 			});
 		}
