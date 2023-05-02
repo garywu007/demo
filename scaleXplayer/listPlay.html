@@ -510,6 +510,9 @@
 							$("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 							playingIdx = idx;
 							playerError = false;
+						},
+						error: function(xhr, ajaxOptions, thrownError){
+							alert(xhr.status, thrownError) 
 						}
 					});
 				} else {
