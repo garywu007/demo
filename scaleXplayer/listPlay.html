@@ -402,7 +402,7 @@
 				crossDomain: true,
 				jsonp : 'callback',
 				jsonpCallback: 'handleResponse',
-				url: 'https://' + serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
+				url: serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
 				headers: {
 					'Access-Control-Allow-Origin': '*'
 				},
@@ -490,7 +490,7 @@
 						crossDomain: true,
 						jsonp : 'callback',
 						jsonpCallback: 'handleResponse',
-						url: 'https://' + serverDomain + '/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+						url: serverDomain + '/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
 						headers: {
 							'Access-Control-Allow-Origin': '*'
 						},
