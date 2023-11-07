@@ -405,8 +405,7 @@
 				jsonpCallback: 'handleResponse',
 				url: serverDomain + '/parseTubeInfo/' + encodeURIComponent(source),
 				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Host': 'toolbox-garywu007.koyeb.app'
+					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
 					var jsonObj = JSON.parse(response);
@@ -494,8 +493,7 @@
 						jsonpCallback: 'handleResponse',
 						url: serverDomain + '/parseTube/' + encodeURIComponent(videoListData[idx]['srcUrl']),
 						headers: {
-							'Access-Control-Allow-Origin': '*',
-							'Host': 'toolbox-garywu007.koyeb.app'
+							'Access-Control-Allow-Origin': '*'
 						},
 						success: function(response){
 							videoListData[idx]['vUrl'] = response;
@@ -644,8 +642,7 @@
 				jsonpCallback: 'handleResponse',
 				url: 'https://' + serverDomain + '/you720/toBeDown/' + sheetUser,
 				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Host': 'toolbox-garywu007.koyeb.app'
+					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
 					var ytUrls = response.split("-&&&-");
