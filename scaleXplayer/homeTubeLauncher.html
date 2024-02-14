@@ -3,21 +3,10 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 		
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$.ajax({
-				type: 'get',
-				crossDomain: true,
-				jsonp : 'callback',
-				jsonpCallback: 'handleResponse',
-				url: 'http://gary.webhop.me:9100',
-				headers: {
-					'Access-Control-Allow-Origin': '*'
-				},
-				success: function(result){
-					alert("YES");
-				}
-			});
-		});		
+		setTimeout(function (){
+			window.location.replace("http://192.168.100.210:9100");
+			window.location.replace("http://gary.webhop.me:9100");
+		}, 1000);
 	</script>
 </head>
 <body>
