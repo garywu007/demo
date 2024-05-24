@@ -1,12 +1,11 @@
 <html>
 <head>
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
-	<meta name="google-signin-client_id" content="777128392557-nn2app4i24q9jnt5cd3atgg25fqb7dd2.apps.googleusercontent.com">
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<script>
-		function onSignIn(googleUser) {
-			var profile = googleUser.getBasicProfile();
-			console.log('profile: ' + profile); // Do not send to your backend! Use an ID token instead.
-		}
+		// function onSignIn(googleUser) {
+		// 	var profile = googleUser.getBasicProfile();
+		// 	console.log('profile: ' + profile); // Do not send to your backend! Use an ID token instead.
+		// }
 
 		function signOut() {
 			var auth2 = gapi.auth2.getAuthInstance();
@@ -14,10 +13,25 @@
 			console.log('User signed out.');
 			});
 		}
+
+		// function onSuccess(googleUser) {
+		// 	// we have googleUser as an object to get user details
+		// 	onSignIn(googleUser);
+		// 	console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+		// }
+
+		// function onFailure(error) {
+		// 	console.log(error);
+		// }
 	</script>
 </head>
 <body>
-	<div class="g-signin2" data-onsuccess="onSignIn"></div>
+	<p>login-er</p>
+	<div id="g_id_onload"
+         data-client_id="777128392557-nn2app4i24q9jnt5cd3atgg25fqb7dd2.apps.googleusercontent.com"
+         data-callback="handleCredentialResponse">
+    </div>
+    <div class="g_id_signin" data-type="standard"></div>
 	<a href="#" onclick="signOut();">Sign out</a>
 </body>
 </html>
