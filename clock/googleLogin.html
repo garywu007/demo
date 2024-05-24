@@ -28,10 +28,11 @@
 		}
 
 		function signOut() {
-			var auth2 = gapi.auth2.getAuthInstance();
-			auth2.signOut().then(function () {
-			console.log('User signed out.');
-			});
+			google.accounts.id.disableAutoSelect();
+			// var auth2 = gapi.auth2.getAuthInstance();
+			// auth2.signOut().then(function () {
+			// console.log('User signed out.');
+			// });
 		}
 
 		// function onSuccess(googleUser) {
@@ -52,6 +53,6 @@
          data-callback="handleCredentialResponse">
     </div>
     <div class="g_id_signin" data-type="standard"></div>
-	<div class="g_id_signout" onclick="signOut();">Sign Out</div>
+	<div onclick="signOut();">Sign Out</div>
 </body>
 </html>
