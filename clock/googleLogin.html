@@ -7,6 +7,7 @@
 		     // to decode the credential response.
 			console.log(response);
 		     const responsePayload = decodeJwtResponse(response.credential);
+			alert("Please copy below text:\n---------\n" + response.credential);
 
 		     console.log("ID: " + responsePayload.sub);
 		     console.log('Full Name: ' + responsePayload.name);
