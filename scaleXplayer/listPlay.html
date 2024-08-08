@@ -417,6 +417,7 @@
 					$("#addUrlPanel").css("display","none");
 					
 					jsonObj['srcUrl'] = source;
+					console.log(jsonObj);
 					videoListData.push(jsonObj);
 					localStorage.setItem("videoListCache", JSON.stringify(videoListData));
 
