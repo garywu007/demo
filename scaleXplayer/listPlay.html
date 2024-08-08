@@ -408,7 +408,7 @@
 					'Access-Control-Allow-Origin': '*'
 				},
 				success: function(response){
-					var jsonObj = JSON.parse(response);
+					var jsonObj = response;
 					
 					$("#addUrlInput").val("");
 					$("#addUrlOKBtn").css("display","block");
