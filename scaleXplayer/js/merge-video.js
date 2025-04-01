@@ -16,7 +16,13 @@ async function getHDVideoUrl(youtubeUrl) {
     // Send POST request to the backend to get video and audio URLs
     console.log("5");
     console.log("VideoPlayerSrc.src", VideoPlayerSrc.src);
-    // controller.abort();
+    if (VideoPlayerSrc.src) {
+      URL.revokeObjectURL(VideoPlayerSrc.src); // Release the old object URL
+      VideoPlayerSrc.src = ''; // Clear the source
+      controller.abort();
+    }
+    controller = new AbortController(); // Create a new controller for the next request
+    
     const response = await fetch('https://centos7:9200/tube-hd-data/' + encodeURIComponent(youtubeUrl));
 
     if (!response.ok) {
