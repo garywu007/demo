@@ -524,11 +524,12 @@
 					} else {
 						VplayerSrc.src = videoListData[idx]['vUrl'];
 						Vplayer.load();
+						Vplayer.play();
 					}
 
 					// VplayerSrc.src = videoListData[idx]['vUrl'];
 					// Vplayer.load();
-					Vplayer.play();
+					
 					Vplayer.playbackRate = VplayerSelectedSpeed;
 					if(startTime > 0) {
 						Vplayer.currentTime = startTime;
