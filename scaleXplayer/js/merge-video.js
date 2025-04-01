@@ -17,6 +17,7 @@ async function getHDVideoUrl(youtubeUrl) {
 
   try {
     // Send POST request to the backend to get video and audio URLs
+    console.log("5");
     const response = await fetch('https://centos7:9200/tube-hd-data/' + encodeURIComponent(youtubeUrl));
 
     if (!response.ok) {
@@ -42,6 +43,7 @@ async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
   VideoPlayerSrc.src = URL.createObjectURL(mediaSource);
   VideoPlayer.load();
   VideoPlayer.play();
+  console.log("6");
 
   mediaSource.addEventListener('sourceopen', async () => {
     const videoSourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="' + videoCodecs + '"');
