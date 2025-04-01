@@ -2,8 +2,8 @@ const BUFFER_MARGIN = 10;
 const PAUSE_THRESHOLD = 360; // Pause if buffer exceeds 2 minutes ahead
 const RESUME_THRESHOLD = 300; // Resume when within 110 seconds of paused point
 
-const Vplayer = document.getElementById("Vplayer");
-var VplayerSrc = document.getElementById("VplayerSrc");
+const VideoPlayer = document.getElementById("Vplayer");
+var VideoPlayerSrc = document.getElementById("VplayerSrc");
 
 let isPausedDueToBuffer = { video: false, audio: false };
 let pausedPoint = { video: 0, audio: 0 };
@@ -39,7 +39,7 @@ async function getHDVideoUrl(youtubeUrl) {
 
 async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
   const mediaSource = new MediaSource();
-  VplayerSrc.src = URL.createObjectURL(mediaSource);
+  VideoPlayerSrc.src = URL.createObjectURL(mediaSource);
 
   mediaSource.addEventListener('sourceopen', async () => {
     const videoSourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="' + videoCodecs + '"');
@@ -58,7 +58,7 @@ async function streamData(url, sourceBuffer, type) {
   async function pushChunk() {
     // ✅ Resume if paused due to buffering
     if (isPausedDueToBuffer[type]) {
-      const currentTime = Vplayer.currentTime;
+      const currentTime = VideoPlayer.currentTime;
       // document.getElementById(`${type}BufferStatus`).textContent = `${type} Paused at ${pausedPoint[type]}, currentTime: ${currentTime}`;
       
       if (pausedPoint[type] - currentTime <= RESUME_THRESHOLD) {
@@ -87,7 +87,7 @@ async function streamData(url, sourceBuffer, type) {
           cleanupBuffer(sourceBuffer, type);
           // document.getElementById(`${type}Buffer`).textContent = `${type} Buffered: ${sourceBuffer.buffered.end(0)}`;
         } else {
-          pausedPoint[type] = Vplayer.currentTime + PAUSE_THRESHOLD;
+          pausedPoint[type] = VideoPlayer.currentTime + PAUSE_THRESHOLD;
           isPausedDueToBuffer[type] = true;
 
           // Resume when the buffer is consumed
@@ -108,7 +108,7 @@ async function streamData(url, sourceBuffer, type) {
 
 function shouldAppendBuffer(sourceBuffer, type) {
   let result = true;
-  const currentTime = Vplayer.currentTime;
+  const currentTime = VideoPlayer.currentTime;
 
   if (sourceBuffer.buffered.length > 0) {
     const bufferedEnd = sourceBuffer.buffered.end(0);
@@ -125,7 +125,7 @@ function shouldAppendBuffer(sourceBuffer, type) {
 
 function cleanupBuffer(sourceBuffer, type) {
   if (sourceBuffer.buffered.length > 0) {
-    const currentTime = Vplayer.currentTime;
+    const currentTime = VideoPlayer.currentTime;
     const bufferedStart = sourceBuffer.buffered.start(0);
 
     // ✅ Remove buffer data more than 3 seconds behind the playhead
