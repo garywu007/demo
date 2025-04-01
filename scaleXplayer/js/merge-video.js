@@ -40,6 +40,8 @@ async function getHDVideoUrl(youtubeUrl) {
 async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
   const mediaSource = new MediaSource();
   VideoPlayerSrc.src = URL.createObjectURL(mediaSource);
+  VideoPlayer.load();
+  VideoPlayer.play();
 
   mediaSource.addEventListener('sourceopen', async () => {
     const videoSourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="' + videoCodecs + '"');
