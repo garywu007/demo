@@ -485,7 +485,6 @@
 				$(".videoInfo").css("color", "white");
 				$(".videoInfo:eq(" + idx + ")").css("color", "gold");
 				if(playingIdx == idx){
-					console.log("1");
 					$.ajax({
 						type: 'get',
 						crossDomain: true,
@@ -517,15 +516,12 @@
 						}
 					});
 				} else {
-					console.log("2");
 					var VplayerSrc = document.getElementById("VplayerSrc");
 					Vplayer.poster= videoListData[idx]['vImg'];
 
 					if(mergeHDVideo) {
-						console.log("3");
 						getHDVideoUrl(videoListData[idx]['srcUrl']);
 					} else {
-						console.log("4");
 						VplayerSrc.src = videoListData[idx]['vUrl'];
 						Vplayer.load();
 					}

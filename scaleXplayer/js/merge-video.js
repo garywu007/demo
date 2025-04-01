@@ -14,7 +14,6 @@ let controller = new AbortController();
 async function getHDVideoUrl(youtubeUrl) {
   try {
     // Send POST request to the backend to get video and audio URLs
-    console.log("5");
     if (VideoPlayerSrc.src) {
       URL.revokeObjectURL(VideoPlayerSrc.src); // Release the old object URL
       VideoPlayerSrc.src = ''; // Clear the source
@@ -46,8 +45,7 @@ async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
   const mediaSource = new MediaSource();
   VideoPlayerSrc.src = URL.createObjectURL(mediaSource);
   VideoPlayer.load();
-  // VideoPlayer.play();
-  console.log("6");
+  VideoPlayer.play();
 
   mediaSource.addEventListener('sourceopen', async () => {
     const videoSourceBuffer = mediaSource.addSourceBuffer('video/mp4; codecs="' + videoCodecs + '"');
@@ -60,7 +58,6 @@ async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
 }
 
 async function streamData(url, sourceBuffer, type) {
-  console.log(`Streaming ${type} from URL, controller signal: ${controller.signal}`);
   const response = await fetch(url, {
     signal: controller.signal
   });
@@ -96,7 +93,7 @@ async function streamData(url, sourceBuffer, type) {
           }
           sourceBuffer.appendBuffer(value);
           cleanupBuffer(sourceBuffer, type);
-          console.log(`${type} Buffered: ${sourceBuffer.buffered.end(0)}`);
+          // console.log(`${type} Buffered: ${sourceBuffer.buffered.end(0)}`);
         } else {
           pausedPoint[type] = VideoPlayer.currentTime + PAUSE_THRESHOLD;
           isPausedDueToBuffer[type] = true;
