@@ -8,6 +8,8 @@ var VideoPlayerSrc = document.getElementById("VplayerSrc");
 let isPausedDueToBuffer = { video: false, audio: false };
 let pausedPoint = { video: 0, audio: 0 };
 
+let controller = new AbortController();
+
 // document.getElementById('submitBtn').addEventListener('click', async () => 
 async function getHDVideoUrl(youtubeUrl) {
   if (!youtubeUrl) {
@@ -18,6 +20,7 @@ async function getHDVideoUrl(youtubeUrl) {
   try {
     // Send POST request to the backend to get video and audio URLs
     console.log("5");
+    controller.abort();
     const response = await fetch('https://centos7:9200/tube-hd-data/' + encodeURIComponent(youtubeUrl));
 
     if (!response.ok) {
@@ -56,7 +59,10 @@ async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
 }
 
 async function streamData(url, sourceBuffer, type) {
-  const response = await fetch(url);
+  console.log(`Streaming ${type} from URL, controller signal: ${controller.signal}`);
+  const response = await fetch(url, {
+    signal: controller.signal
+  });
   const reader = response.body.getReader();
 
   async function pushChunk() {
