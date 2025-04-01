@@ -347,8 +347,9 @@
 	<script src="https://garywu007.github.io/demo/scaleXplayer/js/jimp.js"></script>
 	<script src="https://garywu007.github.io/demo/scaleXplayer/js/jsqr.js"></script>
 	<script src="https://garywu007.github.io/demo/scaleXplayer/js/base.js"></script>
+	<script src="https://garywu007.github.io/demo/scaleXplayer/js/merge-video.js"></script>
 	
-	<script>		
+	<script>
 		var sheetUser = getQueryVariable("sheet");
 		var mergeHDVideo = Boolean(getQueryVariable("hd"));
 		var videoListData = [];
@@ -517,7 +518,14 @@
 				} else {
 					var VplayerSrc = document.getElementById("VplayerSrc");
 					Vplayer.poster= videoListData[idx]['vImg'];
-					VplayerSrc.src = videoListData[idx]['vUrl'];
+
+					if(mergeHDVideo) {
+						getHDVideoUrl(videoListData[idx]['srcUrl']);
+					} else {
+						VplayerSrc.src = videoListData[idx]['vUrl'];
+					}
+
+					// VplayerSrc.src = videoListData[idx]['vUrl'];
 					Vplayer.load();
 					Vplayer.play();
 					Vplayer.playbackRate = VplayerSelectedSpeed;
