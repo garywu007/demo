@@ -523,10 +523,11 @@
 						getHDVideoUrl(videoListData[idx]['srcUrl']);
 					} else {
 						VplayerSrc.src = videoListData[idx]['vUrl'];
+						Vplayer.load();
 					}
 
 					// VplayerSrc.src = videoListData[idx]['vUrl'];
-					Vplayer.load();
+					// Vplayer.load();
 					Vplayer.play();
 					Vplayer.playbackRate = VplayerSelectedSpeed;
 					if(startTime > 0) {
