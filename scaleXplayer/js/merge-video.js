@@ -12,15 +12,11 @@ let controller = new AbortController();
 
 // document.getElementById('submitBtn').addEventListener('click', async () => 
 async function getHDVideoUrl(youtubeUrl) {
-  if (!youtubeUrl) {
-    alert('Please enter a valid YouTube URL');
-    return;
-  }
-
   try {
     // Send POST request to the backend to get video and audio URLs
     console.log("5");
-    controller.abort();
+    console.log("VideoPlayerSrc.src", VideoPlayerSrc.src);
+    // controller.abort();
     const response = await fetch('https://centos7:9200/tube-hd-data/' + encodeURIComponent(youtubeUrl));
 
     if (!response.ok) {
