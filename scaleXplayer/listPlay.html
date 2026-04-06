@@ -437,13 +437,13 @@
 					listDiv.scrollTop = listDiv.scrollHeight;
 				},
 				error: function(xhr, ajaxOptions, thrownError){
-					$("#addUrlOKBtn").css("display","block");
-					$("#addUrlLoading").css("display","none");
 					if(xhr.status === 0) {
                         setTimeout(() => {
                             parseUtubeJson(source);
                         }, 5000);
                     } else {
+                        $("#addUrlOKBtn").css("display","block");
+                        $("#addUrlLoading").css("display","none");
                         alert(xhr.status, thrownError);
                     }
 				}
