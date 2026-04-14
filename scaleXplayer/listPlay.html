@@ -549,7 +549,6 @@
                             let VplayerTrack = document.getElementById("VplayerTrack");
                             VplayerTrack.src = blobUrl;
                         }
-                            //
 
                         var VplayerSrc = document.getElementById("VplayerSrc");
                         Vplayer.poster = videoListData[idx]['vImg'];
@@ -581,6 +580,31 @@
                 if (mergeHDVideo) {
                     getHDVideoUrl(videoListData[idx]['srcUrl']);
                 } else {
+                    //add captions
+                    if ("captions" in videoListData[idx]) {
+                    
+                        const vttContent = `WEBVTT
+                        `;
+
+                        let captionsData = videoListData[idx]['captions'];
+
+                        captionsData.forEach(captionData => {
+                            vttContent += "\n";
+                            vttContent += captionData.start + " --> " + captionData.end + "\n";
+                            vttContent += captionData.text + "\n";
+                        });
+
+                        // 2. Convert to Blob
+                        const blob = new Blob([vttContent], { type: "text/vtt" });
+
+                        // 3. Create object URL
+                        const blobUrl = URL.createObjectURL(blob);
+
+                        // 4. Create <track> element
+                        let VplayerTrack = document.getElementById("VplayerTrack");
+                        VplayerTrack.src = blobUrl;
+                    }
+
                     VplayerSrc.src = videoListData[idx]['vUrl'];
                     Vplayer.load();
                     Vplayer.play();
