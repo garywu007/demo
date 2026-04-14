@@ -586,11 +586,11 @@
                         let vttContent = `WEBVTT
                         `;
 
-                        let captionsData = videoListData[idx]['captions']['captions'];
+                        let captionsData = videoListData[idx]['captions'];
 
                         captionsData.forEach(captionData => {
                             vttContent += "\n";
-                            vttContent += captionData.start + " --> " + captionData.end + "\n";
+                            vttContent += captionData.time + "\n";
                             vttContent += captionData.text + "\n";
                         });
 
