@@ -527,13 +527,15 @@
 
                         //add captions
                         const vttContent = `WEBVTT
-
-                        00:00:00.000 --> 00:00:16.000
-                        Hello, this is the first caption.
-
-                        00:00:16.000 --> 00:01:12.000
-                        This caption is loaded from a Blob.
                         `;
+
+                        let captionsData = videoListData[idx]['captions'];
+
+                        captionsData.forEach(captionData => {
+                            vttContent += "\n";
+                            vttContent += captionData.start + " --> " + captionData.end + "\n";
+                            vttContent += captionData.text + "\n";
+                        });
 
                         // 2. Convert to Blob
                         const blob = new Blob([vttContent], { type: "text/vtt" });
