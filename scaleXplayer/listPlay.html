@@ -583,7 +583,7 @@
                     //add captions
                     if ("captions" in videoListData[idx]) {
                     
-                        const vttContent = `WEBVTT
+                        let vttContent = `WEBVTT
                         `;
 
                         let captionsData = videoListData[idx]['captions']['captions'];
