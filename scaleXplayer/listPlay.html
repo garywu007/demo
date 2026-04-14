@@ -524,6 +524,7 @@
                     success: function (response) {
                         videoListData[idx]['vUrl'] = response;
                         localStorage.setItem("videoListCache", JSON.stringify(videoListData));
+                        VplayerTrack.src = "";
 
                         //add captions
                         if ("captions" in videoListData[idx]) {
@@ -580,6 +581,7 @@
                 if (mergeHDVideo) {
                     getHDVideoUrl(videoListData[idx]['srcUrl']);
                 } else {
+                    VplayerTrack.src = "";
                     //add captions
                     if ("captions" in videoListData[idx]) {
                     
