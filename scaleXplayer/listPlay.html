@@ -295,7 +295,8 @@
             <div id="player">
                 <video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
                     <source id="VplayerSrc" type="video/mp4" />
-                    <source id="VplayerSrcM3U8" type="application/x-mpegURL">
+                    <source id="VplayerSrcM3U8" type="application/x-mpegURL" />
+                    <track id="VplayerTrack" kind="subtitles" label="English" srclang="en" default="true" />
                 </video>
             </div>
             <div id="controller">
@@ -541,16 +542,10 @@
                         const blobUrl = URL.createObjectURL(blob);
 
                         // 4. Create <track> element
-                        const track = document.createElement("track");
-                        track.kind = "subtitles";
-                        track.label = "English";
-                        track.srclang = "en";
-                        track.src = blobUrl;
-                        track.default = true;
-
-                        // 5. Attach to video
-                        Vplayer.appendChild(track);
+                        let VplayerTrack = document.getElementById("VplayerTrack");
+                        VplayerTrack.src = blobUrl;
                         //
+
                         var VplayerSrc = document.getElementById("VplayerSrc");
                         Vplayer.poster = videoListData[idx]['vImg'];
                         VplayerSrc.src = videoListData[idx]['vUrl'];
