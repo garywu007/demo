@@ -586,7 +586,7 @@
                         const vttContent = `WEBVTT
                         `;
 
-                        let captionsData = JSON.parse(videoListData[idx]['captions']);
+                        let captionsData = JSON.parse(videoListData[idx]['captions']['captions']);
 
                         captionsData.forEach(captionData => {
                             vttContent += "\n";
