@@ -110,6 +110,7 @@
     <div id="videos"></div>
 
     <script>
+        const CORS_URL = "https://crimson-shape-c360.garywu-jiawen.workers.dev/?url=";
         let channels = [
             {
                 "name": "粵愛車",
@@ -153,7 +154,7 @@
 
             try {
                 const rssUrl = `https://www.youtube.com/feeds/videos.xml?playlist_id=UULF${channelId}`;
-                const proxy = `https://crimson-shape-c360.garywu-jiawen.workers.dev/?url=${encodeURIComponent(rssUrl)}`;
+                const proxy = `${CORS_URL}${encodeURIComponent(rssUrl)}`;
 
                 const response = await fetch(proxy);
                 const text = await response.text();
