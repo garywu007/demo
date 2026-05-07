@@ -60,7 +60,7 @@
     });
 
     async function streamCombinedVideo(videoUrl, audioUrl, videoCodecs) {
-      const CORS_URL = "https://crimson-shape-c360.garywu-jiawen.workers.dev/?url=";
+      const CORS_URL = "https://cold-credit-711d.garywu-jiawen.workers.dev/?url=";
 
       const mediaSource = new MediaSource();
       videoPlayer.src = URL.createObjectURL(mediaSource);
@@ -70,6 +70,9 @@
         const audioSourceBuffer = mediaSource.addSourceBuffer('audio/mp4; codecs="mp4a.40.2"');
 
         // Start fetching video and audio in parallel
+        // streamData(videoUrl, videoSourceBuffer, "video");
+        // streamData(audioUrl, audioSourceBuffer, "audio");
+
         streamData(`${CORS_URL}${encodeURIComponent(videoUrl)}`, videoSourceBuffer, "video");
         streamData(`${CORS_URL}${encodeURIComponent(audioUrl)}`, audioSourceBuffer, "audio");
       });
