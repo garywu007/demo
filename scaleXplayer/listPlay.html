@@ -424,9 +424,6 @@
             jsonp: 'callback',
             jsonpCallback: 'handleResponse',
             url: serverDomain + '/tubeData/' + encodeURIComponent(source),
-            // headers: {
-            //     'Access-Control-Allow-Origin': '*'
-            // },
             success: function (response) {
                 var jsonObj = response;
 
@@ -518,9 +515,6 @@
                     jsonp: 'callback',
                     jsonpCallback: 'handleResponse',
                     url: serverDomain + '/tubeUrl/' + encodeURIComponent(videoListData[idx]['srcUrl']),
-                    // headers: {
-                    //     'Access-Control-Allow-Origin': '*'
-                    // },
                     success: function (response) {
                         videoListData[idx]['vUrl'] = response;
                         localStorage.setItem("videoListCache", JSON.stringify(videoListData));
@@ -529,7 +523,7 @@
                         //add captions
                         if ("captions" in videoListData[idx]) {
                         
-                            const vttContent = `WEBVTT
+                            let vttContent = `WEBVTT
                             `;
 
                             let captionsData = videoListData[idx]['captions'];
