@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,22 +13,26 @@
             background-color: #f4f4f9;
             color: #333;
         }
+
         .container {
             max-width: 650px;
             margin: auto;
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .input-group {
             margin-bottom: 15px;
         }
+
         label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         input[type="text"] {
             width: 100%;
             padding: 8px;
@@ -35,11 +40,13 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .controls {
             margin: 20px 0;
             display: flex;
             gap: 10px;
         }
+
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -51,29 +58,36 @@
             color: white;
             transition: background 0.2s;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         button.pause-btn {
             background-color: #dc3545;
         }
+
         button.pause-btn:hover {
             background-color: #bd2130;
         }
+
         .media-container {
             margin-top: 20px;
             text-align: center;
         }
+
         video {
             width: 100%;
             max-height: 360px;
             background: #000;
             border-radius: 4px;
         }
+
         audio {
             width: 100%;
             margin-top: 10px;
         }
+
         .status {
             margin-top: 10px;
             font-style: italic;
@@ -82,196 +96,218 @@
         }
     </style>
 </head>
+
 <body>
 
-<div class="container">
-    <h2>Synchronized Player (Buffering Protection)</h2>
-    
-    <!-- URL Inputs -->
-    <div class="input-group">
-        <label for="videoUrl">Video URL:</label>
-        <input type="text" id="videoUrl" placeholder="Enter video file URL" value="https://rr8---sn-ni5f-tfbs.googlevideo.com/videoplayback?expire=1787270497&ei=AUGHavuWIq2clu8P0uLUiA8&ip=50.71.174.150&id=o-AOvHZQg8SKR7yesYFnlzdZUVofWxk504a1PUykBRAKBK&itag=303&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=346&met=1787248897%2C&mh=Yx&mm=31%2C29&mn=sn-ni5f-tfbs%2Csn-vgqsknde&ms=au%2Crdu&mv=m&mvi=8&pl=22&rms=au%2Cau&initcwndbps=4198750&bui=AR3QkAkft8ICSfuY5sDLR8tkNcLwJ8DeDUDWy3CxN9ZKF3XR_aoCJfBbtrvoFDdqS3ra-1NgUNBLh3JJ&spc=KBGBcgvOCQLXXWkfHrfzg9LvfdZy47Y3AWCIiVw436m41xSEVVxq3klDKw&vprv=1&svpuc=1&mime=video%2Fwebm&rqh=1&gir=yes&clen=159967537&dur=410.860&lmt=1787010942589373&mt=1787248163&fvip=3&keepalive=yes&fexp=51565115%2C51946838&c=VISIONOS&txp=4532234&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRQIhANbBeLjAlOx6ZzJfDA4DXJCIPzjZOwss0NsMwLDq7_HSAiB697mBrrhnRpoebxnsoSjX_p0p3U48Y-hXfyfHtzBx4Q%3D%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRQIgPQfQrC83-tS0_lev-sccGRpH_icsmxcJZQcHIFwO0h4CIQCIgR8c-uunUl7l6gT2qG_l9nJTwbtWc3YYsgKolCFTqA%3D%3D">
-    </div>
-    
-    <div class="input-group">
+    <div class="container">
+        <h2>Synchronized Player (Buffering Protection)</h2>
+
+        <!-- URL Inputs -->
+        <div class="input-group">
+            <label for="videoUrl">Video URL:</label>
+            <input type="text" id="videoUrl" placeholder="Enter video file URL">
+        </div>
+
+        <!-- <div class="input-group">
         <label for="audioUrl">Audio URL:</label>
         <input type="text" id="audioUrl" placeholder="Enter audio file URL" value="https://rr8---sn-ni5f-tfbs.googlevideo.com/videoplayback?expire=1787270205&ei=3T-HarSzA4biir4Ph-X96A8&ip=50.71.174.150&id=o-AC_EznURbA2oJxGX3bP4UubIlCc-4z9Brzj3kdzMNVI_&itag=140&source=youtube&requiressl=yes&xpc=EgVo2aDSNQ%3D%3D&cps=387&met=1787248605%2C&mh=Yx&mm=31%2C29&mn=sn-ni5f-tfbs%2Csn-vgqsrnzs&ms=au%2Crdu&mv=m&mvi=8&pl=22&rms=au%2Cau&initcwndbps=4198750&bui=AR3QkAkX957gBwWReuZPUYFpwA-Xc67959jofXiECHCN-MXt5RG1ccAPFMNjXETJWrT7xG2-sk_zp8CG&spc=KBGBcvVJ1sYZc9FAolBMAiqAAtj-Y0A0iacoVZJZjj0sPKltpihLeUcKXA&vprv=1&svpuc=1&xtags=acont%3Doriginal%3Alang%3Dzh-Hant&mime=audio%2Fmp4&rqh=1&gir=yes&clen=6652370&dur=410.969&lmt=1786955082973632&mt=1787248163&fvip=1&keepalive=yes&fexp=51565116%2C51946838&c=VISIONOS&txp=3308224&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cxpc%2Cbui%2Cspc%2Cvprv%2Csvpuc%2Cxtags%2Cmime%2Crqh%2Cgir%2Cclen%2Cdur%2Clmt&sig=AE0s2JYwRgIhANbMVlQQK0ck0qNENoETnJfIEAfYEKybm6swWueoGuf9AiEAk6xiUDSdxTMk_8jqmXmJomgnwfWqmsvE6WZ6Zeuga8M%3D&lsparams=cps%2Cmet%2Cmh%2Cmm%2Cmn%2Cms%2Cmv%2Cmvi%2Cpl%2Crms%2Cinitcwndbps&lsig=APaTxxMwRgIhAMSi0RuurF16J120Z2PUUhKzLjCrbJ-32rplGqAOFW49AiEAgBK_fLc5UrCWvBHEHUj0qlvohA3Mbi8Yc88zIatgIKU%3D">
     </div>
+     -->
 
-    <!-- Operation Controls -->
-    <div class="controls">
-        <button onclick="loadSources()">Load Source</button>
-        <button onclick="playMedia()">Play</button>
-        <button class="pause-btn" onclick="pauseMedia()">Pause</button>
-        <button onclick="goFullScreen()">Full Screen</button>
+        <!-- Operation Controls -->
+        <div class="controls">
+            <button onclick="loadSources()">Load Source</button>
+            <button onclick="playMedia()">Play</button>
+            <button class="pause-btn" onclick="pauseMedia()">Pause</button>
+            <button onclick="goFullScreen()">Full Screen</button>
+        </div>
 
-        <select id="speedSelector" onchange="changeSpeed(this.value)">
-            <option value="1.0" selected>1.0x (Normal)</option>
-            <option value="1.25">1.25x Speed</option>
-            <option value="1.5">1.5x Speed</option>
-            <option value="2.0">2.0x Speed</option>
-        </select>
+        <!-- Media Elements -->
+        <div class="media-container">
+            <label>Video (Muted)</label>
+            <video id="myVideo" muted playsinline></video>
+            <audio id="myAudio"></audio>
+        </div>
+
+        <div class="status" id="statusMessage">Sources ready to load.</div>
     </div>
 
-    <!-- Media Elements -->
-    <div class="media-container">
-        <label>Video (Muted)</label>
-        <video id="myVideo" muted playsinline></video>
-        <audio id="myAudio"></audio>
-    </div>
-    
-    <div class="status" id="statusMessage">Sources ready to load.</div>
-</div>
+    <script>
+        const videoElement = document.getElementById('myVideo');
+        const audioElement = document.getElementById('myAudio');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const audioUrlInput = document.getElementById('audioUrl');
+        const statusMessage = document.getElementById('statusMessage');
 
-<script>
-    const videoElement = document.getElementById('myVideo');
-    const audioElement = document.getElementById('myAudio');
-    const videoUrlInput = document.getElementById('videoUrl');
-    const audioUrlInput = document.getElementById('audioUrl');
-    const statusMessage = document.getElementById('statusMessage');
+        // Track user intention (did they press Play or Pause?)
+        let isUserPlaying = false;
 
-    // Track user intention (did they press Play or Pause?)
-    let isUserPlaying = false; 
+        // Track ready states (HTML5 readyState >= 3 means HAVE_FUTURE_DATA, enough to play)
+        let isVideoReady = false;
+        let isAudioReady = false;
 
-    // Track ready states (HTML5 readyState >= 3 means HAVE_FUTURE_DATA, enough to play)
-    let isVideoReady = false;
-    let isAudioReady = false;
+        async function loadSources() {
+            const youtubeUrl = videoUrlInput.value.trim();
+            let videoSrc = "";
+            let audioSrc = "";
 
-    function loadSources() {
-        const videoSrc = videoUrlInput.value.trim();
-        const audioSrc = audioUrlInput.value.trim();
+            try {
+                // Send POST request to the backend to get video and audio URLs
+                const response = await fetch('https://apps.garywu-jiawen.workers.dev/tube-hd-data/' + encodeURIComponent(youtubeUrl));
 
-        if (!videoSrc || !audioSrc) {
-            statusMessage.innerText = "Please provide both Video and Audio URLs.";
-            return;
-        }
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch video/audio URLs: ${response.statusText}`);
+                }
 
-        isUserPlaying = false;
-        isVideoReady = false;
-        isAudioReady = false;
+                const data = await response.json(); // Example response: { videoUrl, audioUrl }
+                console.log('Received data:', data);
 
-        videoElement.src = videoSrc;
-        audioElement.src = audioSrc;
-
-        videoElement.load();
-        audioElement.load();
-
-        statusMessage.innerText = "Sources loading... waiting for data.";
-    }
-
-    // High-level master command function to handle simultaneous playback safely
-    function checkAndResume() {
-        // Only trigger playback if the user actually clicked "Play" AND both items are unblocked
-        if (isUserPlaying && isVideoReady && isAudioReady) {
-            // Align audio timeline to the video anchor timeline right before unpausing
-            if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
-                audioElement.currentTime = videoElement.currentTime;
+                if (data.videoUrl && data.audioUrl) {
+                    videoSrc = data.videoUrl;
+                    audioSrc = data.audioUrl;
+                } else {
+                    throw new Error('Invalid video/audio URL format in response');
+                }
+            } catch (error) {
+                console.error('Error fetching video/audio:', error);
+                alert('Failed to fetch video/audio. Check console for details.');
             }
-            videoElement.play().catch(e => console.log("Video play blocked:", e));
-            audioElement.play().catch(e => console.log("Audio play blocked:", e));
-            statusMessage.innerText = "Playing synced assets.";
+
+            if (!videoSrc || !audioSrc) {
+                statusMessage.innerText = "Please provide both Video and Audio URLs.";
+                return;
+            }
+
+            isUserPlaying = false;
+            isVideoReady = false;
+            isAudioReady = false;
+
+            videoElement.src = videoSrc;
+            audioElement.src = audioSrc;
+
+            videoElement.load();
+            audioElement.load();
+
+            if (audioElement.playbackRate !== videoElement.playbackRate) {
+                audioElement.playbackRate = videoElement.playbackRate;
+            }
+
+            statusMessage.innerText = "Sources loading... waiting for data.";
         }
-    }
 
-    // Action execution when user interacts with buttons
-    function playMedia() {
-        isUserPlaying = true;
-        statusMessage.innerText = "Buffer check initiated...";
-        
-        // Evaluate initial states immediately
-        isVideoReady = videoElement.readyState >= 3;
-        isAudioReady = audioElement.readyState >= 3;
+        // High-level master command function to handle simultaneous playback safely
+        function checkAndResume() {
+            // Only trigger playback if the user actually clicked "Play" AND both items are unblocked
+            if (isUserPlaying && isVideoReady && isAudioReady) {
+                // Align audio timeline to the video anchor timeline right before unpausing
+                if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
+                    audioElement.currentTime = videoElement.currentTime;
+                }
+                videoElement.play().catch(e => console.log("Video play blocked:", e));
+                audioElement.play().catch(e => console.log("Audio play blocked:", e));
+                statusMessage.innerText = "Playing synced assets.";
+            }
+        }
 
-        if (!isVideoReady || !isAudioReady) {
-            statusMessage.innerText = "Buffering asset elements... Waiting to start synchronously.";
-            // Temporarily hold elements until event listeners below flag readiness
+        // Action execution when user interacts with buttons
+        function playMedia() {
+            isUserPlaying = true;
+            statusMessage.innerText = "Buffer check initiated...";
+
+            // Evaluate initial states immediately
+            isVideoReady = videoElement.readyState >= 3;
+            isAudioReady = audioElement.readyState >= 3;
+
+            if (!isVideoReady || !isAudioReady) {
+                statusMessage.innerText = "Buffering asset elements... Waiting to start synchronously.";
+                // Temporarily hold elements until event listeners below flag readiness
+                videoElement.pause();
+                audioElement.pause();
+            }
+
+            checkAndResume();
+        }
+
+        function pauseMedia() {
+            isUserPlaying = false;
             videoElement.pause();
             audioElement.pause();
+            statusMessage.innerText = "Paused by user.";
         }
-        
-        checkAndResume();
-    }
 
-    function pauseMedia() {
-        isUserPlaying = false;
-        videoElement.pause();
-        audioElement.pause();
-        statusMessage.innerText = "Paused by user.";
-    }
-
-    function goFullScreen() {
-        if (videoElement.requestFullscreen) {
-            videoElement.requestFullscreen();
+        function goFullScreen() {
+            if (videoElement.requestFullscreen) {
+                videoElement.requestFullscreen();
+            }
+            //FireFox 
+            else if (videoElement.mozRequestFullScreen) {
+                videoElement.mozRequestFullScreen();
+            }
+            //Chrome等 
+            else if (videoElement.webkitRequestFullScreen) {
+                videoElement.webkitRequestFullScreen();
+            }
+            else if (videoElement.webkitEnterFullscreen) {
+                videoElement.webkitEnterFullscreen();
+            }
+            //IE11
+            else if (videoElement.msRequestFullscreen) {
+                videoElement.msRequestFullscreen();
+            }
         }
-        //FireFox 
-        else if (videoElement.mozRequestFullScreen) {
-            videoElement.mozRequestFullScreen();
-        }
-        //Chrome等 
-        else if (videoElement.webkitRequestFullScreen) {
-            videoElement.webkitRequestFullScreen();
-        }
-        else if (videoElement.webkitEnterFullscreen) {
-            videoElement.webkitEnterFullscreen();
-        }
-        //IE11
-        else if (videoElement.msRequestFullscreen) {
-            videoElement.msRequestFullscreen();
-        }
-    }
 
-    // --- BUFFER & TIMING LISTENERS ---
+        // --- BUFFER & TIMING LISTENERS ---
 
-    // 1. Handlers for when assets run out of data midway (Waiting / Buffering)
-    videoElement.onwaiting = () => {
-        isVideoReady = false;
-        audioElement.pause(); // Force audio to freeze instantly while video recovers
-        if (isUserPlaying) statusMessage.innerText = "Video buffering... freezing audio stream.";
-    };
+        // 1. Handlers for when assets run out of data midway (Waiting / Buffering)
+        videoElement.onwaiting = () => {
+            isVideoReady = false;
+            audioElement.pause(); // Force audio to freeze instantly while video recovers
+            if (isUserPlaying) statusMessage.innerText = "Video buffering... freezing audio stream.";
+        };
 
-    audioElement.onwaiting = () => {
-        isAudioReady = false;
-        videoElement.pause(); // Force video to freeze instantly while audio recovers
-        if (isUserPlaying) statusMessage.innerText = "Audio buffering... freezing video frame.";
-    };
+        audioElement.onwaiting = () => {
+            isAudioReady = false;
+            videoElement.pause(); // Force video to freeze instantly while audio recovers
+            if (isUserPlaying) statusMessage.innerText = "Audio buffering... freezing video frame.";
+        };
 
-    videoElement.onpause = () => {
-        audioElement.pause(); // Force audio to freeze instantly while video recovers
-        statusMessage.innerText = "Paused by user.";
-    };
+        videoElement.onpause = () => {
+            audioElement.pause(); // Force audio to freeze instantly while video recovers
+            statusMessage.innerText = "Paused by user.";
+        };
 
-    // 2. Handlers for when assets recover enough data to resume playback safely
-    videoElement.onplaying = () => {
-        isVideoReady = true;
-        checkAndResume();
-    };
+        // 2. Handlers for when assets recover enough data to resume playback safely
+        videoElement.onplaying = () => {
+            isVideoReady = true;
+            checkAndResume();
+        };
 
-    audioElement.onplaying = () => {
-        isAudioReady = true;
-        checkAndResume();
-    };
+        audioElement.onplaying = () => {
+            isAudioReady = true;
+            checkAndResume();
+        };
 
-    // Generic state change fallbacks to catch edge cases
-    videoElement.oncanplay = () => { isVideoReady = true; checkAndResume(); };
-    audioElement.oncanplay = () => { isAudioReady = true; checkAndResume(); };
+        // Generic state change fallbacks to catch edge cases
+        videoElement.oncanplay = () => { isVideoReady = true; checkAndResume(); };
+        audioElement.oncanplay = () => { isAudioReady = true; checkAndResume(); };
 
-    // 3. Keep timeline seeks linked together if user drops back/forward
-    videoElement.onseeking = () => {
-        if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
-            audioElement.currentTime = videoElement.currentTime;
-        }
-    };
-
-    videoElement.onratechange = () => {
-        if (audioElement.playbackRate !== videoElement.playbackRate) {
-            audioElement.playbackRate = videoElement.playbackRate;
-            speedSelector.value = videoElement.playbackRate.toString();
+        // 3. Keep timeline seeks linked together if user drops back/forward
+        videoElement.onseeking = () => {
             if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
                 audioElement.currentTime = videoElement.currentTime;
             }
-        }
-    };
-</script>
+        };
+
+        videoElement.onratechange = () => {
+            if (audioElement.playbackRate !== videoElement.playbackRate) {
+                audioElement.playbackRate = videoElement.playbackRate;
+                if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
+                    audioElement.currentTime = videoElement.currentTime;
+                }
+            }
+        };
+    </script>
 
 </body>
+
 </html>
