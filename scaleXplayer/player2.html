@@ -261,6 +261,13 @@
             audioElement.currentTime = videoElement.currentTime;
         }
     };
+
+    videoElement.onratechange = () => {
+        if (audioElement.playbackRate !== videoElement.playbackRate) {
+            audioElement.playbackRate = videoElement.playbackRate;
+            speedSelector.value = videoElement.playbackRate.toString();
+        }
+    };
 </script>
 
 </body>
