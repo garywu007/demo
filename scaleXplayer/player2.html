@@ -103,7 +103,15 @@
         <button onclick="loadSources()">Load Source</button>
         <button onclick="playMedia()">Play</button>
         <button class="pause-btn" onclick="pauseMedia()">Pause</button>
-        <button onclick="goFullScreen()">Full Screen</button>
+        <button class="fullscreen-btn" onclick="toggleFullScreen()">Full Screen</button>
+        
+        <!-- Playback Speed Control Dropdown -->
+        <select id="speedSelector" onchange="changeSpeed(this.value)">
+            <option value="1.0" selected>1.0x (Normal)</option>
+            <option value="1.25">1.25x Speed</option>
+            <option value="1.5">1.5x Speed</option>
+            <option value="2.0">2.0x Speed</option>
+        </select>
     </div>
 
     <!-- Media Elements -->
@@ -121,6 +129,7 @@
     const audioElement = document.getElementById('myAudio');
     const videoUrlInput = document.getElementById('videoUrl');
     const audioUrlInput = document.getElementById('audioUrl');
+    const speedSelector = document.getElementById('speedSelector');
     const statusMessage = document.getElementById('statusMessage');
 
     // Track user intention (did they press Play or Pause?)
@@ -146,6 +155,11 @@
         videoElement.src = videoSrc;
         audioElement.src = audioSrc;
 
+        // Reset elements back to default 1.0x speed when changing sources
+        speedSelector.value = "1.0";
+        videoElement.playbackRate = 1.0;
+        audioElement.playbackRate = 1.0;
+
         videoElement.load();
         audioElement.load();
 
@@ -160,6 +174,11 @@
             if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
                 audioElement.currentTime = videoElement.currentTime;
             }
+            // Enforce matched playback speed variables before starting streams
+            const targetedSpeed = parseFloat(speedSelector.value);
+            videoElement.playbackRate = targetedSpeed;
+            audioElement.playbackRate = targetedSpeed;
+
             videoElement.play().catch(e => console.log("Video play blocked:", e));
             audioElement.play().catch(e => console.log("Audio play blocked:", e));
             statusMessage.innerText = "Playing synced assets.";
@@ -252,6 +271,14 @@
     videoElement.onseeking = () => {
         if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
             audioElement.currentTime = videoElement.currentTime;
+        }
+    };
+
+    // Edge case layout helper: if video changes speed natively via right-click contexts
+    videoElement.onratechange = () => {
+        if (audioElement.playbackRate !== videoElement.playbackRate) {
+            audioElement.playbackRate = videoElement.playbackRate;
+            speedSelector.value = videoElement.playbackRate.toString();
         }
     };
 </script>
