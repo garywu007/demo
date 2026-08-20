@@ -103,6 +103,7 @@
         <button onclick="loadSources()">Load Source</button>
         <button onclick="playMedia()">Play</button>
         <button class="pause-btn" onclick="pauseMedia()">Pause</button>
+        <button onclick="goFullScreen()">Full Screen</button>
     </div>
 
     <!-- Media Elements -->
@@ -191,6 +192,27 @@
         statusMessage.innerText = "Paused by user.";
     }
 
+    function goFullScreen() {
+        if (videoElement.requestFullscreen) {
+            videoElement.requestFullscreen();
+        }
+        //FireFox 
+        else if (videoElement.mozRequestFullScreen) {
+            videoElement.mozRequestFullScreen();
+        }
+        //Chrome等 
+        else if (videoElement.webkitRequestFullScreen) {
+            videoElement.webkitRequestFullScreen();
+        }
+        else if (videoElement.webkitEnterFullscreen) {
+            videoElement.webkitEnterFullscreen();
+        }
+        //IE11
+        else if (videoElement.msRequestFullscreen) {
+            videoElement.msRequestFullscreen();
+        }
+    }
+
     // --- BUFFER & TIMING LISTENERS ---
 
     // 1. Handlers for when assets run out of data midway (Waiting / Buffering)
@@ -204,6 +226,11 @@
         isAudioReady = false;
         videoElement.pause(); // Force video to freeze instantly while audio recovers
         if (isUserPlaying) statusMessage.innerText = "Audio buffering... freezing video frame.";
+    };
+
+    videoElement.onpause = () => {
+        audioElement.pause(); // Force audio to freeze instantly while video recovers
+        statusMessage.innerText = "Paused by user.";
     };
 
     // 2. Handlers for when assets recover enough data to resume playback safely
