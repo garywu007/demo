@@ -266,6 +266,9 @@
         if (audioElement.playbackRate !== videoElement.playbackRate) {
             audioElement.playbackRate = videoElement.playbackRate;
             speedSelector.value = videoElement.playbackRate.toString();
+            if (Math.abs(audioElement.currentTime - videoElement.currentTime) > 0.1) {
+                audioElement.currentTime = videoElement.currentTime;
+            }
         }
     };
 </script>
