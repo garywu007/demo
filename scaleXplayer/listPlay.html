@@ -851,25 +851,33 @@
 
     Vplayer.onpause = () => {
         if (userClick) {
-            isUserPlaying = false;
+            isUserPlaying = false; 
             userClick = false;
+
+            $("#playBtn").css("display", "block");
+            $("#pauseBtn").css("display", "none");
         }
         videoAudio.pause();
-
-        $("#playBtn").css("display", "block");
-        $("#pauseBtn").css("display", "none");
     };
+
+    videoAudio.onpause = () => {
+        Vplayer.pause();
+    }
 
     Vplayer.onplay = () => {
         if (userClick) {
             isUserPlaying = true;
             userClick = false;
+
+            $("#playBtn").css("display", "none");
+            $("#pauseBtn").css("display", "block");
         }
         videoAudio.play();
-
-        $("#playBtn").css("display", "none");
-        $("#pauseBtn").css("display", "block");
     };
+
+    videoAudio.onplay = () => {
+        Vplayer.play();
+    }
 
     Vplayer.onpointerdown = () => {
         userClick = true;
