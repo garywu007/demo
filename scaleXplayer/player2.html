@@ -272,8 +272,15 @@
         };
 
         videoElement.onpause = () => {
+            // isUserPlaying = false;
             audioElement.pause(); // Force audio to freeze instantly while video recovers
             statusMessage.innerText = "Paused by user.";
+        };
+
+        videoElement.onplay = () => {
+            // isUserPlaying = true;
+            audioElement.play(); // Force audio to freeze instantly while video recovers
+            statusMessage.innerText = "Playing synced assets.";
         };
 
         // 2. Handlers for when assets recover enough data to resume playback safely
