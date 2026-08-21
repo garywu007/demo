@@ -853,11 +853,11 @@
         if (userClick) {
             isUserPlaying = false; 
             userClick = false;
-
-            $("#playBtn").css("display", "block");
-            $("#pauseBtn").css("display", "none");
         }
         videoAudio.pause();
+
+        $("#playBtn").css("display", "block");
+        $("#pauseBtn").css("display", "none");
     };
 
     videoAudio.onpause = () => {
@@ -868,11 +868,11 @@
         if (userClick) {
             isUserPlaying = true;
             userClick = false;
-
-            $("#playBtn").css("display", "none");
-            $("#pauseBtn").css("display", "block");
         }
         videoAudio.play();
+
+        $("#playBtn").css("display", "none");
+        $("#pauseBtn").css("display", "block");
     };
 
     videoAudio.onplay = () => {
