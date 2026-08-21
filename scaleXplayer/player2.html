@@ -141,6 +141,7 @@
 
         // Track user intention (did they press Play or Pause?)
         let isUserPlaying = false;
+        let userClick = false;
 
         // Track ready states (HTML5 readyState >= 3 means HAVE_FUTURE_DATA, enough to play)
         let isVideoReady = false;
@@ -272,16 +273,26 @@
         };
 
         videoElement.onpause = () => {
-            // isUserPlaying = false;
+            if (userClick) {
+                isUserPlaying = false;
+                userClick = false;
+            }
             audioElement.pause(); // Force audio to freeze instantly while video recovers
             statusMessage.innerText = "Paused by user.";
         };
 
         videoElement.onplay = () => {
-            // isUserPlaying = true;
+            if (userClick) {
+                isUserPlaying = true;
+                userClick = false;
+            }
             audioElement.play(); // Force audio to freeze instantly while video recovers
             statusMessage.innerText = "Playing synced assets.";
         };
+
+        videoElement.onpointerdown = () => {
+            userClick = true;
+        }
 
         // 2. Handlers for when assets recover enough data to resume playback safely
         videoElement.onplaying = () => {
