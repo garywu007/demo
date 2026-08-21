@@ -293,7 +293,7 @@
     <div id="mainView">
         <div id="playZone">
             <div id="player">
-                <video id="Vplayer" muted onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
+                <video id="Vplayer" muted onended="VplayerEnded()">
                     <source id="VplayerSrc" type="video/mp4" />
                     <!-- <source id="VplayerSrcM3U8" type="application/x-mpegURL" /> -->
                     <track id="VplayerTrack" kind="subtitles" label="Chinese" srclang="zh-HK" default="true" />
@@ -649,16 +649,6 @@
         }
     }
 
-    function VplayerPlaying() {
-        $("#playBtn").css("display", "none");
-        $("#pauseBtn").css("display", "block");
-    }
-
-    function VplayerPausing() {
-        $("#playBtn").css("display", "block");
-        $("#pauseBtn").css("display", "none");
-    }
-
     function VplayerSpeed(diff) {
         //var Vplayer = document.getElementById("Vplayer");
         Vplayer.playbackRate += diff;
@@ -865,6 +855,9 @@
             userClick = false;
         }
         videoAudio.pause();
+
+        $("#playBtn").css("display", "block");
+        $("#pauseBtn").css("display", "none");
     };
 
     Vplayer.onplay = () => {
@@ -873,6 +866,9 @@
             userClick = false;
         }
         videoAudio.play();
+
+        $("#playBtn").css("display", "none");
+        $("#pauseBtn").css("display", "block");
     };
 
     Vplayer.onpointerdown = () => {
