@@ -293,11 +293,12 @@
     <div id="mainView">
         <div id="playZone">
             <div id="player">
-                <video id="Vplayer" onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
+                <video id="Vplayer" muted onplay="VplayerPlaying();" onpause="VplayerPausing();" onended="VplayerEnded()">
                     <source id="VplayerSrc" type="video/mp4" />
-                    <source id="VplayerSrcM3U8" type="application/x-mpegURL" />
+                    <!-- <source id="VplayerSrcM3U8" type="application/x-mpegURL" /> -->
                     <track id="VplayerTrack" kind="subtitles" label="Chinese" srclang="zh-HK" default="true" />
                 </video>
+                <audio id="videoAudio"></audio>
             </div>
             <div id="controller">
                 <div id="playBtn" class="btnCommon" onclick="document.getElementById('Vplayer').play();">
@@ -423,7 +424,8 @@
             crossDomain: true,
             jsonp: 'callback',
             jsonpCallback: 'handleResponse',
-            url: serverDomain + '/tubeData/' + encodeURIComponent(source),
+            // url: serverDomain + '/tubeData/' + encodeURIComponent(source),
+            url: serverDomain + '/tube-hd-data/' + encodeURIComponent(source),
             success: function (response) {
                 var jsonObj = response;
 
@@ -514,9 +516,12 @@
                     crossDomain: true,
                     jsonp: 'callback',
                     jsonpCallback: 'handleResponse',
-                    url: serverDomain + '/tubeUrl/' + encodeURIComponent(videoListData[idx]['srcUrl']),
+                    url: serverDomain + '/tube-hd-data/' + encodeURIComponent(videoListData[idx]['srcUrl']),
                     success: function (response) {
-                        videoListData[idx]['vUrl'] = response;
+                        var jsonObj = response;
+
+                        videoListData[idx]['videoUrl'] = jsonObj['videoUrl'];
+                        videoListData[idx]['audioUrl'] = jsonObj['audioUrl'];
                         localStorage.setItem("videoListCache", JSON.stringify(videoListData));
                         VplayerTrack.src = "";
 
