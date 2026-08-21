@@ -301,10 +301,10 @@
                 <audio id="videoAudio"></audio>
             </div>
             <div id="controller">
-                <div id="playBtn" class="btnCommon" onclick="document.getElementById('Vplayer').play();">
+                <div id="playBtn" class="btnCommon" onclick="playMedia()">
                     <img src="./icon/play.svg" />
                 </div>
-                <div id="pauseBtn" class="btnCommon" onclick="document.getElementById('Vplayer').pause();">
+                <div id="pauseBtn" class="btnCommon" onclick="pauseMedia()">
                     <img src="./icon/pause.svg" />
                 </div>
                 <div id="minusBtn" class="btnCommon" onclick="VplayerSpeed(-0.25)">
@@ -384,6 +384,12 @@
     var playerError = false;
     var startTime = 0;
 
+    //video - audio separate controls
+    let isUserPlaying = false;
+    let userClick = false;
+    let isVideoReady = false;
+    let isAudioReady = false;
+
     var sources = Vplayer.querySelectorAll('source');
     if (sources.length !== 0) {
         sources.forEach((source, idx) => {
@@ -412,9 +418,9 @@
         if (event.code === "Space") {
             event.preventDefault();
             if (Vplayer.paused) {
-                Vplayer.play();
+                playMedia();
             } else {
-                Vplayer.pause();
+                pauseMedia();
             }
         }
     });
@@ -564,8 +570,7 @@
                         Vplayer.playbackRate = VplayerSelectedSpeed;
                         videoAudio.playbackRate = VplayerSelectedSpeed;
 
-                        Vplayer.play();
-                        videoAudio.play();
+                        playMedia();
 
                         if (startTime > 0) {
                             Vplayer.currentTime = startTime;
@@ -626,8 +631,7 @@
                     Vplayer.load();
                     videoAudio.load();
 
-                    Vplayer.play();
-                    videoAudio.play();
+                    playMedia();
                 }
 
                 Vplayer.playbackRate = VplayerSelectedSpeed;
@@ -812,6 +816,96 @@
         }
         return (false);
     }
+
+    function checkAndResume() {
+        // Only trigger playback if the user actually clicked "Play" AND both items are unblocked
+        if (isUserPlaying && isVideoReady && isAudioReady) {
+            // Align audio timeline to the video anchor timeline right before unpausing
+            if (Math.abs(videoAudio.currentTime - Vplayer.currentTime) > 0.1) {
+                videoAudio.currentTime = Vplayer.currentTime;
+            }
+            Vplayer.play().catch(e => console.log("Video play blocked:", e));
+            videoAudio.play().catch(e => console.log("Audio play blocked:", e));
+        }
+    }
+
+    function playMedia() {
+        isUserPlaying = true;
+        
+        isVideoReady = Vplayer.readyState >= 3;
+        isAudioReady = videoAudio.readyState >= 3;
+
+        if (!isVideoReady || !isAudioReady) {
+            Vplayer.pause();
+            videoAudio.pause();
+        }
+
+        checkAndResume();
+    }
+
+    function pauseMedia() {
+        isUserPlaying = false;
+        Vplayer.pause();
+        videoAudio.pause();
+    }
+
+    Vplayer.onwaiting = () => {
+        isVideoReady = false;
+        videoAudio.pause();
+    };
+
+    videoAudio.onwaiting = () => {
+        isAudioReady = false;
+        Vplayer.pause();
+    };
+
+    Vplayer.onpause = () => {
+        if (userClick) {
+            isUserPlaying = false;
+            userClick = false;
+        }
+        videoAudio.pause();
+    };
+
+    Vplayer.onplay = () => {
+        if (userClick) {
+            isUserPlaying = true;
+            userClick = false;
+        }
+        videoAudio.play();
+    };
+
+    Vplayer.onpointerdown = () => {
+        userClick = true;
+    }
+
+    Vplayer.onplaying = () => {
+        isVideoReady = true;
+        checkAndResume();
+    };
+
+    videoAudio.onplaying = () => {
+        isAudioReady = true;
+        checkAndResume();
+    };
+
+    Vplayer.oncanplay = () => { isVideoReady = true; checkAndResume(); };
+    videoAudio.oncanplay = () => { isAudioReady = true; checkAndResume(); };
+
+    Vplayer.onseeking = () => {
+        if (Math.abs(videoAudio.currentTime - Vplayer.currentTime) > 0.1) {
+            videoAudio.currentTime = Vplayer.currentTime;
+        }
+    };
+
+    Vplayer.onratechange = () => {
+        if (videoAudio.playbackRate !== Vplayer.playbackRate) {
+            videoAudio.playbackRate = Vplayer.playbackRate;
+            if (Math.abs(videoAudio.currentTime - Vplayer.currentTime) > 0.1) {
+                videoAudio.currentTime = Vplayer.currentTime;
+            }
+        }
+    };
 </script>
 
 </html>
