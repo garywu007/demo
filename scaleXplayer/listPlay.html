@@ -380,6 +380,7 @@
     var deleteFlag = false;
     var ver = 1;
     var Vplayer = document.getElementById("Vplayer");
+    var videoAudio = document.getElementById("videoAudio");
     var playerError = false;
     var startTime = 0;
 
@@ -551,13 +552,24 @@
                         }
 
                         var VplayerSrc = document.getElementById("VplayerSrc");
+                        var videoAudio = document.getElementById("videoAudio");
+
                         Vplayer.poster = videoListData[idx]['vImg'];
-                        VplayerSrc.src = videoListData[idx]['vUrl'];
+                        VplayerSrc.src = videoListData[idx]['videoUrl'];
+                        videoAudio.src = videoListData[idx]['audioUrl'];
+
                         Vplayer.load();
-                        Vplayer.play();
+                        videoAudio.load();
+
                         Vplayer.playbackRate = VplayerSelectedSpeed;
+                        videoAudio.playbackRate = VplayerSelectedSpeed;
+
+                        Vplayer.play();
+                        videoAudio.play();
+
                         if (startTime > 0) {
                             Vplayer.currentTime = startTime;
+                            videoAudio.currentTime = startTime;
                         }
                         $("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
                         playingIdx = idx;
@@ -575,6 +587,8 @@
                 });
             } else {
                 var VplayerSrc = document.getElementById("VplayerSrc");
+                var videoAudio = document.getElementById("videoAudio");
+
                 Vplayer.poster = videoListData[idx]['vImg'];
 
                 if (mergeHDVideo) {
@@ -606,18 +620,24 @@
                         VplayerTrack.src = blobUrl;
                     }
 
-                    VplayerSrc.src = videoListData[idx]['vUrl'];
-                    Vplayer.load();
-                    Vplayer.play();
-                }
+                    VplayerSrc.src = videoListData[idx]['videoUrl'];
+                    videoAudio.src = videoListData[idx]['audioUrl'];
 
-                // VplayerSrc.src = videoListData[idx]['vUrl'];
-                // Vplayer.load();
+                    Vplayer.load();
+                    videoAudio.load();
+
+                    Vplayer.play();
+                    videoAudio.play();
+                }
 
                 Vplayer.playbackRate = VplayerSelectedSpeed;
+                videoAudio.playbackRate = VplayerSelectedSpeed;
+
                 if (startTime > 0) {
                     Vplayer.currentTime = startTime;
+                    videoAudio.currentTime = startTime;
                 }
+
                 $("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
                 playingIdx = idx;
                 playerError = false;
@@ -638,6 +658,8 @@
     function VplayerSpeed(diff) {
         //var Vplayer = document.getElementById("Vplayer");
         Vplayer.playbackRate += diff;
+        videoAudio.playbackRate += diff;
+
         VplayerSelectedSpeed = Vplayer.playbackRate;
         $("#playSpeed").html(Vplayer.playbackRate.toString() + "<br>X");
 
@@ -666,18 +688,9 @@
     }
 
     function VplayerEnded() {
-        /*if(Vplayer.webkitExitFullscreen){
-            Vplayer.webkitExitFullscreen();
-        }*/
-
         var newIdx = playingIdx + parseInt(1);
         if (newIdx < videoListData.length) {
             playVideoByIdx(newIdx);
-            /*if (Vplayer.webkitEnterFullscreen) { 
-                Vplayer.webkitEnterFullscreen(); 
-            }*/
-        } else {
-            //alert("ALL videos are played!! ");
         }
     }
 
